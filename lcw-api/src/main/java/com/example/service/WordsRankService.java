@@ -1,10 +1,21 @@
 package com.example.service;
 
-import java.util.Map;
+import java.util.List;
+
+import com.example.domain.WordRank;
 
 public interface WordsRankService {
 
-	public Map<String, Integer> getWordsRank(String text, int limit);
+	/**
+	 * Generates List of WordRank objects.
+	 * @param text - text to process.
+	 * @return List of word rank.
+	 */
+	public List<WordRank> getWordsRankForText(String text);
 	
-	public void setWordsRank(Map<String, Integer> wordsRank);
+	/**
+	 * Sets a custom words rank values.
+	 * @param wordsRank - List of WordRank objects.
+	 */
+	public void setWordsRank(List<WordRank> wordsRank);
 }

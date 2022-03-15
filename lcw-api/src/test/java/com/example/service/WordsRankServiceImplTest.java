@@ -2,35 +2,30 @@ package com.example.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import com.example.domain.WordRank;
 
 class WordsRankServiceImplTest {
 
-	private String sampleText = "text with less common word: patrichor.";
-	private static Map<String, Integer> wordsRank = new HashMap<>();
+	@Test
+	public void shouldAssignProperRankForUnknownWords() {
+		String text = "text with unknown word";
+		List<WordRank> baseRank = List.of(new WordRank("text", 1), new WordRank("with", 2),
+				new WordRank("word", 3));
+		WordsRankService service = new WordsRankServiceImpl();
+		service.setWordsRank(baseRank);
 
-	@BeforeAll
-	public static void setup() {
-		wordsRank = Map.of("the", 1, "one", 2, "with", 3, "less", 4, "common", 5, "word", 6,
-				"petrichor", 99);
+		List<WordRank> newRank = service.getWordsRankForText(text);
+
+		assertThat(newRank).contains(new WordRank("unknown", WordRank.RANK_NEVER_IGNORE));
 	}
 
 	@Test
-	public void shouldReturnWordWithinRank() {
-		WordsRankService rankService = new WordsRankServiceImpl();
-		rankService.setWordsRank(wordsRank);
-		int rankLimit = 50;
+	public void shouldAssignLowestRankToIgnoredWords() {
 
-		Map<String, Integer> sampleWordsRank = rankService.getWordsRank(sampleText, rankLimit);
-
-		assertThat(sampleWordsRank).containsKeys("the", "one", "common")
-				.doesNotContainKey("patrichor");
 	}
-	
-	
 
 }
