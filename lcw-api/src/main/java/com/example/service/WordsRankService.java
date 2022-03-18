@@ -14,8 +14,8 @@ public interface WordsRankService {
 	public List<WordRank> getWordsRankForText(String text);
 	
 	/**
-	 * Sets a custom words rank values.
+	 * Store a custom words rank values in DB.
 	 * @param wordsRank - List of WordRank objects.
 	 */
-	public void setWordsRank(List<WordRank> wordsRank);
+	public void saveWordsRank(List<WordRank> wordsRank);
 }
