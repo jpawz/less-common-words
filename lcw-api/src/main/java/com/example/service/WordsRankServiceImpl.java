@@ -1,8 +1,5 @@
 package com.example.service;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,26 +17,13 @@ public class WordsRankServiceImpl implements WordsRankService {
 	}
 
 	@Override
-	public List<WordRank> getWordsRankForText(String text) {
-
-		String splitRegEx = "\\W+";
-		List<String> words = Arrays.asList(text.split(splitRegEx));
-		List<WordRank> wordsRank = wordRankRepository.findByWordIn(words);
-
-		words.forEach(s -> {
-			WordRank wordRank = new WordRank();
-			wordRank.setWord(s);
-			if (!wordsRank.contains(wordRank)) {
-				wordRank.setRank(WordRank.RANK_NEVER_IGNORE);
-				wordsRank.add(wordRank);
-			}
-		});
-
-		return wordsRank;
+	public WordRank saveWordsRank(WordRank wordsRank) {
+		return wordRankRepository.save(wordsRank);
 	}
 
 	@Override
-	public void saveWordsRank(List<WordRank> wordsRank) {
+	public WordRank getWordRankForWord(String word) {
+		return this.wordRankRepository.findByWord(word);
 	}
 
 }
