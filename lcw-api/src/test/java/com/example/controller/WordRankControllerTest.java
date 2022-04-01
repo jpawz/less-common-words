@@ -41,7 +41,7 @@ class WordRankControllerTest {
 
 	@Test
 	void whenPostNewWord_thenReturnWordRank() {
-		String newWord = "undercarrriage";
+		String newWord = "undercarriage";
 		int newRank = 99999;
 
 		WordRank wordRank = this.restTemplate.postForObject(url + "?word=" + newWord + "&rank=" + newRank,
