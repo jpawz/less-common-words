@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ public class WordRankController {
 	@Autowired
 	WordsRankService service;
 
+	@CrossOrigin
 	@GetMapping
 	public WordRank getWordRankForText(@RequestParam String word) {
 		return service.getWordRankForWord(word);
