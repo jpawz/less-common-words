@@ -1,0 +1,9 @@
+<div>
+    <form>
+        <textarea [(ngModel)]="text" name="text" id="" cols="30" rows="10"></textarea>
+        <button type="button" (click)="onSubmit()">Submit</button>
+    </form>
+    <li *ngFor="let wordRank of wordRanks">
+        {{wordRank.word}}:{{wordRank.rank}}
+    </li>
+</div>
