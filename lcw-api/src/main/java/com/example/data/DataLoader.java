@@ -4,6 +4,8 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -31,17 +33,13 @@ public class DataLoader implements ApplicationRunner {
 		Resource resource = new ClassPathResource("google-10000-english-usa.txt");
 		File file = resource.getFile();
 
-		List<String> words = Files.readAllLines(file.toPath());
-
 		List<WordRank> wordRanks = new ArrayList<>();
-		WordRank wordRank;
-		int rank = 1;
-		for (String word : words) {
-			wordRank = new WordRank();
-			wordRank.setWord(word);
-			wordRank.setRank(rank);
-			wordRanks.add(wordRank);
-			rank++;
+
+		try (Stream<String> words = Files.lines(file.toPath())) {
+			AtomicInteger rank = new AtomicInteger(1);
+			words.forEachOrdered(w -> {
+				wordRanks.add(new WordRank(w, rank.getAndIncrement()));
+			});
 		}
 
 		repository.saveAll(wordRanks);
