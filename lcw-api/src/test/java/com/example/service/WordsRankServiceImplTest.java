@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -29,24 +30,15 @@ class WordsRankServiceImplTest {
 	}
 
 	@Test
-	public void shouldSplitTextIntoWords() {
-		String text = "Spring makes programming Java quicker.";
-
-		List<String> wordsFromText = WordsRankServiceImpl.getWords(text);
-
-		assertThat(wordsFromText).contains("Spring", "makes", "programming", "Java", "quicker");
-	}
-
-	@Test
 	public void whenNewWordIsSubmited_thenDefaultRankShouldBeReturned() {
-		String newWord = "java";
-		String knownWord = "programming";
-		String text = newWord + " " + knownWord;
-		given(repository.findByWordIn(List.of(newWord, knownWord))).willReturn(List.of(new WordRank(knownWord, 1)));
+		String knownWord = "the";
+		String newWord = "undercarriage";
+		Set<String> words = Set.of(knownWord, newWord);
+		given(repository.findByWordIn(words)).willReturn(List.of(new WordRank(knownWord, 1)));
 
-		List<WordRank> wordRanks = service.getWordsRankForText(text);
+		List<WordRank> wordRanks = service.getWordsRankForWords(words);
 
-		assertThat(wordRanks).contains(new WordRank(knownWord, 1), new WordRank(newWord, WordRank.RANK_NEW));
+		assertThat(wordRanks).contains(new WordRank(knownWord, 1)).hasSize(1);
 	}
 
 }

@@ -14,9 +14,7 @@ export class WordRankListComponent implements OnInit {
   constructor(private wordRankService: WordRankService) { }
 
   ngOnInit(): void {
-    this.wordRankService.getWordRank('example').subscribe(data => {
-      this.wordRank = data;
-    });
+
   }
 
 }

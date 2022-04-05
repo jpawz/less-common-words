@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,8 +33,8 @@ public class WordRankController {
 		return service.saveWordsRank(new WordRank(word, rank));
 	}
 
-	@PostMapping("text")
-	public List<WordRank> getWordRanksForText(@RequestBody String text) {
-		return service.getWordsRankForText(text);
+	@PostMapping("words")
+	public List<WordRank> getWordRanksForText(@RequestBody Set<String> words) {
+		return service.getWordsRankForWords(words);
 	}
 }

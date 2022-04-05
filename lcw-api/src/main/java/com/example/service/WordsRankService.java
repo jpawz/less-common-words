@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.example.domain.WordRank;
 
@@ -15,5 +16,5 @@ public interface WordsRankService {
 	 */
 	public WordRank saveWordsRank(WordRank wordsRank);
 
-	public List<WordRank> getWordsRankForText(String text);
+	public List<WordRank> getWordsRankForWords(Set<String> words);
 }

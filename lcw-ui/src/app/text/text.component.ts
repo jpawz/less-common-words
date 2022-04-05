@@ -10,15 +10,19 @@ import { WordRankService } from '../wordrank-service';
 export class TextComponent implements OnInit {
 
   text: string;
-  wordRanks: WordRank[];
+  wordRanks: Set<WordRank>;
 
   constructor(private wordRankService: WordRankService) { }
 
   onSubmit() {
     const words = this.text.split(' ');
-    words.forEach(w => this.wordRankService.getWordRank(w).subscribe(data => {
-      this.wordRanks.push(data);
-    }));
+    const uniqueWords = new Set<string>();
+
+    words.forEach(word => uniqueWords.add(word.toLowerCase()));
+
+    this.wordRankService.getWordRanks(uniqueWords).subscribe(data => {
+      this.wordRanks = data;
+    });
   }
 
   ngOnInit(): void {

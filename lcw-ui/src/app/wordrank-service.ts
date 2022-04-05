@@ -17,4 +17,14 @@ export class WordRankService {
   public getWordRank(word: string): Observable<WordRank> {
     return this.http.get<WordRank>(this.wordRankUrl + '?word=' + word);
   }
+
+  public getWordRanks(words: Set<string>): Observable<Set<WordRank>> {
+    const body = JSON.stringify(Array.from(words));
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.post<Set<WordRank>>(this.wordRankUrl + '/words', body, httpOptions);
+  }
 }
