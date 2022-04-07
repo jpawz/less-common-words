@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { WordRank } from './word-rank';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'lcw-ui';
+  title = 'Less Common Words';
+
+  wordRanks: Set<WordRank>;
+
+  receiveWordRanks($event) {
+    this.wordRanks = $event;
+  }
 }

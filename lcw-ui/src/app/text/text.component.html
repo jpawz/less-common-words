@@ -3,18 +3,4 @@
         <textarea [(ngModel)]="text" name="text" id="" cols="30" rows="10"></textarea>
         <button type="button" (click)="onSubmit()">Submit</button>
     </form>
-    <div *ngIf="wordRanks">
-        <table>
-            <thead>
-                <th scope="col">Rank</th>
-                <th scope="col">Word</th>
-            </thead>
-            <tbody>
-                <tr *ngFor="let wordRank of wordRanks">
-                    <td>{{wordRank.rank}}</td>
-                    <td>{{wordRank.word}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
 </div>

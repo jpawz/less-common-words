@@ -1,6 +1,5 @@
-import { WordRankService } from './../wordrank-service';
 import { WordRank } from './../word-rank';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-word-rank-list',
@@ -9,12 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WordRankListComponent implements OnInit {
 
-  wordRank: WordRank;
+  @Input() wordRanks: Set<WordRank>;
 
-  constructor(private wordRankService: WordRankService) { }
+  constructor() {
+  }
 
   ngOnInit(): void {
-
   }
 
 }
