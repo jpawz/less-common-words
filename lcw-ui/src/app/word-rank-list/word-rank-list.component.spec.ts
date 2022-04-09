@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WordRankListComponent } from './word-rank-list.component';
@@ -8,6 +9,7 @@ describe('WordRankListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       declarations: [ WordRankListComponent ]
     })
     .compileComponents();

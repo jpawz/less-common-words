@@ -9,15 +9,28 @@ import { WordRankService } from '../wordrank-service';
 })
 export class TextComponent implements OnInit {
 
+  constructor(private wordRankService: WordRankService) { }
+
   text: string;
   wordRanks: Array<WordRank>;
 
   @Output() wordRanksEvent = new EventEmitter<Array<WordRank>>();
 
-  constructor(private wordRankService: WordRankService) { }
+  static getUniqueWords(text: string): Set<string> {
+    const pattern = new RegExp(/[;:,.()"]\s*|\s+/);
+    const words = text.split(pattern);
+    const nonEmptyWords = words.filter(word => word.length > 0);
+
+    const uniqueWords = new Set<string>();
+
+    nonEmptyWords.forEach(w => uniqueWords.add(w.toLowerCase())
+    );
+
+    return uniqueWords;
+  }
 
   onSubmit() {
-    const uniqueWords = this.getUniqueWords();
+    const uniqueWords = TextComponent.getUniqueWords(this.text);
 
     this.wordRankService.getWordRanks(uniqueWords).subscribe(data => {
       this.wordRanks = data;
@@ -29,14 +42,6 @@ export class TextComponent implements OnInit {
       });
       this.wordRanksEvent.emit(this.wordRanks);
     });
-  }
-
-  private getUniqueWords(): Set<string> {
-    const words = this.text.split(' ');
-    const uniqueWords = new Set<string>();
-
-    words.forEach(word => uniqueWords.add(word.toLowerCase()));
-    return uniqueWords;
   }
 
   ngOnInit(): void {
