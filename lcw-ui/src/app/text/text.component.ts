@@ -10,9 +10,9 @@ import { WordRankService } from '../wordrank-service';
 export class TextComponent implements OnInit {
 
   text: string;
-  wordRanks: Set<WordRank>;
+  wordRanks: Array<WordRank>;
 
-  @Output() wordRanksEvent = new EventEmitter<Set<WordRank>>();
+  @Output() wordRanksEvent = new EventEmitter<Array<WordRank>>();
 
   constructor(private wordRankService: WordRankService) { }
 
@@ -21,6 +21,12 @@ export class TextComponent implements OnInit {
 
     this.wordRankService.getWordRanks(uniqueWords).subscribe(data => {
       this.wordRanks = data;
+      data.forEach(wordRank => {
+        uniqueWords.delete(wordRank.word);
+      });
+      uniqueWords.forEach(word => {
+        this.wordRanks.push(new WordRank(0, word, 0));
+      });
       this.wordRanksEvent.emit(this.wordRanks);
     });
   }

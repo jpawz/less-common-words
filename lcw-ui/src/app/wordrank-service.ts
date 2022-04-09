@@ -1,7 +1,7 @@
 import { WordRank } from './word-rank';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,13 +18,13 @@ export class WordRankService {
     return this.http.get<WordRank>(this.wordRankUrl + '?word=' + word);
   }
 
-  public getWordRanks(words: Set<string>): Observable<Set<WordRank>> {
+  public getWordRanks(words: Set<string>): Observable<Array<WordRank>> {
     const body = JSON.stringify(Array.from(words));
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post<Set<WordRank>>(this.wordRankUrl + '/words', body, httpOptions);
+    return this.http.post<Array<WordRank>>(this.wordRankUrl + '/words', body, httpOptions);
   }
 }

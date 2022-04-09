@@ -11,7 +11,7 @@ export class AppComponent {
 
   wordRanks: Set<WordRank>;
 
-  receiveWordRanks($event) {
+  receiveWordRanks($event: Set<WordRank>) {
     this.wordRanks = $event;
   }
 }
