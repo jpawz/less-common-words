@@ -1,20 +1,20 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WordRankListComponent } from './word-rank-list.component';
+import { WordListComponent } from './word-list.component';
 
-describe('WordRankListComponent', () => {
-  let component: WordRankListComponent;
-  let fixture: ComponentFixture<WordRankListComponent>;
+describe('WordListComponent', () => {
+  let component: WordListComponent;
+  let fixture: ComponentFixture<WordListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      declarations: [ WordRankListComponent ]
+      declarations: [ WordListComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(WordRankListComponent);
+    fixture = TestBed.createComponent(WordListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
