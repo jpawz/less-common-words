@@ -37,12 +37,12 @@ export class TextComponent implements OnInit {
       data.forEach(wordRank => {
         this.words.push(new Word(wordRank.id, wordRank.word, wordRank.rank, ''));
       });
-      // data.forEach(wordRank => {
-      //   uniqueWords.delete(wordRank.word);
-      // });
-      // uniqueWords.forEach(word => {
-      //   this.words.push(new Word(0, word, 0));
-      // });
+      this.words.forEach(w => {
+        uniqueWords.delete(w.word);
+      });
+      uniqueWords.forEach(word => {
+        this.words.push(new Word(0, word, 0, ''));
+      });
       this.wordRanksEvent.emit(this.words);
     });
   }
