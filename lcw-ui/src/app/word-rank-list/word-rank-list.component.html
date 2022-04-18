@@ -1,14 +1,14 @@
 <div>
-    <div *ngIf="wordRanks">
+    <div *ngIf="words">
         <table>
             <thead>
                 <th scope="col">Rank</th>
                 <th scope="col">Word</th>
+                <th scope="col">Action</th>
+                <th scope="col">Translation</th>
             </thead>
             <tbody>
-                <tr *ngFor="let wordRank of wordRanks">
-                    <td>{{wordRank.rank}}</td>
-                    <td>{{wordRank.word}}</td>
+                <tr app-word *ngFor="let word of words" [word]="word">
                 </tr>
             </tbody>
         </table>

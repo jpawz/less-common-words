@@ -1,5 +1,5 @@
-import { WordRank } from './../word-rank';
 import { Component, Input, OnInit } from '@angular/core';
+import { Word } from '../word';
 
 @Component({
   selector: 'app-word-rank-list',
@@ -8,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class WordRankListComponent implements OnInit {
 
-  @Input() wordRanks: Set<WordRank>;
+  @Input() words: Word[];
 
   constructor() {
   }

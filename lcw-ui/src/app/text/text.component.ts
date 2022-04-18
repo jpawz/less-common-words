@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { WordRank } from '../word-rank';
+import { Word } from '../word';
 import { WordRankService } from '../wordrank-service';
 
 @Component({
@@ -12,9 +12,9 @@ export class TextComponent implements OnInit {
   constructor(private wordRankService: WordRankService) { }
 
   text: string;
-  wordRanks: Array<WordRank>;
+  words: Array<Word>;
 
-  @Output() wordRanksEvent = new EventEmitter<Array<WordRank>>();
+  @Output() wordRanksEvent = new EventEmitter<Array<Word>>();
 
   static getUniqueWords(text: string): Set<string> {
     const pattern = new RegExp(/[;:,.()"]\s*|\s+/);
@@ -31,16 +31,19 @@ export class TextComponent implements OnInit {
 
   onSubmit() {
     const uniqueWords = TextComponent.getUniqueWords(this.text);
+    this.words = new Array();
 
     this.wordRankService.getWordRanks(uniqueWords).subscribe(data => {
-      this.wordRanks = data;
       data.forEach(wordRank => {
-        uniqueWords.delete(wordRank.word);
+        this.words.push(new Word(wordRank.id, wordRank.word, wordRank.rank, ''));
       });
-      uniqueWords.forEach(word => {
-        this.wordRanks.push(new WordRank(0, word, 0));
-      });
-      this.wordRanksEvent.emit(this.wordRanks);
+      // data.forEach(wordRank => {
+      //   uniqueWords.delete(wordRank.word);
+      // });
+      // uniqueWords.forEach(word => {
+      //   this.words.push(new Word(0, word, 0));
+      // });
+      this.wordRanksEvent.emit(this.words);
     });
   }
 

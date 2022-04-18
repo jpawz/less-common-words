@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { WordRank } from './word-rank';
+import { Word } from './word';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +9,9 @@ import { WordRank } from './word-rank';
 export class AppComponent {
   title = 'Less Common Words';
 
-  wordRanks: Set<WordRank>;
+  words: Word[];
 
-  receiveWordRanks($event: Set<WordRank>) {
-    this.wordRanks = $event;
+  receiveWordRanks($event: Array<Word>) {
+    this.words = $event;
   }
 }
