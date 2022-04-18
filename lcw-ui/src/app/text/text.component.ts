@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Word } from '../word';
+import { WordBuilder } from '../word-builder';
 import { WordRankService } from '../wordrank-service';
 
 @Component({
@@ -35,13 +36,13 @@ export class TextComponent implements OnInit {
 
     this.wordRankService.getWordRanks(uniqueWords).subscribe(data => {
       data.forEach(wordRank => {
-        this.words.push(new Word(wordRank.id, wordRank.word, wordRank.rank, ''));
+        this.words.push(new WordBuilder().word(wordRank.word).id(wordRank.id).rank(wordRank.rank).build());
       });
       this.words.forEach(w => {
         uniqueWords.delete(w.word);
       });
       uniqueWords.forEach(word => {
-        this.words.push(new Word(0, word, 0, ''));
+        this.words.push(new WordBuilder().word(word).build());
       });
       this.wordRanksEvent.emit(this.words);
     });
