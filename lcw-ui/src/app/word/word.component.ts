@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TranslationService } from '../translation.service';
 import { Word } from '../word';
 
 @Component({
@@ -10,14 +11,14 @@ export class WordComponent implements OnInit {
 
   @Input() word: Word;
 
-  constructor() {
+  constructor(private translationService: TranslationService) {
   }
 
   ngOnInit(): void {
   }
 
   translate(word: string) {
-    this.word.translation = 'translation';
+    this.translationService.getTranslation(word).subscribe(data => this.word.translation = data);
   }
 
 }
