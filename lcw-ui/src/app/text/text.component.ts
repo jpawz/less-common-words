@@ -37,9 +37,7 @@ export class TextComponent implements OnInit {
     this.wordRankService.getWordRanks(uniqueWords).subscribe(data => {
       data.forEach(wordRank => {
         this.words.push(new WordBuilder().word(wordRank.word).id(wordRank.id).rank(wordRank.rank).build());
-      });
-      this.words.forEach(w => {
-        uniqueWords.delete(w.word);
+        uniqueWords.delete(wordRank.word);
       });
       uniqueWords.forEach(word => {
         this.words.push(new WordBuilder().word(word).build());
