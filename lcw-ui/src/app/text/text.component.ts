@@ -13,9 +13,10 @@ export class TextComponent implements OnInit {
   constructor(private wordRankService: WordRankService) { }
 
   text: string;
+  sentences: Array<string>;
   words: Array<Word>;
 
-  @Output() wordRanksEvent = new EventEmitter<Array<Word>>();
+  @Output() wordEvent = new EventEmitter<Array<Word>>();
 
   static getUniqueWords(text: string): Set<string> {
     const pattern = new RegExp(/[;:,.()"]\s*|\s+/);
@@ -30,8 +31,19 @@ export class TextComponent implements OnInit {
     return uniqueWords;
   }
 
+  static getSentences(text: string): Array<string> {
+    const sentences = text.replace(/([.?!])\s*(?=[A-Z])/g, '$1|').split('|');
+    return sentences;
+  }
+
+  static getExampleSentence(word: string, sentences: Array<string>): string {
+    const exampleSentence = sentences.find(sentence => sentence.toLowerCase().includes(word.toLowerCase()));
+    return exampleSentence;
+  }
+
   onSubmit() {
     const uniqueWords = TextComponent.getUniqueWords(this.text);
+    this.sentences = TextComponent.getSentences(this.text);
     this.words = new Array();
 
     this.wordRankService.getWordRanks(uniqueWords).subscribe(data => {
@@ -40,9 +52,10 @@ export class TextComponent implements OnInit {
         uniqueWords.delete(wordRank.word);
       });
       uniqueWords.forEach(word => {
-        this.words.push(new WordBuilder().word(word).build());
+        const sentence = TextComponent.getExampleSentence(word, this.sentences);
+        this.words.push(new WordBuilder().word(word).sentence(sentence).build());
       });
-      this.wordRanksEvent.emit(this.words);
+      this.wordEvent.emit(this.words);
     });
   }
 

@@ -8,7 +8,8 @@ export class WordBuilder {
             id: 0,
             word: '',
             rank: 0,
-            translation: ''
+            translation: '',
+            sentence: ''
         };
     }
 
@@ -29,6 +30,11 @@ export class WordBuilder {
 
     translation(translation: string): WordBuilder {
         this._word.translation = translation;
+        return this;
+    }
+
+    sentence(sentence: string): WordBuilder {
+        this._word.sentence = sentence;
         return this;
     }
 
