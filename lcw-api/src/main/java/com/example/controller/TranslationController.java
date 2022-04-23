@@ -1,11 +1,16 @@
 package com.example.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.service.TranslateService;
 
@@ -18,8 +23,13 @@ public class TranslationController {
 	private TranslateService service;
 
 	@GetMapping
-	public String getTranslation(@RequestParam String word) {
-		return service.getTranslation(word);
+	public String getTranslation(@RequestParam String word, HttpServletResponse response) {
+		try {
+			String translation = service.getTranslation(word);
+			return translation;
+		} catch (HttpClientErrorException exception) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Translation not found", exception);
+		}
 	}
 
 }
