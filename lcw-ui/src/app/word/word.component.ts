@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslationService } from '../translation.service';
 import { Word } from '../word';
@@ -18,7 +19,14 @@ export class WordComponent implements OnInit {
   }
 
   translate(word: string) {
-    this.translationService.getTranslation(word).subscribe(data => this.word.translation = data);
+    this.translationService.getTranslation(word).subscribe(
+      data => { this.word.translation = data; },
+      (error: HttpErrorResponse) => {
+        if (error.status === 404) {
+          alert('Translation not found');
+        }
+      }
+    );
   }
 
 }
