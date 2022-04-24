@@ -2,7 +2,7 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Word } from '../word';
-import { WordBuilder } from '../word-builder';
+import { WordBuilder } from './word-builder';
 
 import { WordComponent } from './word.component';
 

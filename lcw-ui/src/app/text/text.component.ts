@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Word } from '../word';
-import { WordBuilder } from '../word-builder';
+import { WordBuilder } from '../word/word-builder';
 import { WordRankService } from '../wordrank-service';
 import { TextService } from './text.service';
 

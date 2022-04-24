@@ -1,4 +1,4 @@
-import { Word } from './word';
+import { Word } from '../word';
 
 export class WordBuilder {
     private readonly _word: Word;
