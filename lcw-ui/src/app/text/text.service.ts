@@ -38,21 +38,17 @@ export class TextService {
   shortenSentence(sentence: string, word: string, maxSentenceLength: number): string {
     const separator = ' ';
     const wordPosition = sentence.toLowerCase().indexOf(word.toLowerCase());
-    let startOfSubstring: number;
-    let endOfSubstring: number;
 
     if (this.isWordAtTheBeginningOfSentence(wordPosition, maxSentenceLength)) {
-      startOfSubstring = 0;
-      endOfSubstring = sentence.indexOf(separator, maxSentenceLength);
-      return sentence.substring(startOfSubstring, endOfSubstring).trim() + '...';
+      const endOfSubstring = sentence.indexOf(separator, maxSentenceLength);
+      return sentence.substring(0, endOfSubstring).trim() + '...';
     } else if (this.isWordAtTheEndOfSentence(wordPosition, sentence, maxSentenceLength)) {
-      startOfSubstring = sentence.lastIndexOf(separator, sentence.length - maxSentenceLength);
-      endOfSubstring = sentence.length;
-      return '...' + sentence.substring(startOfSubstring, endOfSubstring).trim();
+      const beginningOfSubstring = sentence.lastIndexOf(separator, sentence.length - maxSentenceLength);
+      return '...' + sentence.substring(beginningOfSubstring).trim();
     } else { // the word is somewhere in the middle of the sentence
-      startOfSubstring = sentence.lastIndexOf(separator, wordPosition - maxSentenceLength / 2);
-      endOfSubstring = sentence.indexOf(separator, wordPosition + maxSentenceLength / 2);
-      return '...' + sentence.substring(startOfSubstring, endOfSubstring).trim() + '...';
+      const sliceBeforeWord = sentence.lastIndexOf(separator, wordPosition - maxSentenceLength / 2);
+      const sliceAfterWord = sentence.indexOf(separator, wordPosition + maxSentenceLength / 2);
+      return '...' + sentence.substring(sliceBeforeWord, sliceAfterWord).trim() + '...';
     }
   }
 
