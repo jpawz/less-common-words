@@ -27,8 +27,41 @@ export class TextService {
 
   getExampleSentence(word: string, sentences: Array<string>): string {
     const exampleSentence = sentences.find(sentence => sentence.toLowerCase().includes(word.toLowerCase()));
-    return exampleSentence;
+    const maxSentenceLength = 150;
+    if (exampleSentence.length > maxSentenceLength) {
+      return this.shortenSentence(exampleSentence, word, maxSentenceLength);
+    } else {
+      return exampleSentence;
+    }
   }
 
-  
+  shortenSentence(sentence: string, word: string, maxSentenceLength: number): string {
+    const separator = ' ';
+    const wordPosition = sentence.toLowerCase().indexOf(word.toLowerCase());
+    let startOfSubstring: number;
+    let endOfSubstring: number;
+
+    if (this.isWordAtTheBeginningOfSentence(wordPosition, maxSentenceLength)) {
+      startOfSubstring = 0;
+      endOfSubstring = sentence.indexOf(separator, maxSentenceLength);
+      return sentence.substring(startOfSubstring, endOfSubstring).trim() + '...';
+    } else if (this.isWordAtTheEndOfSentence(wordPosition, sentence, maxSentenceLength)) {
+      startOfSubstring = sentence.lastIndexOf(separator, sentence.length - maxSentenceLength);
+      endOfSubstring = sentence.length;
+      return '...' + sentence.substring(startOfSubstring, endOfSubstring).trim();
+    } else { // the word is somewhere in the middle of the sentence
+      startOfSubstring = sentence.lastIndexOf(separator, wordPosition - maxSentenceLength / 2);
+      endOfSubstring = sentence.indexOf(separator, wordPosition + maxSentenceLength / 2);
+      return '...' + sentence.substring(startOfSubstring, endOfSubstring).trim() + '...';
+    }
+  }
+
+  private isWordAtTheEndOfSentence(wordPosition: number, sentence: string, maxLen: number) {
+    return wordPosition > (sentence.length - (maxLen / 2));
+  }
+
+  private isWordAtTheBeginningOfSentence(wordPosition: number, maxLen: number) {
+    return wordPosition < (maxLen / 2);
+  }
+
 }
