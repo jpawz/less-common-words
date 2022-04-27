@@ -8,13 +8,13 @@ export class TextService {
   constructor() { }
 
   getUniqueWords(text: string): Set<string> {
-    const pattern = new RegExp(/[;:,.()"]\s*|\s+/);
-    const words = text.split(pattern);
-    const nonEmptyWords = words.filter(word => word.length > 0);
+    const splitIntoWordsPattern = new RegExp(/[;:,.()"]\s*|\s+/);
+    const words = text.split(splitIntoWordsPattern);
+    const filteredWords = words.filter(this.isNotEmpty).filter(this.hasOnlyLetters);
 
     const uniqueWords = new Set<string>();
 
-    nonEmptyWords.forEach(w => uniqueWords.add(w.toLowerCase())
+    filteredWords.forEach(w => uniqueWords.add(w.toLowerCase())
     );
 
     return uniqueWords;
@@ -50,6 +50,14 @@ export class TextService {
       const sliceAfterWord = sentence.indexOf(separator, wordPosition + maxSentenceLength / 2);
       return '...' + sentence.substring(sliceBeforeWord, sliceAfterWord).trim() + '...';
     }
+  }
+
+  private isNotEmpty(word: string): boolean {
+    return word.length > 0;
+  }
+
+  private hasOnlyLetters(word: string): boolean {
+    return /^[a-zA-Z]+$/.test(word);
   }
 
   private isWordAtTheEndOfSentence(wordPosition: number, sentence: string, maxLen: number) {

@@ -67,4 +67,13 @@ describe('TextService', () => {
     expect(shortenedSentence).toEqual(expectedShortenedSentence);
   });
 
+  it('should filter out words with characters other than letters', () => {
+    const text = 'The t3xt';
+
+    const words = service.getUniqueWords(text);
+
+    expect(words.size).toEqual(1);
+    expect(words).toContain('the');
+  });
+
 });
