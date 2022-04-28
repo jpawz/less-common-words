@@ -10,7 +10,7 @@ export class TextService {
   getUniqueWords(text: string): Set<string> {
     const splitIntoWordsPattern = new RegExp(/[;:,.()"]\s*|\s+/);
     const words = text.split(splitIntoWordsPattern);
-    const filteredWords = words.filter(this.isNotEmpty).filter(this.hasOnlyLetters);
+    const filteredWords = words.filter(this.hasOnlyLetters);
 
     const uniqueWords = new Set<string>();
 
@@ -50,10 +50,6 @@ export class TextService {
       const sliceAfterWord = sentence.indexOf(separator, wordPosition + maxSentenceLength / 2);
       return '...' + sentence.substring(sliceBeforeWord, sliceAfterWord).trim() + '...';
     }
-  }
-
-  private isNotEmpty(word: string): boolean {
-    return word.length > 0;
   }
 
   private hasOnlyLetters(word: string): boolean {
