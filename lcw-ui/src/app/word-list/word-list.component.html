@@ -1,17 +1,21 @@
-<div>
-    <div *ngIf="words">
-        <table>
-            <thead>
-                <th scope="col">Rank</th>
-                <th scope="col">Word</th>
-                <th scope="col">Action</th>
-                <th scope="col">Translation</th>
-                <th scope="col">Example sentence</th>
-            </thead>
-            <tbody>
-                <tr app-word *ngFor="let word of words" [word]="word">
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+<mat-table class="words-table mat-elevation-z8" [dataSource]="dataSource">
+    <ng-container matColumnDef="rank">
+        <div *matHeaderCellDef>#</div>
+        <div *matCellDef="let word">{{word.rank}}</div>
+    </ng-container>
+
+    <ng-container matColumnDef="word">
+        <div *matHeaderCellDef>Word</div>
+        <div *matCellDef="let word">{{word.word}}</div>
+    </ng-container>
+
+    <ng-container matColumnDef="translation">
+        <div *matHeaderCellDef>Translation</div>
+        <div *matCellDef="let word">{{word.translation}}</div>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+</mat-table>

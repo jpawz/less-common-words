@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { Word } from '../word';
 
 @Component({
@@ -8,9 +9,15 @@ import { Word } from '../word';
 })
 export class WordListComponent implements OnInit {
 
-  @Input() words: Word[];
+  dataSource = new MatTableDataSource<Word>([]);
+  displayedColumns = ['rank', 'word', 'translation'];
 
   constructor() {
+  }
+
+  @Input()
+  public set words(words: Word[]) {
+    this.dataSource.data = words;
   }
 
   ngOnInit(): void {

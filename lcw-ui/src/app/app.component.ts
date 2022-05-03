@@ -11,7 +11,7 @@ export class AppComponent {
 
   words: Word[];
 
-  receiveWordRanks($event: Array<Word>) {
+  receiveWords($event: Array<Word>) {
     this.words = $event;
   }
 }
