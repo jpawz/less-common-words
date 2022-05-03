@@ -9,6 +9,13 @@
         <mat-cell *matCellDef="let word">{{word.word}}</mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+        <mat-cell *matCellDef="let word">
+            <input type="submit" value="Translate" (click)="translate(word)">
+        </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="translation">
         <mat-header-cell *matHeaderCellDef>Translation</mat-header-cell>
         <mat-cell *matCellDef="let word">{{word.translation}}</mat-cell>

@@ -1,5 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { TranslationService } from '../translation.service';
 import { Word } from '../word';
 
 @Component({
@@ -10,9 +12,9 @@ import { Word } from '../word';
 export class WordListComponent implements OnInit {
 
   dataSource = new MatTableDataSource<Word>([]);
-  displayedColumns = ['rank', 'word', 'translation'];
+  displayedColumns = ['rank', 'word', 'action', 'translation'];
 
-  constructor() {
+  constructor(private translationService: TranslationService) {
   }
 
   @Input()
@@ -21,6 +23,17 @@ export class WordListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  translate(word: Word) {
+    this.translationService.getTranslation(word.word).subscribe(
+      data => { word.translation = data; },
+      (error: HttpErrorResponse) => {
+        if (error.status === 404) {
+          alert('Translation not found');
+        }
+      }
+    );
   }
 
 }
