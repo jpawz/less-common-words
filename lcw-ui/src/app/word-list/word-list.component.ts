@@ -12,7 +12,7 @@ import { Word } from '../word';
 export class WordListComponent implements OnInit {
 
   dataSource = new MatTableDataSource<Word>([]);
-  displayedColumns = ['rank', 'word', 'action', 'translation'];
+  displayedColumns = ['rank', 'word', 'action', 'translation', 'example'];
 
   constructor(private translationService: TranslationService) {
   }
