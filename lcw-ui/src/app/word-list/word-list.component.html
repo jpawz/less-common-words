@@ -1,17 +1,17 @@
 <mat-table class="words-table mat-elevation-z8" [dataSource]="dataSource">
     <ng-container matColumnDef="rank">
-        <div *matHeaderCellDef>#</div>
-        <div *matCellDef="let word">{{word.rank}}</div>
+        <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+        <mat-cell *matCellDef="let word">{{word.rank}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="word">
-        <div *matHeaderCellDef>Word</div>
-        <div *matCellDef="let word">{{word.word}}</div>
+        <mat-header-cell *matHeaderCellDef>Word</mat-header-cell>
+        <mat-cell *matCellDef="let word">{{word.word}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="translation">
-        <div *matHeaderCellDef>Translation</div>
-        <div *matCellDef="let word">{{word.translation}}</div>
+        <mat-header-cell *matHeaderCellDef>Translation</mat-header-cell>
+        <mat-cell *matCellDef="let word">{{word.translation}}</mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
