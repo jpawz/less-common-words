@@ -9,6 +9,7 @@ import { TextComponent } from './text/text.component';
 import { FormsModule } from '@angular/forms';
 import { WordComponent } from './word/word.component';
 import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { MatTableModule } from '@angular/material/table';
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    MatTableModule
+    MatTableModule,
+    MatCheckboxModule
   ],
   providers: [WordRankService],
   bootstrap: [AppComponent]

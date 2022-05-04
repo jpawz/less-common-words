@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { SelectionModel } from '@angular/cdk/collections';
 import { TranslationService } from '../translation.service';
 import { Word } from '../word';
 
@@ -12,7 +13,8 @@ import { Word } from '../word';
 export class WordListComponent implements OnInit {
 
   dataSource = new MatTableDataSource<Word>([]);
-  displayedColumns = ['rank', 'word', 'action', 'translation', 'example'];
+  displayedColumns = ['select', 'rank', 'word', 'action', 'translation', 'example'];
+  selection = new SelectionModel<Word>(true, []);
 
   constructor(private translationService: TranslationService) {
   }
@@ -23,6 +25,21 @@ export class WordListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
   }
 
   translate(word: Word) {
