@@ -1,47 +1,50 @@
-<mat-table class="words-table mat-elevation-z8" [dataSource]="dataSource">
+<div *ngIf="dataSource.data.length > 0">
+    <mat-table class="words-table mat-elevation-z8" [dataSource]="dataSource">
 
-    <ng-container matColumnDef="select">
-        <mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
-                [indeterminate]="selection.hasValue() && !isAllSelected()">
-            </mat-checkbox>
-        </mat-header-cell>
-        <mat-cell *matCellDef="let row">
-            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-                [checked]="selection.isSelected(row)">
-            </mat-checkbox>
-        </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="select">
+            <mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                </mat-checkbox>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)">
+                </mat-checkbox>
+            </mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="rank">
-        <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
-        <mat-cell *matCellDef="let word">{{word.rank}}</mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="rank">
+            <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+            <mat-cell *matCellDef="let word">{{word.rank}}</mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="word">
-        <mat-header-cell *matHeaderCellDef>Word</mat-header-cell>
-        <mat-cell *matCellDef="let word">{{word.word}}</mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="word">
+            <mat-header-cell *matHeaderCellDef>Word</mat-header-cell>
+            <mat-cell *matCellDef="let word">{{word.word}}</mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="action">
-        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
-        <mat-cell *matCellDef="let word">
-            <input type="submit" value="Translate" (click)="translate(word)">
-        </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+            <mat-cell *matCellDef="let word">
+                <input type="submit" value="Translate" (click)="translate(word)">
+            </mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="translation">
-        <mat-header-cell *matHeaderCellDef>Translation</mat-header-cell>
-        <mat-cell *matCellDef="let word">{{word.translation}}</mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="translation">
+            <mat-header-cell *matHeaderCellDef>Translation</mat-header-cell>
+            <mat-cell *matCellDef="let word">{{word.translation}}</mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="example">
-        <mat-header-cell *matHeaderCellDef>Example</mat-header-cell>
-        <mat-cell *matCellDef="let word">{{word.sentence}}</mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="example">
+            <mat-header-cell *matHeaderCellDef>Example</mat-header-cell>
+            <mat-cell *matCellDef="let word">{{word.sentence}}</mat-cell>
+        </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
-    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></mat-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></mat-row>
 
-</mat-table>
+    </mat-table>
+</div>
