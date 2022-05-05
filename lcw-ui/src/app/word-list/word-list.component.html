@@ -1,4 +1,5 @@
 <div *ngIf="dataSource.data.length > 0">
+    <input type="submit" value="Export selected to CSV" (click)="exportSelectedToCSV()">
     <mat-table class="words-table mat-elevation-z8" [dataSource]="dataSource">
 
         <ng-container matColumnDef="select">

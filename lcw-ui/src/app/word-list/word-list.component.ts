@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TranslationService } from '../translation.service';
 import { Word } from '../word';
+import { ExportService } from '../export.service';
 
 @Component({
   selector: 'app-word-list',
@@ -16,7 +17,8 @@ export class WordListComponent implements OnInit {
   displayedColumns = ['select', 'rank', 'word', 'action', 'translation', 'example'];
   selection = new SelectionModel<Word>(true, []);
 
-  constructor(private translationService: TranslationService) {
+  constructor(private translationService: TranslationService,
+              private exportService: ExportService) {
   }
 
   @Input()
@@ -51,6 +53,12 @@ export class WordListComponent implements OnInit {
         }
       }
     );
+  }
+
+  exportSelectedToCSV() {
+    if (this.selection.selected.length > 0) {
+      this.exportService.exportCSV(this.selection.selected);
+    }
   }
 
 }
