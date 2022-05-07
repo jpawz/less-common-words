@@ -19,7 +19,7 @@ module.exports = function (config) {
       dir: require('path').join(__dirname, '../coverage/lcw-ui'),
       type: 'html',
     },
-    reporters: ['progress', 'coverage'],
+    reporters: ['progress', 'coverage', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
