@@ -21,10 +21,10 @@ import com.example.service.WordsRankService;
 public class WordRankController {
 
 	@Autowired
-	WordsRankService service;
+	private WordsRankService service;
 
 	@GetMapping
-	public WordRank getWordRan(@RequestParam String word) {
+	public WordRank getWordRank(@RequestParam String word) {
 		return service.getWordRankForWord(word);
 	}
 
@@ -34,7 +34,7 @@ public class WordRankController {
 	}
 
 	@PostMapping("words")
-	public List<WordRank> getWordRanksForText(@RequestBody Set<String> words) {
+	public List<WordRank> getWordRanks(@RequestBody Set<String> words) {
 		return service.getWordsRankForWords(words);
 	}
 }
