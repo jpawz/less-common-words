@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class DictionaryapiService implements TranslateService {
+public class DictionaryapiTranslateService implements TranslateService {
 
 	private String url = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 

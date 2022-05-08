@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-class DictionaryapiServiceTest {
+class DictionaryapiTranslateServiceTest {
 
 	private String jsonResponse = """
 			  [
@@ -66,7 +66,7 @@ class DictionaryapiServiceTest {
 	@Test
 	void shouldExtractTheFirstDefinition() throws JsonMappingException, JsonProcessingException {
 		String definition = "used as a greeting or to begin a phone conversation.";
-		DictionaryapiService service = new DictionaryapiService();
+		DictionaryapiTranslateService service = new DictionaryapiTranslateService();
 
 		String translation = service.getFirstDefinition(jsonResponse);
 
