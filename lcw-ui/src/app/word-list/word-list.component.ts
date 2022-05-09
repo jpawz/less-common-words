@@ -18,7 +18,7 @@ export class WordListComponent implements OnInit {
   selection = new SelectionModel<Word>(true, []);
 
   constructor(private translationService: TranslationService,
-              private exportService: ExportService) {
+    private exportService: ExportService) {
   }
 
   @Input()
@@ -57,7 +57,14 @@ export class WordListComponent implements OnInit {
 
   exportSelectedToCSV() {
     if (this.selection.selected.length > 0) {
-      this.exportService.exportCSV(this.selection.selected);
+      this.exportService.exportCSV(this.selection.selected).subscribe(response => {
+        const a = document.createElement('a');
+        const objectUrl = URL.createObjectURL(response);
+        a.href = objectUrl;
+        a.download = 'cards.csv';
+        a.click();
+        URL.revokeObjectURL(objectUrl);
+      });
     }
   }
 
