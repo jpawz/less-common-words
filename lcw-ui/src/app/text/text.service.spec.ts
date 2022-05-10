@@ -1,26 +1,35 @@
 import { TestBed } from '@angular/core/testing';
+import { WordRankService } from '../wordrank-service';
 
 import { TextService } from './text.service';
 
 describe('TextService', () => {
   let service: TextService;
+  let wordRankServiceSpy: jasmine.SpyObj<WordRankService>;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    const spy = jasmine.createSpyObj('WordRankService', ['getWordRanks']);
+    TestBed.configureTestingModule({
+      providers: [
+        TextService, { provide: WordRankService, useValue: spy }
+      ]
+    });
     service = TestBed.inject(TextService);
+    wordRankServiceSpy = TestBed.inject(WordRankService) as jasmine.SpyObj<WordRankService>;
   });
 
-  it('should split text into words', () => {
-    const text = 'Some text.';
+  it('#getUniqueWords should extract unique words from', () => {
+    const text = 'Some text: the text.';
 
     const words = service.getUniqueWords(text);
 
-    expect(words.size).toBe(2);
+    expect(words.size).toBe(3);
     expect(words.has('some')).toBeTrue();
     expect(words.has('text')).toBeTrue();
+    expect(words.has('the')).toBeTrue();
   });
 
-  it('should split text into sentences', () => {
+  it('#splitTextIntoSentences should split text', () => {
     const text = `One morning, when Gregor Samsa woke from troubled dreams,
                    he found himself transformed in his bed into a horrible 
                   vermin. He lay on his armour-like back, and if he lifted his
@@ -28,46 +37,46 @@ describe('TextService', () => {
                    divided by arches into stiff sections. The bedding was hardly 
                    able to cover it and seemed ready to slide off any moment.`;
 
-    const sentences = service.getSentences(text);
+    const sentences = service.splitTextIntoSentences(text);
 
     expect(sentences.length).toBe(3);
     expect(sentences[1].includes('armour-like')).toBeTrue();
   });
 
-  it('should shorten too long sentence with the word in the middle', () => {
+  it('#getShorterSentence should shorten too long sentence with the word in the middle', () => {
     const sentence = 'He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections.';
     const word = 'brown';
     const maxLen = 80;
     const expectedShortenedSentence = '...lifted his head a little he could see his brown belly, slightly domed and divided by...';
 
-    const shortenedSentence = service.shortenSentence(sentence, word, maxLen);
+    const shortenedSentence = service.getShorterSentence(sentence, word, maxLen);
 
     expect(shortenedSentence).toEqual(expectedShortenedSentence);
   });
 
-  it('should shorten too long sentence with the word at the beginning', () => {
+  it('#getShorterSentence should shorten too long sentence with the word at the beginning', () => {
     const sentence = 'He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections.';
     const word = 'lay';
     const maxLen = 80;
     const expectedShortenedSentence = 'He lay on his armour-like back, and if he lifted his head a little he could see his...';
 
-    const shortenedSentence = service.shortenSentence(sentence, word, maxLen);
+    const shortenedSentence = service.getShorterSentence(sentence, word, maxLen);
 
     expect(shortenedSentence).toEqual(expectedShortenedSentence);
   });
 
-  it('should shorten too long sentence with the word at the end', () => {
+  it('#getShorterSentence should shorten too long sentence with the word at the end', () => {
     const sentence = 'He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections.';
     const word = 'sections';
     const maxLen = 80;
     const expectedShortenedSentence = '...could see his brown belly, slightly domed and divided by arches into stiff sections.';
 
-    const shortenedSentence = service.shortenSentence(sentence, word, maxLen);
+    const shortenedSentence = service.getShorterSentence(sentence, word, maxLen);
 
     expect(shortenedSentence).toEqual(expectedShortenedSentence);
   });
 
-  it('should filter out words with characters other than letters', () => {
+  it('#getUniqueWords should filter out words with characters other than letters', () => {
     const text = 'The t3xt';
 
     const words = service.getUniqueWords(text);
@@ -76,4 +85,12 @@ describe('TextService', () => {
     expect(words).toContain('the');
   });
 
+  it('#getExampleSentence should return a sentence containing the word', () => {
+    const sentences = ['The first sentence.', 'The second sentence.'];
+    const word = 'second';
+
+    const exampleSentence = service.getExampleSentence(word, sentences);
+
+    expect(exampleSentence).toEqual('The second sentence.');
+  });
 });
