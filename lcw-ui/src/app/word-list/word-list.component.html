@@ -18,7 +18,7 @@
 
         <ng-container matColumnDef="rank">
             <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
-            <mat-cell *matCellDef="let word">{{word.rank}}</mat-cell>
+            <mat-cell *matCellDef="let word">{{word.rank | rank}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="word">

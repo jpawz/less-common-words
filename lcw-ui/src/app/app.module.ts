@@ -10,13 +10,15 @@ import { FormsModule } from '@angular/forms';
 import { WordComponent } from './word/word.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { RankPipe } from './rank-pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     WordListComponent,
     TextComponent,
-    WordComponent
+    WordComponent,
+    RankPipe
   ],
   imports: [
     BrowserModule,

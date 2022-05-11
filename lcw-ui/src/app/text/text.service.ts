@@ -8,6 +8,8 @@ import { WordRankService } from '../wordrank-service';
 })
 export class TextService {
 
+  static NEW_WORD_RANK = Number.MAX_SAFE_INTEGER;
+
   constructor(private wordRankService: WordRankService) { }
 
   getWords(text: string): Word[] {
@@ -23,7 +25,7 @@ export class TextService {
 
       uniqueWords.forEach(word => {
         const sentence = this.getExampleSentence(word, sentences);
-        words.push(new WordBuilder().word(word).sentence(sentence).build());
+        words.push(new WordBuilder().word(word).sentence(sentence).rank(TextService.NEW_WORD_RANK).build());
       });
     });
 
