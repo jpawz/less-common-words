@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { WordListComponent } from './word-list/word-list.component';
+import { NoteListComponent } from './note-list/note-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TextComponent } from './text/text.component';
 import { FormsModule } from '@angular/forms';
@@ -15,7 +15,7 @@ import { RankPipe } from './rank-pipe';
 @NgModule({
   declarations: [
     AppComponent,
-    WordListComponent,
+    NoteListComponent,
     TextComponent,
     WordComponent,
     RankPipe

@@ -2,7 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 
 import { ExportService } from './export.service';
-import { Word } from './word';
+import { Note } from './note';
 
 describe('ExportService', () => {
   let service: ExportService;
@@ -18,10 +18,10 @@ describe('ExportService', () => {
   });
 
   it('#exportCSV should response with csv', (done) => {
-    const wordsToSubmit: Word[] = [{ id: 0, rank: 0, sentence: '', translation: 'the translation', word: 'word' }];
+    const notesToSubmit: Note[] = [{ id: 0, rank: 0, sentence: '', translation: 'the translation', word: 'word' }];
     const expectedCsv = new Blob(['word,the translation,,'], { type: 'text/csv' });
 
-    service.exportCSV(wordsToSubmit).subscribe(async data => {
+    service.exportCSV(notesToSubmit).subscribe(async data => {
       const text = await (new Response(data)).text();
       expect(text).toEqual('word,the translation,,');
       done();
@@ -33,8 +33,8 @@ describe('ExportService', () => {
   });
 
   it('#exportCSV should use POST to retrieve csv data', () => {
-    const wordsToSubmit: Word[] = [{ id: 0, rank: 0, sentence: '', translation: 'the translation', word: 'word' }];
-    service.exportCSV(wordsToSubmit).subscribe();
+    const notesToSubmit: Note[] = [{ id: 0, rank: 0, sentence: '', translation: 'the translation', word: 'word' }];
+    service.exportCSV(notesToSubmit).subscribe();
 
     const testRequest = httpTestingController.expectOne('http://localhost:8080/export/csv');
 
@@ -42,8 +42,8 @@ describe('ExportService', () => {
   });
 
   it('#exportCSV POST request should contain correct body', () => {
-    const wordsToSubmit: Word[] = [{ id: 0, rank: 0, sentence: '', translation: 'the translation', word: 'word' }];
-    service.exportCSV(wordsToSubmit).subscribe();
+    const notesToSubmit: Note[] = [{ id: 0, rank: 0, sentence: '', translation: 'the translation', word: 'word' }];
+    service.exportCSV(notesToSubmit).subscribe();
 
     const testRequest = httpTestingController.expectOne('http://localhost:8080/export/csv');
 

@@ -1,8 +1,8 @@
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Word } from '../word';
-import { WordBuilder } from './word-builder';
+import { Note } from '../note';
+import { NoteBuilder } from '../note-builder';
 
 import { WordComponent } from './word.component';
 
@@ -12,9 +12,9 @@ describe('WordComponent', () => {
     template: '<component-under-test [word]="word"></component-under-test>'
   })
   class TestHostComponent {
-    private word: Word;
+    private word: Note;
 
-    setInput(word: Word) {
+    setInput(word: Note) {
       this.word = word;
     }
   }
@@ -35,7 +35,7 @@ describe('WordComponent', () => {
   });
 
   it('should create', () => {
-    component.setInput(new WordBuilder().word('anything').build());
+    component.setInput(new NoteBuilder().word('anything').build());
     expect(component).toBeTruthy();
   });
 

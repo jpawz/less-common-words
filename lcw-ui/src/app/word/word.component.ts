@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslationService } from '../translation.service';
-import { Word } from '../word';
+import { Note } from '../note';
 
 @Component({
   selector: '[app-word]',
@@ -10,7 +10,7 @@ import { Word } from '../word';
 })
 export class WordComponent implements OnInit {
 
-  @Input() word: Word;
+  @Input() word: Note;
 
   constructor(private translationService: TranslationService) {
   }

@@ -1,6 +1,6 @@
 <div *ngIf="dataSource.data.length > 0">
     <input type="submit" value="Export selected to CSV" (click)="exportSelectedToCSV()">
-    <mat-table class="words-table mat-elevation-z8" [dataSource]="dataSource">
+    <mat-table class="notes-table mat-elevation-z8" [dataSource]="dataSource">
 
         <ng-container matColumnDef="select">
             <mat-header-cell *matHeaderCellDef>
@@ -18,29 +18,29 @@
 
         <ng-container matColumnDef="rank">
             <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
-            <mat-cell *matCellDef="let word">{{word.rank | rank}}</mat-cell>
+            <mat-cell *matCellDef="let note">{{note.rank | rank}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="word">
             <mat-header-cell *matHeaderCellDef>Word</mat-header-cell>
-            <mat-cell *matCellDef="let word">{{word.word}}</mat-cell>
+            <mat-cell *matCellDef="let note">{{note.word}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
-            <mat-cell *matCellDef="let word">
-                <input type="submit" value="Translate" (click)="translate(word)">
+            <mat-cell *matCellDef="let note">
+                <input type="submit" value="Translate" (click)="translate(note)">
             </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="translation">
             <mat-header-cell *matHeaderCellDef>Translation</mat-header-cell>
-            <mat-cell *matCellDef="let word">{{word.translation}}</mat-cell>
+            <mat-cell *matCellDef="let note">{{note.translation}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="example">
             <mat-header-cell *matHeaderCellDef>Example</mat-header-cell>
-            <mat-cell *matCellDef="let word">{{word.sentence}}</mat-cell>
+            <mat-cell *matCellDef="let note">{{note.sentence}}</mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

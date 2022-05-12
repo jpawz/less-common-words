@@ -3,27 +3,27 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TranslationService } from '../translation.service';
-import { Word } from '../word';
+import { Note } from '../note';
 import { ExportService } from '../export.service';
 
 @Component({
-  selector: 'app-word-list',
-  templateUrl: './word-list.component.html',
-  styleUrls: ['./word-list.component.css']
+  selector: 'app-note-list',
+  templateUrl: './note-list.component.html',
+  styleUrls: ['./note-list.component.css']
 })
-export class WordListComponent implements OnInit {
+export class NoteListComponent implements OnInit {
 
-  dataSource = new MatTableDataSource<Word>([]);
+  dataSource = new MatTableDataSource<Note>([]);
   displayedColumns = ['select', 'rank', 'word', 'action', 'translation', 'example'];
-  selection = new SelectionModel<Word>(true, []);
+  selection = new SelectionModel<Note>(true, []);
 
   constructor(private translationService: TranslationService,
     private exportService: ExportService) {
   }
 
   @Input()
-  public set words(words: Word[]) {
-    this.dataSource.data = words;
+  public set notes(notes: Note[]) {
+    this.dataSource.data = notes;
   }
 
   ngOnInit(): void {
@@ -44,9 +44,9 @@ export class WordListComponent implements OnInit {
     this.selection.select(...this.dataSource.data);
   }
 
-  translate(word: Word) {
-    this.translationService.getTranslation(word.word).subscribe(
-      data => { word.translation = data; },
+  translate(note: Note) {
+    this.translationService.getTranslation(note.word).subscribe(
+      data => { note.translation = data; },
       (error: HttpErrorResponse) => {
         if (error.status === 404) {
           alert('Translation not found');

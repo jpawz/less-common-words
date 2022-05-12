@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Word } from './word';
+import { Note } from './note';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +14,9 @@ export class ExportService {
     this.exportApiUrl = 'http://localhost:8080/export';
   }
 
-  exportCSV(words: Word[]): Observable<Blob> {
+  exportCSV(notes: Note[]): Observable<Blob> {
     const data = new Array<Object>();
-    words.forEach(w => data.push({ word: w.word, translation: w.translation, sentence: w.sentence }));
+    notes.forEach(note => data.push({ word: note.word, translation: note.translation, sentence: note.sentence }));
 
     const httpOptions: Object = {
       responseType: 'blob',

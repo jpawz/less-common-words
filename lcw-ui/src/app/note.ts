@@ -1,4 +1,4 @@
-export class Word {
+export class Note {
     id: number;
     word: string;
     rank: number;

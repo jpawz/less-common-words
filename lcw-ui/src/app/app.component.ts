@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Word } from './word';
+import { Note } from './note';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +9,9 @@ import { Word } from './word';
 export class AppComponent {
   title = 'Less Common Words';
 
-  words: Word[];
+  notes: Note[];
 
-  receiveWords($event: Array<Word>) {
-    this.words = $event;
+  receiveNotes($event: Array<Note>) {
+    this.notes = $event;
   }
 }

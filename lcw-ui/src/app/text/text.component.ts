@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Word } from '../word';
+import { Note } from '../note';
 import { TextService } from './text.service';
 
 @Component({
@@ -12,13 +12,13 @@ export class TextComponent implements OnInit {
   constructor(private textService: TextService) { }
 
   text: string;
-  words: Array<Word>;
+  notes: Array<Note>;
 
-  @Output() wordEvent = new EventEmitter<Array<Word>>();
+  @Output() noteEvent = new EventEmitter<Array<Note>>();
 
   onSubmit() {
-    this.words = this.textService.getWords(this.text);
-    this.wordEvent.emit(this.words);
+    this.notes = this.textService.getNotes(this.text);
+    this.noteEvent.emit(this.notes);
   }
 
   ngOnInit(): void {

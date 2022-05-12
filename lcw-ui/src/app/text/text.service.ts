@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Word } from '../word';
-import { WordBuilder } from '../word/word-builder';
+import { Note } from '../note';
+import { NoteBuilder } from '../note-builder';
 import { WordRankService } from '../wordrank-service';
 
 @Injectable({
@@ -12,24 +12,24 @@ export class TextService {
 
   constructor(private wordRankService: WordRankService) { }
 
-  getWords(text: string): Word[] {
+  getNotes(text: string): Note[] {
     const uniqueWords = this.getUniqueWords(text);
     const sentences = this.splitTextIntoSentences(text);
-    const words = new Array<Word>();
+    const notes = new Array<Note>();
 
     this.wordRankService.getWordRanks(uniqueWords).subscribe(data => {
       data.forEach(wordRank => {
-        words.push(new WordBuilder().word(wordRank.word).id(wordRank.id).rank(wordRank.rank).build());
+        notes.push(new NoteBuilder().word(wordRank.word).id(wordRank.id).rank(wordRank.rank).build());
         uniqueWords.delete(wordRank.word);
       });
 
       uniqueWords.forEach(word => {
         const sentence = this.getExampleSentence(word, sentences);
-        words.push(new WordBuilder().word(word).sentence(sentence).rank(TextService.NEW_WORD_RANK).build());
+        notes.push(new NoteBuilder().word(word).sentence(sentence).rank(TextService.NEW_WORD_RANK).build());
       });
     });
 
-    return words;
+    return notes;
   }
 
   getUniqueWords(text: string): Set<string> {
