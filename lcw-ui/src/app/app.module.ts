@@ -7,7 +7,6 @@ import { NoteListComponent } from './note-list/note-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TextComponent } from './text/text.component';
 import { FormsModule } from '@angular/forms';
-import { WordComponent } from './word/word.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RankPipe } from './rank-pipe';
@@ -17,7 +16,6 @@ import { RankPipe } from './rank-pipe';
     AppComponent,
     NoteListComponent,
     TextComponent,
-    WordComponent,
     RankPipe
   ],
   imports: [
