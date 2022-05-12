@@ -2,7 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 
 import { ExportService } from './export.service';
-import { Note } from './note';
+import { Note } from '../entities/note';
 
 describe('ExportService', () => {
   let service: ExportService;

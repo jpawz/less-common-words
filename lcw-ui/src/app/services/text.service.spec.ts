@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { WordRankService } from '../wordrank-service';
+import { WordRankService } from '../services/wordrank-service';
 
 import { TextService } from './text.service';
 

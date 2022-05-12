@@ -1,5 +1,5 @@
 import { RankPipe } from './rank-pipe';
-import { TextService } from './text/text.service';
+import { TextService } from '../services/text.service';
 
 describe('RankPipe', () => {
   it('should return new for new word', () => {

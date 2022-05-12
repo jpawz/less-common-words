@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { WordRank } from './word-rank';
+import { WordRank } from '../entities/word-rank';
 
 import { WordRankService } from './wordrank-service';
 

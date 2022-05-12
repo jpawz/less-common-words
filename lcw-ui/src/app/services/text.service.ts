@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Note } from '../note';
-import { NoteBuilder } from '../note-builder';
-import { WordRankService } from '../wordrank-service';
+import { Note } from '../entities/note';
+import { NoteBuilder } from '../entities/note-builder';
+import { WordRankService } from './wordrank-service';
 
 @Injectable({
   providedIn: 'root'

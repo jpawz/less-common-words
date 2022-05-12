@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Note } from '../note';
-import { TextService } from './text.service';
+import { Note } from '../../entities/note';
+import { TextService } from '../../services/text.service';
 
 @Component({
   selector: 'app-text',

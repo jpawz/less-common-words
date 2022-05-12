@@ -2,9 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { TranslationService } from '../translation.service';
-import { Note } from '../note';
-import { ExportService } from '../export.service';
+import { TranslationService } from '../../services/translation.service';
+import { Note } from '../../entities/note';
+import { ExportService } from '../../services/export.service';
 
 @Component({
   selector: 'app-note-list',

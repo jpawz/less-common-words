@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TextService } from './text/text.service';
+import { TextService } from '../services/text.service';
 
 @Pipe({
     name: 'rank'
