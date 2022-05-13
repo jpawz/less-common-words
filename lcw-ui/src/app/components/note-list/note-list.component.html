@@ -40,7 +40,7 @@
 
         <ng-container matColumnDef="example">
             <mat-header-cell *matHeaderCellDef>Example</mat-header-cell>
-            <mat-cell *matCellDef="let note">{{note.sentence}}</mat-cell>
+            <mat-cell *matCellDef="let note">{{note.sentence | trim:note.word}}</mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

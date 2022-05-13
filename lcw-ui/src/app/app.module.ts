@@ -10,13 +10,15 @@ import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RankPipe } from './pipes/rank-pipe';
+import { TrimSentencePipe } from './pipes/trim-sentence-pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     NoteListComponent,
     TextComponent,
-    RankPipe
+    RankPipe,
+    TrimSentencePipe
   ],
   imports: [
     BrowserModule,
