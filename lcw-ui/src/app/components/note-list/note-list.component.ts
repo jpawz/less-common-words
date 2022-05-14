@@ -1,21 +1,28 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TranslationService } from '../../services/translation.service';
 import { Note } from '../../entities/note';
 import { ExportService } from '../../services/export.service';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-note-list',
   templateUrl: './note-list.component.html',
   styleUrls: ['./note-list.component.css']
 })
-export class NoteListComponent implements OnInit {
+export class NoteListComponent {
 
   dataSource = new MatTableDataSource<Note>([]);
   displayedColumns = ['select', 'rank', 'word', 'action', 'translation', 'example'];
   selection = new SelectionModel<Note>(true, []);
+  private sort: MatSort;
+
+  @ViewChild(MatSort) set matSort(ms: MatSort) {
+    this.sort = ms;
+    this.dataSource.sort = this.sort;
+  }
 
   constructor(private translationService: TranslationService,
     private exportService: ExportService) {
@@ -27,6 +34,7 @@ export class NoteListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataSource.sort = this.sort;
   }
 
   isAllSelected() {

@@ -1,6 +1,6 @@
 <div *ngIf="dataSource.data.length > 0">
     <input type="submit" value="Export selected to CSV" (click)="exportSelectedToCSV()">
-    <mat-table class="notes-table mat-elevation-z8" [dataSource]="dataSource">
+    <mat-table class="notes-table mat-elevation-z8" [dataSource]="dataSource" matSort>
 
         <ng-container matColumnDef="select">
             <mat-header-cell *matHeaderCellDef>
@@ -17,12 +17,12 @@
         </ng-container>
 
         <ng-container matColumnDef="rank">
-            <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>#</mat-header-cell>
             <mat-cell *matCellDef="let note">{{note.rank | rank}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="word">
-            <mat-header-cell *matHeaderCellDef>Word</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Word</mat-header-cell>
             <mat-cell *matCellDef="let note">{{note.word}}</mat-cell>
         </ng-container>
 

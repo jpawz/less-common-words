@@ -1,4 +1,5 @@
 import { WordRankService } from './services/wordrank-service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -11,6 +12,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RankPipe } from './pipes/rank-pipe';
 import { TrimSentencePipe } from './pipes/trim-sentence-pipe';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -21,10 +23,12 @@ import { TrimSentencePipe } from './pipes/trim-sentence-pipe';
     TrimSentencePipe
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
     MatTableModule,
+    MatSortModule,
     MatCheckboxModule
   ],
   providers: [WordRankService],
