@@ -1,11 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TranslationService } from '../../services/translation.service';
 import { Note } from '../../entities/note';
 import { ExportService } from '../../services/export.service';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, MatSortable } from '@angular/material/sort';
 
 @Component({
   selector: 'app-note-list',
@@ -21,6 +21,7 @@ export class NoteListComponent {
 
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
+    this.sort.sort(({id: 'rank', start: 'desc'}) as MatSortable);
     this.dataSource.sort = this.sort;
   }
 
