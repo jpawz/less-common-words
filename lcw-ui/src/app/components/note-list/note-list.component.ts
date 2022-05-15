@@ -21,12 +21,12 @@ export class NoteListComponent {
 
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
-    this.sort.sort(({id: 'rank', start: 'desc'}) as MatSortable);
+    this.sort.sort(({ id: 'rank', start: 'desc' }) as MatSortable);
     this.dataSource.sort = this.sort;
   }
 
   constructor(private translationService: TranslationService,
-    private exportService: ExportService) {
+              private exportService: ExportService) {
   }
 
   @Input()
@@ -36,6 +36,10 @@ export class NoteListComponent {
 
   ngOnInit(): void {
     this.dataSource.sort = this.sort;
+  }
+
+  isNothingSelected(): boolean {
+    return this.selection.selected.length === 0;
   }
 
   isAllSelected() {

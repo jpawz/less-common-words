@@ -1,5 +1,5 @@
 <div *ngIf="dataSource.data.length > 0">
-    <input type="submit" value="Export selected to CSV" (click)="exportSelectedToCSV()">
+    <button mat-button [disabled]="isNothingSelected()" (click)="exportSelectedToCSV()">Export selected to CSV</button>
     <mat-table class="notes-table mat-elevation-z8" [dataSource]="dataSource" matSort>
 
         <ng-container matColumnDef="select">
