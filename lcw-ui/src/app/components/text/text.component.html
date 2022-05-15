@@ -1,6 +1,6 @@
-<div>
-    <form>
-        <textarea [(ngModel)]="text" name="text" id="" cols="30" rows="10"></textarea>
-        <button type="button" (click)="onSubmit()">Submit</button>
-    </form>
-</div>
+<mat-form-field appearance="outline">
+    <mat-label>Text to analyze</mat-label>
+    <textarea [(ngModel)]="text" name="text" matInput cdkTextareaAutosize cdkAutosizeMinRows="5"
+        cdkAutosizeMaxRows="20"></textarea>
+    <button mat-raised-button (click)="onSubmit()">Submit</button>
+</mat-form-field>

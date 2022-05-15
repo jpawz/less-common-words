@@ -1,18 +1,22 @@
-import { WordRankService } from './services/wordrank-service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
+import { TextFieldModule } from '@angular/cdk/text-field';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './components/app.component';
 import { NoteListComponent } from './components/note-list/note-list.component';
-import { HttpClientModule } from '@angular/common/http';
 import { TextComponent } from './components/text/text.component';
-import { FormsModule } from '@angular/forms';
-import { MatTableModule } from '@angular/material/table';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RankPipe } from './pipes/rank-pipe';
 import { TrimSentencePipe } from './pipes/trim-sentence-pipe';
-import { MatSortModule } from '@angular/material/sort';
+import { WordRankService } from './services/wordrank-service';
+
 
 @NgModule({
   declarations: [
@@ -27,9 +31,13 @@ import { MatSortModule } from '@angular/material/sort';
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
     MatTableModule,
     MatSortModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    TextFieldModule
   ],
   providers: [WordRankService],
   bootstrap: [AppComponent]
