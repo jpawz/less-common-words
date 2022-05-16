@@ -1,10 +1,12 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { environment } from '../../environments/environment';
 import { WordRank } from '../entities/word-rank';
-
 import { WordRankService } from './wordrank-service';
 
+
 describe('WordRankService', () => {
+    const baseUrl = environment.baseUrl;
     let httpTestingController: HttpTestingController;
     let service: WordRankService;
 
@@ -29,7 +31,7 @@ describe('WordRankService', () => {
             done();
         });
 
-        const testRequest = httpTestingController.expectOne('http://localhost:8080/api?word=the');
+        const testRequest = httpTestingController.expectOne(baseUrl + '/api?word=the');
 
         testRequest.flush(expectedData);
     });
@@ -37,7 +39,7 @@ describe('WordRankService', () => {
     it('#getWordRank should use GET to retrieve single data', () => {
         service.getWordRank('the').subscribe();
 
-        const testRequest = httpTestingController.expectOne('http://localhost:8080/api?word=the');
+        const testRequest = httpTestingController.expectOne(baseUrl + '/api?word=the');
 
 
         expect(testRequest.request.method).toEqual('GET');
@@ -55,7 +57,7 @@ describe('WordRankService', () => {
             done();
         });
 
-        const testRequest = httpTestingController.expectOne('http://localhost:8080/api/words');
+        const testRequest = httpTestingController.expectOne(baseUrl + '/api/words');
 
         testRequest.flush(expectedData);
     });
@@ -63,7 +65,7 @@ describe('WordRankService', () => {
     it('#getWordRanks should use POST to retrieve multiple data', () => {
         service.getWordRanks(new Set(['word'])).subscribe();
 
-        const testRequest = httpTestingController.expectOne('http://localhost:8080/api/words');
+        const testRequest = httpTestingController.expectOne(baseUrl + '/api/words');
 
         expect(testRequest.request.method).toEqual('POST');
     });
@@ -77,7 +79,7 @@ describe('WordRankService', () => {
             done();
         });
 
-        const testRequest = httpTestingController.expectOne('http://localhost:8080/api/words');
+        const testRequest = httpTestingController.expectOne(baseUrl + '/api/words');
 
         testRequest.flush(expectedData);
     });

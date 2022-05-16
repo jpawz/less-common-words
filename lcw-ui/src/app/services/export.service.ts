@@ -2,16 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Note } from '../entities/note';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExportService {
 
+  baseUrl = environment.baseUrl;
   private exportApiUrl: string;
 
   constructor(private http: HttpClient) {
-    this.exportApiUrl = 'http://localhost:8080/export';
+    this.exportApiUrl = this.baseUrl + '/export';
   }
 
   exportCSV(notes: Note[]): Observable<Blob> {

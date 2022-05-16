@@ -3,8 +3,10 @@ import { TestBed } from '@angular/core/testing';
 
 import { ExportService } from './export.service';
 import { Note } from '../entities/note';
+import { environment } from '../../environments/environment';
 
 describe('ExportService', () => {
+  const baseUrl = environment.baseUrl;
   let service: ExportService;
   let httpTestingController: HttpTestingController;
 
@@ -27,7 +29,7 @@ describe('ExportService', () => {
       done();
     });
 
-    const testRequest = httpTestingController.expectOne('http://localhost:8080/export/csv');
+    const testRequest = httpTestingController.expectOne(baseUrl + '/export/csv');
 
     testRequest.flush(expectedCsv);
   });
@@ -36,7 +38,7 @@ describe('ExportService', () => {
     const notesToSubmit: Note[] = [{ id: 0, rank: 0, sentence: '', translation: 'the translation', word: 'word' }];
     service.exportCSV(notesToSubmit).subscribe();
 
-    const testRequest = httpTestingController.expectOne('http://localhost:8080/export/csv');
+    const testRequest = httpTestingController.expectOne(baseUrl + '/export/csv');
 
     expect(testRequest.request.method).toEqual('POST');
   });
@@ -45,7 +47,7 @@ describe('ExportService', () => {
     const notesToSubmit: Note[] = [{ id: 0, rank: 0, sentence: '', translation: 'the translation', word: 'word' }];
     service.exportCSV(notesToSubmit).subscribe();
 
-    const testRequest = httpTestingController.expectOne('http://localhost:8080/export/csv');
+    const testRequest = httpTestingController.expectOne(baseUrl + '/export/csv');
 
     expect(testRequest.request.body).toContain({ word: 'word', translation: 'the translation', sentence: '' });
   });

@@ -1,9 +1,10 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-
+import { environment } from '../../environments/environment';
 import { TranslationService } from './translation.service';
 
 describe('TranslationService', () => {
+  const baseUrl = environment.baseUrl;
   let httpTestingController: HttpTestingController;
   let service: TranslationService;
 
@@ -26,7 +27,7 @@ describe('TranslationService', () => {
       done();
     });
 
-    const testRequest = httpTestingController.expectOne('http://localhost:8080/translate?word=' + wordToBeTranslated);
+    const testRequest = httpTestingController.expectOne(baseUrl + '/translate?word=' + wordToBeTranslated);
 
     testRequest.flush(partOfTranslation);
   });
@@ -34,7 +35,7 @@ describe('TranslationService', () => {
   it('#getTranslation should use GET to retrieve translation', () => {
     service.getTranslation('hello').subscribe();
 
-    const testRequest = httpTestingController.expectOne('http://localhost:8080/translate?word=hello');
+    const testRequest = httpTestingController.expectOne(baseUrl + '/translate?word=hello');
 
     expect(testRequest.request.method).toEqual('GET');
   });

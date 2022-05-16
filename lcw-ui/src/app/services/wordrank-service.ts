@@ -1,17 +1,19 @@
-import { WordRank } from '../entities/word-rank';
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { WordRank } from '../entities/word-rank';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WordRankService {
 
+  baseUrl = environment.baseUrl;
   private wordRankUrl: string;
 
   constructor(private http: HttpClient) {
-    this.wordRankUrl = 'http://localhost:8080/api';
+    this.wordRankUrl = this.baseUrl + '/api';
   }
 
   public getWordRank(word: string): Observable<WordRank> {
