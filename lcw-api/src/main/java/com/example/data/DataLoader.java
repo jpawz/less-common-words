@@ -1,11 +1,9 @@
 package com.example.data;
 
-import java.io.File;
-import java.nio.file.Files;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -31,15 +29,15 @@ public class DataLoader implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 
 		Resource resource = new ClassPathResource("google-10000-english-usa.txt");
-		File file = resource.getFile();
+		InputStreamReader inputStreamReader = new InputStreamReader(resource.getInputStream());
+		BufferedReader reader = new BufferedReader(inputStreamReader);
 
 		List<WordRank> wordRanks = new ArrayList<>();
-
-		try (Stream<String> words = Files.lines(file.toPath())) {
-			AtomicInteger rank = new AtomicInteger(1);
-			words.forEachOrdered(w -> {
-				wordRanks.add(new WordRank(w, rank.getAndIncrement()));
-			});
+		int rank = 1;
+		while (reader.ready()) {
+			String line = reader.readLine();
+			wordRanks.add(new WordRank(line, rank));
+			rank++;
 		}
 
 		repository.saveAll(wordRanks);

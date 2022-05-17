@@ -12,11 +12,19 @@ repositories {
 	mavenCentral()
 }
 
+jar {
+	from('src/main/resources') {
+		include '**/*.txt'
+	}
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.apache.commons:commons-csv:1.9.0'
+	implementation 'org.apache.tomcat:tomcat-jdbc'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	runtimeOnly 'org.postgresql:postgresql'
 	runtimeOnly 'com.h2database:h2'
 }
 
