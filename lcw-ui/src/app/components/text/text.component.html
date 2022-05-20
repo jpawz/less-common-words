@@ -1,5 +1,5 @@
 <mat-form-field appearance="outline">
-    <mat-label>Text to analyze (so far only English is supported)</mat-label>
+    <mat-label>Paste text here (so far only English is supported)</mat-label>
     <textarea [(ngModel)]="text" name="text" matInput cdkTextareaAutosize cdkAutosizeMinRows="5"
         cdkAutosizeMaxRows="20"></textarea>
     <button mat-raised-button (click)="onSubmit()">Submit</button>
