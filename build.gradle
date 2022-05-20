@@ -1,0 +1,6 @@
+task copyPublicResources(type: Copy) {
+              from './lcw-ui/dist/lcw-ui/'
+              into './lcw-api/src/main/resources/static/'
+}
+ 
+copyPublicResources.dependsOn(':lcw-ui:buildWebapp')
