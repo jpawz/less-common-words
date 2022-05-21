@@ -1,0 +1,16 @@
+.mat-column-select {
+    flex: 0 0 auto;
+    padding-right: 24px;
+}
+
+.mat-column-rank, .mat-column-word, .mat-column-action {
+    flex: 1 1 0;
+}
+
+.mat-column-translation {
+    flex: 2 2 0;
+}
+
+.mat-column-example {
+    flex: 3 3 0;
+}
