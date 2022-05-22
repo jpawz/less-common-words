@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
+/**
+ * Service for providing translations of words.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -14,6 +17,12 @@ export class TranslationService {
     this.translationApiUrl = this.baseUrl + '/translate';
   }
 
+  /**
+   * Returns translation as a result of GET request to sever.
+   *
+   * @param word word to translate
+   * @returns Observable of string
+   */
   getTranslation(word: string): Observable<string> {
     const httpOptions = {
       headers: new HttpHeaders({

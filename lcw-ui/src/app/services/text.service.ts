@@ -3,6 +3,9 @@ import { Note } from '../entities/note';
 import { NoteBuilder } from '../entities/note-builder';
 import { WordRankService } from './wordrank-service';
 
+/**
+ * Service for handling text component: it has methods to prepare Notes from the given text content.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +15,12 @@ export class TextService {
 
   constructor(private wordRankService: WordRankService) { }
 
+  /**
+   * Returns an array of Notes from submitted text.
+   *
+   * @param text the text content for analysis
+   * @returns array of Note
+   */
   getNotes(text: string): Note[] {
     const uniqueWords = this.getUniqueWords(text);
     const sentences = this.splitTextIntoSentences(text);
