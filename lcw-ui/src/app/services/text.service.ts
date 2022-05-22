@@ -39,8 +39,7 @@ export class TextService {
 
     const uniqueWords = new Set<string>();
 
-    filteredWords.forEach(w => uniqueWords.add(w.toLowerCase())
-    );
+    filteredWords.forEach(w => uniqueWords.add(w.toLowerCase()));
 
     return uniqueWords;
   }
