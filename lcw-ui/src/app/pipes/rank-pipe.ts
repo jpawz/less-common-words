@@ -6,7 +6,7 @@ import { TextService } from '../services/text.service';
 })
 export class RankPipe implements PipeTransform {
     transform(rank: number): string {
-        if (rank === TextService.NEW_WORD_RANK) {
+        if (rank === TextService.newWordRank) {
             return 'new';
         } else {
             return rank.toString();

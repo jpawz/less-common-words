@@ -1,32 +1,32 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
-import { TranslationService } from '../../services/translation.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatSort, MatSortable } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { Note } from '../../entities/note';
 import { ExportService } from '../../services/export.service';
-import { MatSort, MatSortable } from '@angular/material/sort';
+import { TranslationService } from '../../services/translation.service';
 
 @Component({
   selector: 'app-note-list',
   templateUrl: './note-list.component.html',
   styleUrls: ['./note-list.component.css']
 })
-export class NoteListComponent {
+export class NoteListComponent implements OnInit {
 
   dataSource = new MatTableDataSource<Note>([]);
   displayedColumns = ['select', 'rank', 'word', 'action', 'translation', 'example'];
   selection = new SelectionModel<Note>(true, []);
   private sort: MatSort;
 
+  constructor(private translationService: TranslationService,
+    private exportService: ExportService) {
+  }
+
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
     this.sort.sort(({ id: 'rank', start: 'desc' }) as MatSortable);
     this.dataSource.sort = this.sort;
-  }
-
-  constructor(private translationService: TranslationService,
-              private exportService: ExportService) {
   }
 
   @Input()
@@ -59,7 +59,9 @@ export class NoteListComponent {
 
   translate(note: Note) {
     this.translationService.getTranslation(note.word).subscribe(
-      data => { note.translation = data; },
+      data => {
+        note.translation = data;
+      },
       (error: HttpErrorResponse) => {
         if (error.status === 404) {
           alert('Translation not found');

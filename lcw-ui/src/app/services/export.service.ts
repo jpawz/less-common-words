@@ -26,10 +26,10 @@ export class ExportService {
    * @returns Observable of Blob
    */
   exportCSV(notes: Note[]): Observable<Blob> {
-    const data = new Array<Object>();
+    const data = new Array<object>();
     notes.forEach(note => data.push({ word: note.word, translation: note.translation, sentence: note.sentence }));
 
-    const httpOptions: Object = {
+    const httpOptions: object = {
       responseType: 'blob',
     };
 

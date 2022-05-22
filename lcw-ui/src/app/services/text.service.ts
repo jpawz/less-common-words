@@ -11,7 +11,7 @@ import { WordRankService } from './wordrank-service';
 })
 export class TextService {
 
-  static NEW_WORD_RANK = Number.MAX_SAFE_INTEGER;
+  static readonly newWordRank = Number.MAX_SAFE_INTEGER;
 
   constructor(private wordRankService: WordRankService) { }
 
@@ -34,7 +34,7 @@ export class TextService {
 
       uniqueWords.forEach(word => {
         const sentence = this.getExampleSentence(word, sentences);
-        notes.push(new NoteBuilder().word(word).sentence(sentence).rank(TextService.NEW_WORD_RANK).build());
+        notes.push(new NoteBuilder().word(word).sentence(sentence).rank(TextService.newWordRank).build());
       });
     });
 

@@ -5,7 +5,7 @@ describe('RankPipe', () => {
   it('should return new for new word', () => {
     const pipe = new RankPipe();
 
-    const rank = pipe.transform(TextService.NEW_WORD_RANK);
+    const rank = pipe.transform(TextService.newWordRank);
 
     expect(rank).toEqual('new');
   });

@@ -1,10 +1,10 @@
 import { Note } from './note';
 
 export class NoteBuilder {
-    private readonly _note: Note;
+    private readonly note: Note;
 
     constructor() {
-        this._note = {
+        this.note = {
             id: 0,
             word: '',
             rank: 0,
@@ -14,32 +14,32 @@ export class NoteBuilder {
     }
 
     id(id: number): NoteBuilder {
-        this._note.id = id;
+        this.note.id = id;
         return this;
     }
 
     word(word: string): NoteBuilder {
-        this._note.word = word;
+        this.note.word = word;
         return this;
     }
 
     rank(rank: number): NoteBuilder {
-        this._note.rank = rank;
+        this.note.rank = rank;
         return this;
     }
 
     translation(translation: string): NoteBuilder {
-        this._note.translation = translation;
+        this.note.translation = translation;
         return this;
     }
 
     sentence(sentence: string): NoteBuilder {
-        this._note.sentence = sentence;
+        this.note.sentence = sentence;
         return this;
     }
 
 
     build(): Note {
-        return this._note;
+        return this.note;
     }
 }

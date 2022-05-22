@@ -9,12 +9,12 @@ import { TextService } from '../../services/text.service';
 })
 export class TextComponent implements OnInit {
 
-  constructor(private textService: TextService) { }
+  @Output() noteEvent = new EventEmitter<Array<Note>>();
 
   text: string;
   notes: Array<Note>;
 
-  @Output() noteEvent = new EventEmitter<Array<Note>>();
+  constructor(private textService: TextService) { }
 
   onSubmit() {
     this.notes = this.textService.getNotes(this.text);
