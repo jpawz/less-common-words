@@ -3,8 +3,7 @@
   "ignorePatterns": [
     "projects/**/*"
   ],
-  "overrides": [
-    {
+  "overrides": [{
       "files": [
         "*.ts"
       ],
@@ -36,6 +35,18 @@
         "brace-style": [
           "error",
           "1tbs"
+        ],
+
+        "@typescript-eslint/naming-convention": [
+          "error",
+          {
+            "selector": "property",
+            "format": ["strictCamelCase"],
+            "filter": {
+              "regex": "[-]",
+              "match": false
+            }
+          }
         ],
         "import/order": "off"
       }
