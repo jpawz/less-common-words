@@ -1,3 +1,19 @@
 mat-form-field {
     width: 100%;
 }
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    width: 20%;
+}
+
+.button-clear {
+    flex: 0 0 20%;
+    margin-right: 5px;
+}
+
+.button-submit {
+    flex: 0 0 80%;
+    min-width: 100px;
+}
