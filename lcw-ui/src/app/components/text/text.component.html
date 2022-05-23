@@ -4,6 +4,6 @@
         cdkAutosizeMaxRows="20"></textarea>
     <div class="buttons">
         <button [disabled]="!text" mat-raised-button (click)="text=''" class="button-clear">Clear</button>
-        <button mat-raised-button (click)="onSubmit()" class="button-submit">Submit</button>
+        <button [disabled]="!text" mat-raised-button (click)="onSubmit()" class="button-submit">Submit</button>
     </div>
 </mat-form-field>
