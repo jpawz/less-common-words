@@ -1,6 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, MatSortable } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Note } from '../../entities/note';
@@ -13,6 +14,8 @@ import { TranslationService } from '../../services/translation.service';
   styleUrls: ['./note-list.component.css']
 })
 export class NoteListComponent implements OnInit {
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   dataSource = new MatTableDataSource<Note>([]);
   displayedColumns = ['select', 'rank', 'word', 'action', 'translation', 'example'];
@@ -27,7 +30,10 @@ export class NoteListComponent implements OnInit {
     this.sort = ms;
     this.sort.sort(({ id: 'rank', start: 'desc' }) as MatSortable);
     this.dataSource.sort = this.sort;
+    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.dataSource.paginator = this.paginator;
   }
+
 
   @Input()
   public set notes(notes: Note[]) {

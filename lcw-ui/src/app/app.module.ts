@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserModule } from '@angular/platform-browser';
@@ -35,6 +36,7 @@ import { WordRankService } from './services/wordrank-service';
     MatInputModule,
     MatFormFieldModule,
     MatTableModule,
+    MatPaginatorModule,
     MatSortModule,
     MatCheckboxModule,
     TextFieldModule
