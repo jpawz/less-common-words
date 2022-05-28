@@ -1,6 +1,4 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Note } from '../../entities/note';
-import { TextService } from '../../services/text.service';
 
 @Component({
   selector: 'app-text',
@@ -9,16 +7,14 @@ import { TextService } from '../../services/text.service';
 })
 export class TextComponent implements OnInit {
 
-  @Output() noteEvent = new EventEmitter<Array<Note>>();
+  @Output() textEvent = new EventEmitter<string>();
 
   text: string;
-  notes: Array<Note>;
 
-  constructor(private textService: TextService) { }
+  constructor() { }
 
   onSubmit() {
-    this.notes = this.textService.getNotes(this.text);
-    this.noteEvent.emit(this.notes);
+    this.textEvent.emit(this.text);
   }
 
   ngOnInit(): void {

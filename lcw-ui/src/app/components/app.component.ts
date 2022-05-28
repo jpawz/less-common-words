@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Note } from '../entities/note';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +8,9 @@ import { Note } from '../entities/note';
 export class AppComponent {
   title = 'Less Common Words';
 
-  notes: Note[];
+  text: string;
 
-  receiveNotes($event: Array<Note>) {
-    this.notes = $event;
+  receiveText($event: string) {
+    this.text = $event;
   }
 }

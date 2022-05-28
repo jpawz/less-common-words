@@ -4,6 +4,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, MatSortable } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { TextService } from 'src/app/services/text.service';
 import { Note } from '../../entities/note';
 import { ExportService } from '../../services/export.service';
 import { TranslationService } from '../../services/translation.service';
@@ -23,7 +24,7 @@ export class NoteListComponent implements OnInit {
   private sort: MatSort;
 
   constructor(private translationService: TranslationService,
-    private exportService: ExportService) {
+    private exportService: ExportService, private textService: TextService) {
   }
 
   @ViewChild(MatSort) set matSort(ms: MatSort) {
@@ -36,7 +37,8 @@ export class NoteListComponent implements OnInit {
 
 
   @Input()
-  public set notes(notes: Note[]) {
+  public set text(text: string) {
+    const notes: Note[] = this.textService.getNotes(text);
     this.dataSource.data = notes;
   }
 

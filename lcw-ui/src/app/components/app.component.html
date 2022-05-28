@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <app-text (noteEvent)="receiveNotes($event)"></app-text>
-    <app-note-list [notes]="notes"></app-note-list>
+    <app-text (textEvent)="receiveText($event)"></app-text>
+    <app-note-list [text]="text"></app-note-list>
   </div>
 </div>
