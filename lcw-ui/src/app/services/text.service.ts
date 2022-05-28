@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, catchError, finalize, Observable, of } from 'rxjs';
 import { Note } from '../entities/note';
 import { NoteBuilder } from '../entities/note-builder';
 import { WordRankService } from './wordrank-service';
@@ -13,7 +14,15 @@ export class TextService {
 
   static readonly newWordRank = Number.MAX_SAFE_INTEGER;
 
-  constructor(private wordRankService: WordRankService) { }
+  public dataIsLoading: Observable<boolean>;
+
+  private loadingSubject: BehaviorSubject<boolean>;
+
+
+  constructor(private wordRankService: WordRankService) {
+    this.loadingSubject = new BehaviorSubject<boolean>(false);
+    this.dataIsLoading = this.loadingSubject.asObservable();
+  }
 
   /**
    * Returns an array of Notes from submitted text.
@@ -22,21 +31,26 @@ export class TextService {
    * @returns array of Note
    */
   getNotes(text: string): Note[] {
+    this.loadingSubject.next(true);
     const uniqueWords = this.getUniqueWords(text);
     const sentences = this.splitTextIntoSentences(text);
     const notes = new Array<Note>();
 
-    this.wordRankService.getWordRanks(uniqueWords).subscribe(data => {
-      data.forEach(wordRank => {
-        notes.push(new NoteBuilder().word(wordRank.word).id(wordRank.id).rank(wordRank.rank).build());
-        uniqueWords.delete(wordRank.word);
-      });
+    this.wordRankService.getWordRanks(uniqueWords).pipe(
+      catchError(() => of([])),
+      finalize(() => this.loadingSubject.next(false))
+    )
+      .subscribe(data => {
+        data.forEach(wordRank => {
+          notes.push(new NoteBuilder().word(wordRank.word).id(wordRank.id).rank(wordRank.rank).build());
+          uniqueWords.delete(wordRank.word);
+        });
 
-      uniqueWords.forEach(word => {
-        const sentence = this.getExampleSentence(word, sentences);
-        notes.push(new NoteBuilder().word(word).sentence(sentence).rank(TextService.newWordRank).build());
+        uniqueWords.forEach(word => {
+          const sentence = this.getExampleSentence(word, sentences);
+          notes.push(new NoteBuilder().word(word).sentence(sentence).rank(TextService.newWordRank).build());
+        });
       });
-    });
 
     return notes;
   }

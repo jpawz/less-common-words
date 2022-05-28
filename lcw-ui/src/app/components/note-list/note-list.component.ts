@@ -4,7 +4,9 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, MatSortable } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 import { TextService } from 'src/app/services/text.service';
+import { WordRankService } from 'src/app/services/wordrank-service';
 import { Note } from '../../entities/note';
 import { ExportService } from '../../services/export.service';
 import { TranslationService } from '../../services/translation.service';
@@ -18,13 +20,16 @@ export class NoteListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  dataIsLoading: boolean;
+
   dataSource = new MatTableDataSource<Note>([]);
   displayedColumns = ['select', 'rank', 'word', 'action', 'translation', 'example'];
   selection = new SelectionModel<Note>(true, []);
+  subscription: Subscription;
   private sort: MatSort;
 
   constructor(private translationService: TranslationService,
-    private exportService: ExportService, private textService: TextService) {
+    private exportService: ExportService, private textService: TextService, private wordRankService: WordRankService) {
   }
 
   @ViewChild(MatSort) set matSort(ms: MatSort) {
@@ -38,11 +43,12 @@ export class NoteListComponent implements OnInit {
 
   @Input()
   public set text(text: string) {
-    const notes: Note[] = this.textService.getNotes(text);
+    const notes = this.textService.getNotes(text);
     this.dataSource.data = notes;
   }
 
   ngOnInit(): void {
+    this.subscription = this.textService.dataIsLoading.subscribe(progress => this.dataIsLoading = progress);
     this.dataSource.sort = this.sort;
   }
 

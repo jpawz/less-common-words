@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
     <app-text (textEvent)="receiveText($event)"></app-text>
-    <app-note-list [text]="text"></app-note-list>
+    <app-note-list [text]="text" *ngIf="text"></app-note-list>
   </div>
 </div>
