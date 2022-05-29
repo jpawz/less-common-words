@@ -1,6 +1,13 @@
 <div class="container">
   <div class="row">
-    <app-text (textEvent)="receiveText($event)"></app-text>
+    <mat-expansion-panel expanded>
+      <mat-expansion-panel-header>
+        <mat-panel-description *ngIf="text">
+          {{text | slice:0:100}}...
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-text (textEvent)="receiveText($event)"></app-text>
+    </mat-expansion-panel>
     <app-note-list [text]="text" *ngIf="text"></app-note-list>
   </div>
 </div>
