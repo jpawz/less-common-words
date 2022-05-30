@@ -34,9 +34,9 @@ export class NoteListComponent implements OnInit {
 
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
-    this.sort.sort(({ id: 'rank', start: 'desc' }) as MatSortable);
+    this.sort?.sort(({ id: 'rank', start: 'desc' }) as MatSortable);
     this.dataSource.sort = this.sort;
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.sort?.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     this.dataSource.paginator = this.paginator;
   }
 
