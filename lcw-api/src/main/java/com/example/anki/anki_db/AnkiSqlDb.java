@@ -2,18 +2,17 @@ package com.example.anki.anki_db;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import com.example.anki.AnkiCard;
 import com.example.anki.Deck;
 
 public class AnkiSqlDb {
-	private final String driver = "jdbc:sqlite:";
 
 	private Connection dbConnection;
-	private Path dbFile;
 
 	private final long mid = System.currentTimeMillis();
 	private final long did = System.currentTimeMillis();
@@ -43,7 +42,7 @@ public class AnkiSqlDb {
 	 */
 	public void createDb(Deck<AnkiCard> deck) {
 		try {
-			initializeDb();
+			dbConnection = DriverManager.getConnection("jdbc:sqlite:collection.anki2");
 		} catch (SQLException exception) {
 			throw new RuntimeException("Can't initialize database.");
 		}
@@ -81,16 +80,18 @@ public class AnkiSqlDb {
 		}
 	}
 
-	private void initializeDb() throws SQLException {
-		SQLiteDataSource dataSource = new SQLiteDataSource();
+	/**
+	 * Reads all bytes from collection.anki2 file.
+	 *
+	 * @return content of collection.anki2 as byte array
+	 * @throws IOException when IO error occurs.
+	 */
+	public byte[] getFile() {
 		try {
-			dbFile = Files.createTempFile("collection", ".anki2").toAbsolutePath();
+			return Files.readAllBytes(Paths.get("collection.anki2"));
 		} catch (IOException exception) {
-			throw new RuntimeException("Can't create temporary db file: " + exception.getMessage());
+			throw new RuntimeException("Can't read file collection.adnki2: " + exception.getMessage());
 		}
-		dataSource.setUrl(driver + dbFile);
-		dbConnection = dataSource.getConnection();
-		dbConnection.setAutoCommit(false);
 	}
 
 	private void prepareTables() {
@@ -111,18 +112,4 @@ public class AnkiSqlDb {
 		}
 	}
 
-	/**
-	 * Reads all bytes from collection.anki2 file.
-	 *
-	 * @return content of collection.anki2 as byte array
-	 * @throws IOException when IO error occurs.
-	 */
-	public byte[] getFile() {
-		try {
-			return Files.readAllBytes(dbFile);
-		} catch (IOException exception) {
-			throw new RuntimeException(
-					"Can't read temporary file: " + dbFile.toString() + ": " + exception.getMessage());
-		}
-	}
 }

@@ -26,6 +26,7 @@ dependencies {
 	implementation 'org.apache.commons:commons-csv:1.9.0'
 	implementation 'org.apache.tomcat:tomcat-jdbc'
 	implementation 'org.xerial:sqlite-jdbc:3.36.0.3'
+	implementation 'commons-codec:commons-codec:1.15'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	runtimeOnly 'org.postgresql:postgresql'
 	runtimeOnly 'com.h2database:h2'
