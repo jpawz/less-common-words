@@ -11,8 +11,10 @@ import java.sql.Statement;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.skyscreamer.jsonassert.ArrayValueMatcher;
 import org.skyscreamer.jsonassert.Customization;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -23,6 +25,7 @@ import org.skyscreamer.jsonassert.comparator.JSONComparator;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+@TestInstance(Lifecycle.PER_CLASS)
 public class ColTableTest {
 	ColTable colTable;
 	long mid = 1485021428123L;
@@ -34,7 +37,7 @@ public class ColTableTest {
 	Connection connection;
 	ResultSet resultSet;
 
-	@Before
+	@BeforeAll
 	public void setUp() throws SQLException, JsonProcessingException, IOException {
 		colTable = new ColTable(mid, did, mod);
 		connection = DriverManager.getConnection("jdbc:sqlite::memory:");
