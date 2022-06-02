@@ -8,7 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.StringJoiner;
 
-//import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import com.example.anki.AnkiCard;
 

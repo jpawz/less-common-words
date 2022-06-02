@@ -4,10 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.HashMap;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import smaConv.util.AnkiCard;
 
 public class AnkiCardTest {
 	private final HashMap<String, String> question = new HashMap<>();
@@ -16,7 +15,7 @@ public class AnkiCardTest {
 	private final String backValue = "value for back";
 	private AnkiCard ankiCard;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		question.put("front", frontValue);
 		answer.put("back", backValue);

@@ -4,24 +4,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.io.TempDir;
 
-import smaConv.util.AnkiApkg;
 
 public class AnkiApkgTest {
 	AnkiApkg ankiApkg;
 
-	@Rule
-	public TemporaryFolder folder = new TemporaryFolder();
+	@TempDir
 	Path apkgFile;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws IOException {
-		apkgFile = folder.newFile("file.apkg").toPath();
+		apkgFile = Paths.get(apkgFile, "anki2.apkg");
 		ankiApkg = new AnkiApkg(apkgFile);
 	}
 

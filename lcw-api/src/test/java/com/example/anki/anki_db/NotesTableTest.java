@@ -11,28 +11,28 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.stream.Stream;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import smaConv.anki_db.NotesTable;
-import smaConv.util.AnkiCard;
+import com.example.anki.AnkiCard;
 
-@RunWith(value = Parameterized.class)
+@TestInstance(Lifecycle.PER_CLASS)
 public class NotesTableTest {
 
 	NotesTable notesTable;
-	static final long MID = 4564564564564L;
-	static final long NID = 7897897897897L;
-	static final long MOD = 1234567890123L;
+	static final long MID = 4564564564564L; // any long number
+	static final long NID = 7897897897897L; // any long number
+	static final long MOD = 1234567890123L; // any long number
 	ResultSet resultSet;
 	AnkiCard card;
 
-	@Before
+	@BeforeAll
 	public void setUp() throws SQLException {
 
 		Map<String, String> question = new HashMap<>();
@@ -52,26 +52,19 @@ public class NotesTableTest {
 		resultSet = statement.executeQuery("select * from notes");
 	}
 
-	@Parameter(value = 0)
-	public String valName;
-
-	@Parameter(value = 1)
-	public String expected;
-
-	@Parameters(name = "{index}: check value for {0}")
-	public static Object[] data() {
-		return new Object[][] { //
-				{ "id", Long.toString(NID) }, //
-				{ "mid", Long.toString(MID) }, //
-				{ "mod", Long.toString(MOD) }, //
-				{ "flds", "Lorem ipsum..." + (char) 0x1F + "...dolor sit amet" }, //
-				{ "sfld", "Lorem ipsum..." }, //
-				{ "csum", "4036353563" }, //
-		};
+	private static Stream<Arguments> provideArguments() {
+		return Stream.of(Arguments.of("id", Long.toString(NID)), //
+				Arguments.of("mid", Long.toString(MID)), //
+				Arguments.of("mod", Long.toString(MOD)), //
+				Arguments.of("flds", "Lorem ipsum..." + (char) 0x1F + "...dolor sit amet"), //
+				Arguments.of("sfld", "Lorem ipsum..."), //
+				Arguments.of("csum", "4036353563") //
+		);
 	}
 
-	@Test
-	public void checkValues() throws Exception {
+	@ParameterizedTest(name = "{index}: check value for {0}")
+	@MethodSource("provideArguments")
+	public void checkIfTableProperlyFilledWithValues(String valName, String expected) throws Exception {
 		assertThat(resultSet.getString(valName)).isEqualTo(expected);
 	}
 

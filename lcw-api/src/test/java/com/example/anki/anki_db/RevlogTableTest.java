@@ -7,17 +7,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import smaConv.anki_db.RevlogTable;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RevlogTableTest {
 
 	RevlogTable table;
 	Connection connection;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws SQLException {
 		table = new RevlogTable();
 		connection = DriverManager.getConnection("jdbc:sqlite::memory:");

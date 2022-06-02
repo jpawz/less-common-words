@@ -14,23 +14,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import org.hibernate.annotations.Parameter;
+import org.junit.jupiter.api.Test;
 
-import smaConv.anki_db.AnkiSqlDb;
-import smaConv.util.AnkiCard;
-import smaConv.util.Deck;
+import com.example.anki.AnkiCard;
+import com.example.anki.Deck;
 
-@RunWith(Suite.class)
-@SuiteClasses({ AnkiSqlDbTest.ParameterizedTest.class, AnkiSqlDbTest.NotParameterizedTest.class })
 public class AnkiSqlDbTest {
 	static Deck<AnkiCard> deck = new Deck<>();
 	static AnkiSqlDb sqlDb;
