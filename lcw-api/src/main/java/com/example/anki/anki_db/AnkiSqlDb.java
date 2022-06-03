@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import com.example.anki.AnkiCard;
 import com.example.anki.Deck;
 
-public class AnkiSqlDb {
+public class AnkiSqlDb implements AutoCloseable {
 
 	private Connection dbConnection;
 
@@ -25,7 +25,7 @@ public class AnkiSqlDb {
 	private final RevlogTable revlogTable;
 
 	/**
-	 * Default constructor. Prepare tables for database.
+	 * Default constructor. Prepare tables for database and establish connection.
 	 */
 	public AnkiSqlDb() {
 		cardsTable = new CardsTable(did, mod);
@@ -33,51 +33,41 @@ public class AnkiSqlDb {
 		gravesTable = new GravesTable();
 		notesTable = new NotesTable(mid, mod);
 		revlogTable = new RevlogTable();
-	}
-
-	/**
-	 * Makes sqlite database.
-	 * 
-	 * @param deck - deck of cards and templates.
-	 */
-	public void createDb(Deck<AnkiCard> deck) {
 		try {
 			dbConnection = DriverManager.getConnection("jdbc:sqlite:collection.anki2");
 		} catch (SQLException exception) {
 			throw new RuntimeException("Can't initialize database.");
 		}
 		prepareTables();
+	}
 
-		try {
-			if (deck.isEmpty()) {
-				throw new RuntimeException("Deck doesn't contain any cards.");
-			}
-			colTable.insertData(deck.getQuestionTemplate(), deck.getAnswerTemplate(), deck.getStyle());
-			notesTable.setKeys(colTable.getKeys());
-		} catch (SQLException e1) {
-			throw new RuntimeException("Can't prepare colTable.");
+	/**
+	 * Add data to database.
+	 * 
+	 * @param deck - deck of cards and templates.
+	 * @throws SQLException
+	 */
+	public void addDeck(Deck<AnkiCard> deck) throws SQLException {
+
+		if (deck.isEmpty()) {
+			return;
 		}
+		colTable.insertData(deck.getQuestionTemplate(), deck.getAnswerTemplate(), deck.getStyle());
+		notesTable.setKeys(colTable.getKeys());
 
 		long nid = System.currentTimeMillis();
 		long id = System.currentTimeMillis();
 		for (AnkiCard card : deck) {
-			try {
-				notesTable.insertDataIntoBatch(card, nid);
-				cardsTable.insertDataIntoBatch(id++, nid++);
-			} catch (SQLException exception) {
-				System.out.println("Card: [" + card + "] wasn't added to database.");
-			}
+
+			notesTable.insertDataIntoBatch(card, nid);
+			cardsTable.insertDataIntoBatch(id++, nid++);
 		}
 
-		try {
-			notesTable.executeBatch();
-			cardsTable.executeBatch();
+		notesTable.executeBatch();
+		cardsTable.executeBatch();
 
-			dbConnection.commit();
-			dbConnection.close();
-		} catch (SQLException exception) {
-			throw new RuntimeException("Error on executing batch queries: " + exception.getMessage());
-		}
+		dbConnection.commit();
+
 	}
 
 	/**
@@ -92,6 +82,20 @@ public class AnkiSqlDb {
 		} catch (IOException exception) {
 			throw new RuntimeException("Can't read file collection.adnki2: " + exception.getMessage());
 		}
+	}
+
+	/**
+	 * Close database connection.
+	 * 
+	 * @throws Exception
+	 */
+	@Override
+	public void close() throws Exception {
+		dbConnection.close();
+	}
+
+	public Connection getDbConnection() {
+		return this.dbConnection;
 	}
 
 	private void prepareTables() {

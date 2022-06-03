@@ -7,8 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-
 
 public class AnkiApkgTest {
 	AnkiApkg ankiApkg;
@@ -18,7 +18,7 @@ public class AnkiApkgTest {
 
 	@BeforeEach
 	public void setUp() throws IOException {
-		apkgFile = Paths.get(apkgFile, "anki2.apkg");
+		apkgFile = Paths.get(apkgFile.toString(), "anki2.apkg");
 		ankiApkg = new AnkiApkg(apkgFile);
 	}
 

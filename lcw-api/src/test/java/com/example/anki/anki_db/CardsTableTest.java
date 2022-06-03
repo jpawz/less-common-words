@@ -7,34 +7,27 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.stream.Stream;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameter;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import smaConv.anki_db.CardsTable;
-
-@RunWith(value = Parameterized.class)
+@TestInstance(Lifecycle.PER_CLASS)
 public class CardsTableTest {
 
 	CardsTable cardsTable;
-	static long ID = 1231231231231L;
-	static long DID = 4564564564564L;
-	static long NID = 7897897897897L;
-	static long MOD = 1234567890123L;
+	static long ID = 1231231231231L; // any long number
+	static long DID = 4564564564564L; // any long number
+	static long NID = 7897897897897L; // any long number
+	static long MOD = 1234567890123L; // any long number
 	Connection connection;
 	ResultSet resultSet;
 
-	@Parameter(value = 0)
-	public String valName;
-
-	@Parameter(value = 1)
-	public long expected;
-
-	@Before
+	@BeforeAll
 	public void setUp() throws SQLException {
 		cardsTable = new CardsTable(DID, MOD);
 		connection = DriverManager.getConnection("jdbc:sqlite::memory:");
@@ -45,18 +38,17 @@ public class CardsTableTest {
 		resultSet = statement.executeQuery("select * from cards");
 	}
 
-	@Parameters(name = "{index}: check value for {0}")
-	public static Object[] data() {
-		return new Object[][] { //
-				{ "id", ID }, //
-				{ "did", DID }, //
-				{ "nid", NID }, //
-				{ "mod", MOD }//
-		};
+	public static Stream<Arguments> provideArguments() {
+		return Stream.of(Arguments.of("id", ID), //
+				Arguments.of("did", DID), //
+				Arguments.of("nid", NID), //
+				Arguments.of("mod", MOD)//
+		);
 	}
 
-	@Test
-	public void checkValues() throws Exception {
+	@ParameterizedTest(name = "{index} check value for {0}")
+	@MethodSource("provideArguments")
+	public void checkIfTableProperlyCreated(String valName, long expected) throws Exception {
 		assertThat(resultSet.getString(valName)).isEqualTo(Long.toString(expected));
 	}
 }

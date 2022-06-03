@@ -1,116 +1,62 @@
 package com.example.anki.anki_db;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.stream.Stream;
 
-import org.hibernate.annotations.Parameter;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.example.anki.AnkiCard;
 import com.example.anki.Deck;
 
+@TestInstance(Lifecycle.PER_CLASS)
 public class AnkiSqlDbTest {
 	static Deck<AnkiCard> deck = new Deck<>();
 	static AnkiSqlDb sqlDb;
 	static Statement statement;
 
-	@ClassRule
-	public static TemporaryFolder folder = new TemporaryFolder();
-	static File dbFile;
-
-	@BeforeClass
-	public static void setUp() throws Exception {
-		deck.setQuestionTemplate("{front}");
-		deck.setAnswerTemplate("{back}");
-
-		Map<String, String> question = new HashMap<>();
-		question.put("front", "value for front");
-		Map<String, String> answer = new HashMap<>();
-		answer.put("back", "value for back");
-
-		deck.add(new AnkiCard(question, answer));
-		Map<String, String> question1 = new HashMap<>();
-		question.put("front", "value for front");
-		Map<String, String> answer1 = new HashMap<>();
-		answer.put("back", "value for back");
-		deck.add(new AnkiCard(question1, answer1));
-
+	@BeforeAll
+	public void setUp() throws IOException {
+		Files.deleteIfExists(Paths.get("collection.anki2"));
 		sqlDb = new AnkiSqlDb();
-		sqlDb.createDb(deck);
-		dbFile = folder.newFile("temp.db");
-		Files.write(dbFile.toPath(), sqlDb.getFile());
-
-		Connection connection = DriverManager.getConnection("jdbc:sqlite:" + dbFile.getAbsolutePath());
-		statement = connection.createStatement();
 	}
 
-	@RunWith(value = Parameterized.class)
-	public static class ParameterizedTest {
-
-		@Parameter(value = 0)
-		public String sqlQuery;
-
-		@Parameter(value = 1)
-		public int rowCountForTwoCards;
-
-		@Parameters(name = "{0}")
-		public static Collection<Object[]> data() {
-			return Arrays.asList(new Object[][] { //
-					{ "select * from cards", 2 }, //
-					{ "select * from col", 1, }, //
-					{ "select * from graves", 0 }, //
-					{ "select * from notes", 2 }, //
-					{ "select * from revlog", 0 },//
-			});
-		}
-
-		@Test
-		public void checkIfAllTablesAreCreated() throws Exception {
-			// exception will be thrown when table doesn't exist
-			assertThat(statement.executeUpdate(sqlQuery)).isEqualTo(0);
-		}
-
-		@Test
-		public void shouldTwoRowsBeAdded() throws Exception {
-			ResultSet rSet;
-			rSet = statement.executeQuery(sqlQuery);
-			int i = 0;
-			while (rSet.next()) {
-				i++;
-			}
-
-			assertThat(i).isEqualTo(rowCountForTwoCards);
-		}
+	@AfterAll
+	public void tearDown() throws Exception {
+		sqlDb.close();
+		Files.deleteIfExists(Paths.get("collection.anki2"));
 	}
 
-	public static class NotParameterizedTest {
+	public static Stream<Arguments> provideArguments() {
+		return Stream.of( //
+				Arguments.of("cards"), //
+				Arguments.of("col"), //
+				Arguments.of("graves"), //
+				Arguments.of("notes"), //
+				Arguments.of("revlog"));
+	}
 
-		@Test
-		public void exceptionShouldBeThrownWhenDeckIsEmpty() {
-			AnkiSqlDb db = new AnkiSqlDb();
-			Deck<AnkiCard> deck = new Deck<>();
-			deck.setQuestionTemplate("{{front}}");
-			deck.setAnswerTemplate("{{back}}");
+	@ParameterizedTest(name = "{index} check if {0} table created")
+	@MethodSource("provideArguments")
+	public void whenClassCreated_thenDatabaseShouldHaveAllTables(String tableName) throws Exception {
 
-			assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> db.createDb(deck))
-					.withMessage("Deck doesn't contain any cards.");
-		}
+		Connection connection = sqlDb.getDbConnection();
 
-		@Test
-		public void shouldReturnBaseContent() {
-			assertThat(sqlDb.getFile()).isNotEmpty();
-		}
-
+		DatabaseMetaData metaData = connection.getMetaData();
+		ResultSet resultSet = metaData.getTables(null, null, tableName, new String[] { "TABLE" });
+		assertTrue(resultSet.next());
 	}
 }
