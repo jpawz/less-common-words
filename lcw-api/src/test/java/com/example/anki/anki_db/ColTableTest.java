@@ -26,16 +26,16 @@ import org.skyscreamer.jsonassert.comparator.JSONComparator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public class ColTableTest {
-	ColTable colTable;
-	long mid = 1485021428123L;
-	long did = 1485021428124L;
-	long mod = 1485021428125L;
-	String questionTemplate = "{{cloze:question}}<br>{{hint}}";
-	String answerTemplate = "{{answer}}{{sound}}<span class=style>{{whatever}}</span>";
-	String cssStyle = ".card { }";
-	Connection connection;
-	ResultSet resultSet;
+class ColTableTest {
+	private ColTable colTable;
+	private final long mid = 1485021428123L; // any long number
+	private final long did = 1485021428124L; // any long number
+	private final long mod = 1485021428125L; // any long number
+	private String questionTemplate = "{{cloze:question}}<br>{{hint}}";
+	private String answerTemplate = "{{answer}}{{sound}}<span class=style>{{whatever}}</span>";
+	private String cssStyle = ".card { }";
+	private Connection connection;
+	private ResultSet resultSet;
 
 	@BeforeAll
 	public void setUp() throws SQLException, JsonProcessingException, IOException {
@@ -48,7 +48,7 @@ public class ColTableTest {
 	}
 
 	@Test
-	public void checkOrderOfFldsNodes() throws Exception {
+	void checkOrderOfFldsNodes() throws Exception {
 		String modelsValue = resultSet.getString("models");
 		JSONObject jsonObject = new JSONObject(modelsValue);
 		JSONArray flds = jsonObject.getJSONObject(Long.toString(mid)).getJSONArray("flds");
@@ -63,7 +63,7 @@ public class ColTableTest {
 	}
 
 	@Test
-	public void checkTmplsArray() throws Exception {
+	void checkTmplsArray() throws Exception {
 		String modelsValue = resultSet.getString("models");
 		JSONObject jsonObject = new JSONObject(modelsValue);
 		JSONArray tmpls = jsonObject.getJSONObject(Long.toString(mid)).getJSONArray("tmpls");
@@ -75,7 +75,7 @@ public class ColTableTest {
 	}
 
 	@Test
-	public void checkCssStyle() throws Exception {
+	void checkCssStyle() throws Exception {
 		String modelsValue = resultSet.getString("models");
 		JSONObject jsonObject = new JSONObject(modelsValue);
 		String css = jsonObject.getJSONObject(Long.toString(mid)).getString("css");

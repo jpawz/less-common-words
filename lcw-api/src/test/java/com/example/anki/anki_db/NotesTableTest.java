@@ -23,14 +23,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 import com.example.anki.AnkiCard;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public class NotesTableTest {
+class NotesTableTest {
 
-	NotesTable notesTable;
-	static final long MID = 4564564564564L; // any long number
-	static final long NID = 7897897897897L; // any long number
-	static final long MOD = 1234567890123L; // any long number
-	ResultSet resultSet;
-	AnkiCard card;
+	private NotesTable notesTable;
+	private static final long MID = 4564564564564L; // any long number
+	private static final long NID = 7897897897897L; // any long number
+	private static final long MOD = 1234567890123L; // any long number
+	private ResultSet resultSet;
+	private AnkiCard card;
 
 	@BeforeAll
 	public void setUp() throws SQLException {
@@ -64,7 +64,7 @@ public class NotesTableTest {
 
 	@ParameterizedTest(name = "{index}: check value for {0}")
 	@MethodSource("provideArguments")
-	public void checkIfTableProperlyFilledWithValues(String valName, String expected) throws Exception {
+	void checkIfTableProperlyFilledWithValues(String valName, String expected) throws Exception {
 		assertThat(resultSet.getString(valName)).isEqualTo(expected);
 	}
 

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-public class AnkiApkgTest {
+class AnkiApkgTest {
 	AnkiApkg ankiApkg;
 
 	@TempDir
@@ -23,12 +23,12 @@ public class AnkiApkgTest {
 	}
 
 	@Test
-	public void fileShouldBeAdded() {
+	void fileShouldBeAdded() {
 		assertThat(ankiApkg.addToArchive("someFile", "file content".getBytes())).isTrue();
 	}
 
 	@Test
-	public void emptyFileShouldNotBeAdded() {
+	void emptyFileShouldNotBeAdded() {
 		assertThat(ankiApkg.addToArchive("filename", "".getBytes())).isFalse();
 	}
 }

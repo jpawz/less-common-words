@@ -10,10 +10,10 @@ import java.sql.Statement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class RevlogTableTest {
+class RevlogTableTest {
 
-	RevlogTable table;
-	Connection connection;
+	private RevlogTable table;
+	private Connection connection;
 
 	@BeforeEach
 	public void setUp() throws SQLException {
@@ -23,9 +23,9 @@ public class RevlogTableTest {
 	}
 
 	@Test
-	public void shouldRevlogTableBeCreated() throws SQLException {
+	void shouldRevlogTableBeCreated() throws SQLException {
 		Statement statement = connection.createStatement();
-		assertThat(statement.executeUpdate("select * from revlog")).isEqualTo(0);
+		assertThat(statement.executeUpdate("select * from revlog")).isZero();
 	}
 
 }

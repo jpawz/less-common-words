@@ -19,13 +19,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 @TestInstance(Lifecycle.PER_CLASS)
 public class CardsTableTest {
 
-	CardsTable cardsTable;
-	static long ID = 1231231231231L; // any long number
-	static long DID = 4564564564564L; // any long number
-	static long NID = 7897897897897L; // any long number
-	static long MOD = 1234567890123L; // any long number
-	Connection connection;
-	ResultSet resultSet;
+	private CardsTable cardsTable;
+	private static long ID = 1231231231231L; // any long number
+	private static long DID = 4564564564564L; // any long number
+	private static long NID = 7897897897897L; // any long number
+	private static long MOD = 1234567890123L; // any long number
+	private Connection connection;
+	private ResultSet resultSet;
 
 	@BeforeAll
 	public void setUp() throws SQLException {
@@ -48,7 +48,7 @@ public class CardsTableTest {
 
 	@ParameterizedTest(name = "{index} check value for {0}")
 	@MethodSource("provideArguments")
-	public void checkIfTableProperlyCreated(String valName, long expected) throws Exception {
+	void checkIfTableProperlyCreated(String valName, long expected) throws Exception {
 		assertThat(resultSet.getString(valName)).isEqualTo(Long.toString(expected));
 	}
 }
