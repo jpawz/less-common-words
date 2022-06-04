@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,7 +17,7 @@ public class DictionaryapiTranslateService implements TranslateService {
 		RestTemplate restTemplate = new RestTemplate();
 
 		String json = restTemplate.getForObject(url + word, String.class);
-		
+
 		String translation;
 		try {
 			translation = getFirstDefinition(json);
@@ -30,11 +29,12 @@ public class DictionaryapiTranslateService implements TranslateService {
 		return translation;
 	}
 
-	protected String getFirstDefinition(String json) throws JsonMappingException, JsonProcessingException {
+	protected String getFirstDefinition(String json) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode node = objectMapper.readTree(json);
 
-		String definition = node.path(0).path("meanings").path(0).path("definitions").path(0).path("definition").asText();
+		String definition = node.path(0).path("meanings").path(0).path("definitions").path(0).path("definition")
+				.asText();
 
 		return definition;
 	}

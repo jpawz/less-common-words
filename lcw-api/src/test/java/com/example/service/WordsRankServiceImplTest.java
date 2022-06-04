@@ -30,7 +30,7 @@ class WordsRankServiceImplTest {
 	}
 
 	@Test
-	public void whenNewWordIsSubmited_thenDefaultRankShouldBeReturned() {
+	void whenNewWordIsSubmited_thenDefaultRankShouldBeReturned() {
 		String knownWord = "the";
 		String newWord = "undercarriage";
 		Set<String> words = Set.of(knownWord, newWord);

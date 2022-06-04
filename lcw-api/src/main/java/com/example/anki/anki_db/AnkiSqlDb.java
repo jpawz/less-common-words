@@ -10,6 +10,10 @@ import java.sql.SQLException;
 import com.example.anki.AnkiCard;
 import com.example.anki.Deck;
 
+/**
+ * Represents SQLite database with Anki2 schema. 
+ *
+ */
 public class AnkiSqlDb implements AutoCloseable {
 
 	private Connection dbConnection;

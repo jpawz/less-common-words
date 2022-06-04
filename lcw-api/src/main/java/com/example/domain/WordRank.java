@@ -12,8 +12,8 @@ import javax.persistence.Table;
 @Table(name = "word_rank")
 public class WordRank {
 
-	public static int RANK_IGNORE = 0;
-	public static int RANK_NEW = Integer.MAX_VALUE;
+	public static final int RANK_IGNORE = 0;
+	public static final int RANK_NEW = Integer.MAX_VALUE;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

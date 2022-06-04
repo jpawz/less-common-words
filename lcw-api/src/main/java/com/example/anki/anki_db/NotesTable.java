@@ -23,7 +23,7 @@ public class NotesTable {
 	private final long mod;
 	private Set<String> keysSet;
 
-	private static final String qaSeparator = "" + (char) 0x1F;
+	private static final String QA_SEPARATOR = "" + (char) 0x1F;
 	private PreparedStatement notesStatement;
 
 	public NotesTable(long mid, long mod) {
@@ -32,10 +32,11 @@ public class NotesTable {
 	}
 
 	public void setUpTable(Connection connection) throws SQLException {
-		PreparedStatement statement = connection.prepareStatement(TABLE_STATMENT);
-		statement.executeUpdate();
-		notesStatement = connection
-				.prepareStatement("INSERT INTO notes VALUES (?, ?, ?, ?, -1, \"\", ?, ?, ?, 0, \"\")");
+		try (PreparedStatement statement = connection.prepareStatement(TABLE_STATMENT)) {
+			statement.executeUpdate();
+			notesStatement = connection
+					.prepareStatement("INSERT INTO notes VALUES (?, ?, ?, ?, -1, \"\", ?, ?, ?, 0, \"\")");
+		}
 	}
 
 	public void setKeys(Set<String> keys) {
@@ -58,13 +59,13 @@ public class NotesTable {
 	}
 
 	private String sfld(AnkiCard card) {
-		StringJoiner sfld = new StringJoiner(qaSeparator);
+		StringJoiner sfld = new StringJoiner(QA_SEPARATOR);
 		card.question().forEach((k, v) -> sfld.add(v));
 		return sfld.toString();
 	}
 
 	private String flds(AnkiCard card) {
-		StringJoiner flds = new StringJoiner(qaSeparator);
+		StringJoiner flds = new StringJoiner(QA_SEPARATOR);
 		keysSet.forEach((var k) -> {
 			if (card.question().containsKey(k)) {
 				flds.add(card.question().get(k));

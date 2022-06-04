@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class CardsTable {
-	private static final String tableStatement = "CREATE TABLE cards (" + "id integer primary key,"
+	private static final String TABLE_STATEMENT = "CREATE TABLE cards (" + "id integer primary key,"
 			+ "nid integer not null," + "did integer not null," + "ord integer not null," + "mod integer not null,"
 			+ "usn integer not null," + "type integer not null," + "queue integer not null," + "due integer not null,"
 			+ "ivl integer not null," + "factor integer not null," + "reps integer not null,"
@@ -23,10 +23,11 @@ public class CardsTable {
 	}
 
 	public void setUpTable(Connection connection) throws SQLException {
-		PreparedStatement statement = connection.prepareStatement(tableStatement);
-		statement.executeUpdate();
-		cardsStatement = connection.prepareStatement(
-				"INSERT INTO cards VALUES (?, ?, ?, 0, ?, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \"\")");
+		try (PreparedStatement statement = connection.prepareStatement(TABLE_STATEMENT)) {
+			statement.executeUpdate();
+			cardsStatement = connection.prepareStatement(
+					"INSERT INTO cards VALUES (?, ?, ?, 0, ?, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, \"\")");
+		}
 	}
 
 	public void insertDataIntoBatch(long id, long nid) throws SQLException {

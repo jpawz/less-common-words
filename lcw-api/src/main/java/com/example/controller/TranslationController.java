@@ -25,8 +25,7 @@ public class TranslationController {
 	@GetMapping
 	public String getTranslation(@RequestParam String word, HttpServletResponse response) {
 		try {
-			String translation = service.getTranslation(word);
-			return translation;
+			return service.getTranslation(word);
 		} catch (HttpClientErrorException exception) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Translation not found", exception);
 		}
