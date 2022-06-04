@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-public class AnkiCardTest {
+class AnkiCardTest {
 	private final HashMap<String, String> question = new HashMap<>();
 	private final HashMap<String, String> answer = new HashMap<>();
 	private final String frontValue = "value for front";
@@ -23,13 +23,13 @@ public class AnkiCardTest {
 	}
 
 	@Test
-	public void checkValueForQuestion() {
-		assertThat(ankiCard.getQuestion()).isEqualTo(question);
+	void checkValueForQuestion() {
+		assertThat(ankiCard.question()).isEqualTo(question);
 	}
 
 	@Test
-	public void checkValueForAnswer() {
-		assertThat(ankiCard.getAnswer()).isEqualTo(answer);
+	void checkValueForAnswer() {
+		assertThat(ankiCard.answer()).isEqualTo(answer);
 	}
 
 }
