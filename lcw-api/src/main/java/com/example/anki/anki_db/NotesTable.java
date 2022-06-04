@@ -4,8 +4,8 @@ import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.LinkedHashSet;
 import java.util.Random;
+import java.util.Set;
 import java.util.StringJoiner;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -13,7 +13,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import com.example.anki.AnkiCard;
 
 public class NotesTable {
-	private static final String tableStatement = "CREATE TABLE notes (" + "id integer primary key,"
+	private static final String TABLE_STATMENT = "CREATE TABLE notes (" + "id integer primary key,"
 			+ "guid text not null," + "mid integer not null," + "mod integer not null," + "usn integer not null,"
 			+ "tags text not null," + "flds text not null," + "sfld integer not null," // strange that sfld is integer
 																						// not text
@@ -21,7 +21,7 @@ public class NotesTable {
 
 	private final long mid;
 	private final long mod;
-	private LinkedHashSet<String> keysSet;
+	private Set<String> keysSet;
 
 	private static final String qaSeparator = "" + (char) 0x1F;
 	private PreparedStatement notesStatement;
@@ -32,13 +32,13 @@ public class NotesTable {
 	}
 
 	public void setUpTable(Connection connection) throws SQLException {
-		PreparedStatement statement = connection.prepareStatement(tableStatement);
+		PreparedStatement statement = connection.prepareStatement(TABLE_STATMENT);
 		statement.executeUpdate();
 		notesStatement = connection
 				.prepareStatement("INSERT INTO notes VALUES (?, ?, ?, ?, -1, \"\", ?, ?, ?, 0, \"\")");
 	}
 
-	public void setKeys(LinkedHashSet<String> keys) {
+	public void setKeys(Set<String> keys) {
 		this.keysSet = keys;
 	}
 
@@ -59,18 +59,18 @@ public class NotesTable {
 
 	private String sfld(AnkiCard card) {
 		StringJoiner sfld = new StringJoiner(qaSeparator);
-		card.getQuestion().forEach((k, v) -> sfld.add(v));
+		card.question().forEach((k, v) -> sfld.add(v));
 		return sfld.toString();
 	}
 
 	private String flds(AnkiCard card) {
 		StringJoiner flds = new StringJoiner(qaSeparator);
-		keysSet.forEach((k) -> {
-			if (card.getQuestion().containsKey(k)) {
-				flds.add(card.getQuestion().get(k));
+		keysSet.forEach((var k) -> {
+			if (card.question().containsKey(k)) {
+				flds.add(card.question().get(k));
 			}
-			if (card.getAnswer().containsKey(k)) {
-				flds.add(card.getAnswer().get(k));
+			if (card.answer().containsKey(k)) {
+				flds.add(card.answer().get(k));
 			}
 		});
 

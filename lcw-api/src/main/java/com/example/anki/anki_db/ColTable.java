@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,7 +16,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class ColTable {
-	private static final String tableStatement = "CREATE TABLE col (" + "id integer primary key,"
+	private static final String TABLE_STATMENT = "CREATE TABLE col (" + "id integer primary key,"
 			+ "crt integer not null," + "mod integer not null," + "scm integer not null," + "ver integer not null,"
 			+ "dty integer not null," + "usn integer not null," + "ls integer not null," + "conf text not null,"
 			+ "models text not null," + "decks text not null," + "dconf text not null," + "tags text not null);";
@@ -24,7 +25,7 @@ public class ColTable {
 	private final long did;
 	private final long mod;
 
-	private LinkedHashSet<String> keys;
+	private Set<String> keys;
 
 	private Connection connection;
 
@@ -36,46 +37,48 @@ public class ColTable {
 
 	public void setUpTable(Connection connection) throws SQLException {
 		this.connection = connection;
-		PreparedStatement statement = connection.prepareStatement(tableStatement);
-		statement.executeUpdate();
-		statement.close();
+		try (PreparedStatement statement = connection.prepareStatement(TABLE_STATMENT)) {
+			statement.executeUpdate();
+		}
 	}
 
 	public void insertData(String questionTemplate, String answerTemplate, String cssStyle) throws SQLException {
-		PreparedStatement colStatement = connection
+		try (PreparedStatement colStatement = connection
 				.prepareStatement("INSERT INTO col VALUES (1, 1332961200, 1398130163295, 1398130163168,"
-						+ " 11, 0, 0, 0, ?, ?, ?, ?, '{}')");
+						+ " 11, 0, 0, 0, ?, ?, ?, ?, '{}')")) {
 
-		colStatement.setString(1, conf());
-		colStatement.setString(2, models(questionTemplate, answerTemplate, cssStyle));
-		colStatement.setString(3, decks());
-		colStatement.setString(4, dconf());
-		colStatement.executeUpdate();
+			colStatement.setString(1, conf());
+			colStatement.setString(2, models(questionTemplate, answerTemplate, cssStyle));
+			colStatement.setString(3, decks());
+			colStatement.setString(4, dconf());
+			colStatement.executeUpdate();
+		}
+	}
+
+	public Set<String> getKeys() {
+		return keys;
 	}
 
 	private String dconf() {
-		String dconfTemplate = "{\"1\": {\"name\": \"Default\", \"replayq\": true, \"lapse\": {\"leechFails\": 8,"
+		return "{\"1\": {\"name\": \"Default\", \"replayq\": true, \"lapse\": {\"leechFails\": 8,"
 				+ " \"minInt\": 1, \"delays\": [10], \"leechAction\": 0, \"mult\": 0}, \"rev\": {\"perDay\": 100, \"ivlFct\": 1,"
 				+ " \"maxIvl\": 36500, \"minSpace\": 1, \"ease4\": 1.3, \"bury\": true, \"fuzz\": 0.05}, \"timer\": 0, \"maxTaken\":"
 				+ " 60, \"usn\": 0, \"new\": {\"separate\": true, \"delays\": [1, 10], \"perDay\": 20, \"ints\": [1, 4, 7],"
 				+ " \"initialFactor\": 2500, \"bury\": true, \"order\": 1}, \"autoplay\": true, \"id\": 1, \"mod\": 0}}";
-		return dconfTemplate;
 	}
 
 	private String decks() {
-		String decksTemplate = "{\"1\": {\"name\": \"default\", \"extendRev\": 50, \"usn\": 0, \"collapsed\":"
+		return "{\"1\": {\"name\": \"default\", \"extendRev\": 50, \"usn\": 0, \"collapsed\":"
 				+ " false, \"newToday\": [0, 0], \"timeToday\": [0, 0], \"dyn\": 0, \"extendNew\": 10, \"conf\": 1, \"revToday\":"
 				+ " [0, 0], \"lrnToday\": [0, 0], \"id\": 1, \"mod\": 1457542003, \"desc\": \"\"}}";
-		return decksTemplate;
 	}
 
 	private String conf() {
 		long curModel = System.currentTimeMillis();
-		String confTemplate = "{\"nextPos\": 1, \"estTimes\": true, \"activeDecks\": [1], \"sortType\": "
+		return "{\"nextPos\": 1, \"estTimes\": true, \"activeDecks\": [1], \"sortType\": "
 				+ "\"noteFld\", \"timeLim\": 0, \"sortBackwards\": false, \"addToCur\": true, \"curDeck\": 1, \"newBury\":"
 				+ " true, \"newSpread\": 0, \"dueCounts\": true, \"curModel\": \"" + curModel
 				+ "\", \"collapseTime\": 1200}";
-		return confTemplate;
 	}
 
 	private String models(String questionTemplate, String answerTemplate, String cssStyle) {
@@ -124,9 +127,5 @@ public class ColTable {
 		((ObjectNode) tmplsNode).put("qfmt", questionTemplate);
 		((ObjectNode) tmplsNode).put("afmt", answerTemplate);
 		return tmplsNode;
-	}
-
-	public LinkedHashSet<String> getKeys() {
-		return keys;
 	}
 }
