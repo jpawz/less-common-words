@@ -47,7 +47,7 @@ public class AnkiSqlDb implements AutoCloseable {
 	 * @param deck - deck of cards and templates.
 	 * @throws SQLException
 	 */
-	public void addDeck(Deck<AnkiCard> deck) throws SQLException {
+	public void addDeck(Deck deck) throws SQLException {
 
 		if (deck.isEmpty()) {
 			return;

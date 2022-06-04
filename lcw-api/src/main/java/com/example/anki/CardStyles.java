@@ -16,4 +16,8 @@ public final class CardStyles {
 	 */
 	public static final String DEFAULT_STYLE = ".card {\\n" + " font-family: arial;\\n" + " font-size: 20px;\\n"
 			+ " text-align: center;\\n" + " color: black;\\n" + " background-color: white;\\n" + "}\\n";
+
+	private CardStyles() {
+
+	}
 }
