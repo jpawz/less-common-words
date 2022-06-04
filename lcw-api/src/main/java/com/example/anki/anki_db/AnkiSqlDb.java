@@ -27,14 +27,15 @@ public class AnkiSqlDb implements AutoCloseable {
 	/**
 	 * Default constructor. Prepare tables for database and establish connection.
 	 */
-	public AnkiSqlDb() {
+	public AnkiSqlDb(String dbFile) {
 		cardsTable = new CardsTable(did, mod);
 		colTable = new ColTable(mid, did, mod);
 		gravesTable = new GravesTable();
 		notesTable = new NotesTable(mid, mod);
 		revlogTable = new RevlogTable();
 		try {
-			dbConnection = DriverManager.getConnection("jdbc:sqlite:collection.anki2");
+			dbConnection = DriverManager.getConnection("jdbc:sqlite:" + dbFile);
+			dbConnection.setAutoCommit(false);
 		} catch (SQLException exception) {
 			throw new RuntimeException("Can't initialize database.");
 		}

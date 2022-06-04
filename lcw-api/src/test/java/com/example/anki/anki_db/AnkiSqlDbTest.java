@@ -23,7 +23,7 @@ class AnkiSqlDbTest {
 	@BeforeAll
 	public void setUp() throws IOException {
 		Files.deleteIfExists(Paths.get("collection.anki2"));
-		sqlDb = new AnkiSqlDb();
+		sqlDb = new AnkiSqlDb("collection.anki2");
 	}
 
 	@AfterAll
