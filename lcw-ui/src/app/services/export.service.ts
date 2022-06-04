@@ -25,7 +25,7 @@ export class ExportService {
    * @param notes array of Note to export
    * @returns Observable of Blob
    */
-  exportCSV(notes: Note[]): Observable<Blob> {
+  export(notes: Note[], format: string): Observable<Blob> {
     const data = new Array<object>();
     notes.forEach(note => data.push({ word: note.word, translation: note.translation, sentence: note.sentence }));
 
@@ -33,7 +33,7 @@ export class ExportService {
       responseType: 'blob',
     };
 
-    return this.http.post<Blob>(this.exportApiUrl + '/csv', data, httpOptions);
+    return this.http.post<Blob>(this.exportApiUrl + '/' + format, data, httpOptions);
   }
 
 }

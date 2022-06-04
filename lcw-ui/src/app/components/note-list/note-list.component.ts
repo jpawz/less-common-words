@@ -84,13 +84,20 @@ export class NoteListComponent implements OnInit {
     );
   }
 
-  exportSelectedToCSV() {
+  exportSelected(format: string) {
     if (this.selection.selected.length > 0) {
-      this.exportService.exportCSV(this.selection.selected).subscribe(response => {
+      this.exportService.export(this.selection.selected, format).subscribe(response => {
         const a = document.createElement('a');
         const objectUrl = URL.createObjectURL(response);
         a.href = objectUrl;
-        a.download = 'cards.csv';
+        switch (format) {
+          case 'csv':
+            a.download = 'cards.csv';
+            break;
+          case 'anki':
+            a.download = 'cards.apkg';
+            break;
+        }
         a.click();
         URL.revokeObjectURL(objectUrl);
       });

@@ -1,5 +1,8 @@
 <div *ngIf="dataSource.data.length > 0">
-    <button mat-button [disabled]="isNothingSelected()" (click)="exportSelectedToCSV()">Export selected to CSV</button>
+    <button mat-button [disabled]="isNothingSelected()" (click)="exportSelected('csv')" class="exportButton">Export
+        selected to CSV</button>
+    <button mat-button [disabled]="isNothingSelected()" (click)="exportSelected('anki')" class="exportButton">Export
+        selected to Anki</button>
     <mat-table class="notes-table mat-elevation-z8" [dataSource]="dataSource" matSort>
 
         <ng-container matColumnDef="select">
