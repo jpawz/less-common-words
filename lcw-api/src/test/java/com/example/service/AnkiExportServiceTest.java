@@ -34,7 +34,7 @@ class AnkiExportServiceTest {
 	}
 
 	@Test
-	void outputZipFileShouldContainDbFile() throws Exception {
+	void outputZipFileShouldContainDbFileAndMediaFile() throws Exception {
 		List<Card> cards = Arrays.asList(new Card("first", "pierwsze", "the first sentence"),
 				new Card("second", "drugie", "the second sentence"));
 		AnkiExportService service = new AnkiExportService();
@@ -42,9 +42,12 @@ class AnkiExportServiceTest {
 
 		service.exportToApkg(output, cards);
 		ZipInputStream zipInputStream = new ZipInputStream(new ByteArrayInputStream(output.toByteArray()));
+		
 		ZipEntry entry = zipInputStream.getNextEntry();
-
 		assertThat(entry.getName()).isEqualTo("collection.anki2");
+		
+		entry= zipInputStream.getNextEntry();
+		assertThat(entry.getName()).isEqualTo("media");
 	}
 
 }

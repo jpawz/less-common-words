@@ -25,6 +25,7 @@ public class AnkiExportService {
 			byte[] db = sqlDb.getFile();
 
 			ankiApkg.addToArchive("collection.anki2", db);
+			ankiApkg.addToArchive("media", "{ }".getBytes());
 		}
 	}
 
@@ -41,8 +42,9 @@ public class AnkiExportService {
 	private AnkiCard makeAnkiCard(Card card) {
 		Map<String, String> question = new HashMap<>();
 		Map<String, String> answer = new HashMap<>();
-		question.put("fron", card.getWord());
+		question.put("front", card.getWord());
 		answer.put("back", card.getTranslation());
 		return new AnkiCard(question, answer);
 	}
+	
 }
