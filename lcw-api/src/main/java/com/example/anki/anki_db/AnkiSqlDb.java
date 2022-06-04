@@ -11,12 +11,13 @@ import com.example.anki.AnkiCard;
 import com.example.anki.Deck;
 
 /**
- * Represents SQLite database with Anki2 schema. 
+ * Represents SQLite database with Anki2 schema.
  *
  */
 public class AnkiSqlDb implements AutoCloseable {
 
 	private Connection dbConnection;
+	private String dbFile;
 
 	private final long mid = System.currentTimeMillis();
 	private final long did = System.currentTimeMillis();
@@ -32,6 +33,7 @@ public class AnkiSqlDb implements AutoCloseable {
 	 * Default constructor. Prepare tables for database and establish connection.
 	 */
 	public AnkiSqlDb(String dbFile) {
+		this.dbFile = dbFile;
 		cardsTable = new CardsTable(did, mod);
 		colTable = new ColTable(mid, did, mod);
 		gravesTable = new GravesTable();
@@ -84,9 +86,9 @@ public class AnkiSqlDb implements AutoCloseable {
 	 */
 	public byte[] getFile() {
 		try {
-			return Files.readAllBytes(Paths.get("collection.anki2"));
+			return Files.readAllBytes(Paths.get(this.dbFile));
 		} catch (IOException exception) {
-			throw new RuntimeException("Can't read file collection.adnki2: " + exception.getMessage());
+			throw new RuntimeException("Can't read file " + this.dbFile + exception.getMessage());
 		}
 	}
 

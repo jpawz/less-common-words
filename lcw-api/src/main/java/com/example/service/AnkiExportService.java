@@ -1,9 +1,12 @@
 package com.example.service;
 
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -19,13 +22,17 @@ public class AnkiExportService {
 	public void exportToApkg(OutputStream outputStream, List<Card> cards) throws Exception {
 		Deck deck = makeDeck(cards);
 
-		try (AnkiSqlDb sqlDb = new AnkiSqlDb("collection.anki2"); AnkiApkg ankiApkg = new AnkiApkg(outputStream)) {
+		String databaseName = UUID.randomUUID().toString();
+
+		try (AnkiSqlDb sqlDb = new AnkiSqlDb(databaseName); AnkiApkg ankiApkg = new AnkiApkg(outputStream)) {
 			sqlDb.addDeck(deck);
 
 			byte[] db = sqlDb.getFile();
 
 			ankiApkg.addToArchive("collection.anki2", db);
 			ankiApkg.addToArchive("media", "{ }".getBytes());
+		} finally {
+			Files.deleteIfExists(Paths.get(databaseName));
 		}
 	}
 
@@ -46,5 +53,5 @@ public class AnkiExportService {
 		answer.put("back", card.getTranslation());
 		return new AnkiCard(question, answer);
 	}
-	
+
 }
