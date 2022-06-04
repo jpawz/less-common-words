@@ -7,7 +7,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
- * Exports deck of cards to Anki *.apkg file.
+ * Exports deck of cards to Anki *.apkg file format.
  *
  */
 public class AnkiApkg implements AutoCloseable {
@@ -16,9 +16,9 @@ public class AnkiApkg implements AutoCloseable {
 	private final ZipOutputStream zipOutputStream;
 
 	/**
-	 * Creates *.apkg file at specified location.
+	 * Creates *.apkg file at specified output stream.
 	 * 
-	 * @param outputFile - path with file name.
+	 * @param outputStream - output stream to write binary data.
 	 */
 	public AnkiApkg(OutputStream outputStream) {
 		bufferedOutputStream = new BufferedOutputStream(outputStream);
@@ -26,7 +26,8 @@ public class AnkiApkg implements AutoCloseable {
 	}
 
 	/**
-	 * Adds file to apkg archive. Empty file (length == 0) won't be added.
+	 * Adds file to apkg archive (zip archive). Empty file (length == 0) won't be
+	 * added.
 	 *
 	 * @param fileName    - name of file to be added to archive
 	 * @param fileContent - content of the file
