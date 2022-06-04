@@ -34,9 +34,10 @@ public class AnkiSqlDb implements AutoCloseable {
 		notesTable = new NotesTable(mid, mod);
 		revlogTable = new RevlogTable();
 		try {
+			Files.deleteIfExists(Paths.get(dbFile));
 			dbConnection = DriverManager.getConnection("jdbc:sqlite:" + dbFile);
 			dbConnection.setAutoCommit(false);
-		} catch (SQLException exception) {
+		} catch (SQLException | IOException exception) {
 			throw new RuntimeException("Can't initialize database.");
 		}
 		prepareTables();

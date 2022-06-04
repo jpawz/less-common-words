@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.Card;
+import com.example.service.AnkiExportService;
 import com.example.service.CsvExportService;
 
 @CrossOrigin
@@ -22,13 +23,23 @@ import com.example.service.CsvExportService;
 public class ExportController {
 
 	@Autowired
-	private CsvExportService service;
+	private CsvExportService csvService;
+
+	@Autowired
+	private AnkiExportService ankiService;
 
 	@PostMapping(value = "/csv", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void exportCSV(HttpServletResponse servletResponse, @RequestBody List<Card> cards) throws IOException {
 		servletResponse.setContentType("text/csv");
 		servletResponse.addHeader("Content-Disposition", "attachment; filename=\"cards.csv\"");
-		service.writeToCsv(servletResponse.getWriter(), cards);
+		csvService.writeToCsv(servletResponse.getWriter(), cards);
+	}
+
+	@PostMapping(value = "/anki", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void exportAnki(HttpServletResponse servletResponse, @RequestBody List<Card> cards) throws Exception {
+		servletResponse.setContentType("application/octet-stream");
+		servletResponse.addHeader("Content-Disposition", "attachment; filename=\"cards.apkg\"");
+		ankiService.exportToApkg(servletResponse.getOutputStream(), cards);
 	}
 
 }
