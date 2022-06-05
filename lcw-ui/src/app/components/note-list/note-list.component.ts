@@ -73,16 +73,14 @@ export class NoteListComponent implements OnInit {
   }
 
   translate(note: Note) {
-    this.translationService.getTranslation(note.word).subscribe(
-      data => {
-        note.translation = data;
-      },
-      (error: HttpErrorResponse) => {
+    this.translationService.getTranslation(note.word).subscribe({
+      next: (data) => note.translation = data,
+      error: (error: HttpErrorResponse) => {
         if (error.status === 404) {
           alert('Translation not found');
         }
       }
-    );
+    });
   }
 
   exportSelected(format: string) {
