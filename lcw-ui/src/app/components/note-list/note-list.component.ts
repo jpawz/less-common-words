@@ -45,6 +45,7 @@ export class NoteListComponent implements OnInit {
   public set text(text: string) {
     const notes = this.textService.getNotes(text);
     this.dataSource.data = notes;
+    this.selection.clear();
   }
 
   ngOnInit(): void {
