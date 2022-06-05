@@ -2,11 +2,10 @@ package com.example.service;
 
 import java.io.OutputStream;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -22,9 +21,9 @@ public class AnkiExportService {
 	public void exportToApkg(OutputStream outputStream, List<Card> cards) throws Exception {
 		Deck deck = makeDeck(cards);
 
-		String databaseName = UUID.randomUUID().toString();
+		Path databaseName = Files.createTempFile("collection", "anki2");
 
-		try (AnkiSqlDb sqlDb = new AnkiSqlDb(databaseName); AnkiApkg ankiApkg = new AnkiApkg(outputStream)) {
+		try (AnkiSqlDb sqlDb = new AnkiSqlDb(databaseName.toString()); AnkiApkg ankiApkg = new AnkiApkg(outputStream)) {
 			sqlDb.addDeck(deck);
 
 			byte[] db = sqlDb.getFile();
@@ -32,7 +31,7 @@ public class AnkiExportService {
 			ankiApkg.addToArchive("collection.anki2", db);
 			ankiApkg.addToArchive("media", "{ }".getBytes());
 		} finally {
-			Files.deleteIfExists(Paths.get(databaseName));
+			Files.deleteIfExists(databaseName);
 		}
 	}
 
