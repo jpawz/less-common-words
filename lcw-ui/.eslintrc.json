@@ -9,8 +9,8 @@
       ],
       "parserOptions": {
         "project": [
-          "lcw-ui/tsconfig.json",
-          "e2e/tsconfig.json"
+          "tsconfig.json",
+          "e2e/tsconfig.e2e.json"
         ],
         "createDefaultProgram": true
       },
