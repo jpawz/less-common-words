@@ -38,7 +38,8 @@
 
         <ng-container matColumnDef="translation">
             <mat-header-cell *matHeaderCellDef>Translation</mat-header-cell>
-            <mat-cell *matCellDef="let note">{{note.translation}}</mat-cell>
+            <mat-cell *matCellDef="let note"><textarea [(ngModel)]="note.translation" cdkTextareaAutosize></textarea>
+            </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="example">
