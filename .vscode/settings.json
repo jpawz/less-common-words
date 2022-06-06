@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
         "wordrank"
-    ]
+    ],
+    "eslint.workingDirectories": ["lcw-ui"]
 }
