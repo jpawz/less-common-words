@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { WordRankService } from '../services/wordrank-service';
-
 import { TextService } from './text.service';
+
 
 describe('TextService', () => {
   let service: TextService;
@@ -30,11 +30,11 @@ describe('TextService', () => {
   });
 
   it('#splitTextIntoSentences should split text', () => {
-    const text = `One morning, when Gregor Samsa woke from troubled dreams,
-                   he found himself transformed in his bed into a horrible 
-                  vermin. He lay on his armour-like back, and if he lifted his
-                   head a little he could see his brown belly, slightly domed and 
-                   divided by arches into stiff sections. The bedding was hardly 
+    const text = `One morning, when Gregor Samsa woke from troubled dreams,\
+                   he found himself transformed in his bed into a horrible \
+                  vermin. He lay on his armour-like back, and if he lifted his\
+                   head a little he could see his brown belly, slightly domed and \
+                   divided by arches into stiff sections. The bedding was hardly \
                    able to cover it and seemed ready to slide off any moment.`;
 
     const sentences = service.splitTextIntoSentences(text);
@@ -42,6 +42,43 @@ describe('TextService', () => {
     expect(sentences.length).toBe(3);
     expect(sentences[1].includes('armour-like')).toBeTrue();
   });
+
+  it('#splitTextIntoSentences should split text into sentences at new line', () => {
+    const text = 'First sentence\nSecond sentence';
+
+    const sentences = service.splitTextIntoSentences(text);
+
+    expect(sentences.includes('First sentence')).toBeTrue();
+    expect(sentences.length).toBe(2);
+  });
+
+  it('#splitTextIntoSentences should split text into sentences at dot', () => {
+    const text = 'First sentence. Second sentence';
+
+    const sentences = service.splitTextIntoSentences(text);
+
+    expect(sentences.length).toBe(2);
+    expect(sentences.includes('First sentence.')).toBeTrue();
+  });
+
+  it('#splitTextIntoSentences should split text into sentences at ?', () => {
+    const text = 'First sentence? Second sentence';
+
+    const sentences = service.splitTextIntoSentences(text);
+
+    expect(sentences.length).toBe(2);
+    expect(sentences.includes('First sentence?')).toBeTrue();
+  });
+
+  it('#splitTextIntoSentences should split text into sentences at !', () => {
+    const text = 'First sentence! Second sentence';
+
+    const sentences = service.splitTextIntoSentences(text);
+
+    expect(sentences.length).toBe(2);
+    expect(sentences.includes('First sentence!')).toBeTrue();
+  });
+
 
   it('#getUniqueWords should filter out words with characters other than letters', () => {
     const text = 'The t3xt';
