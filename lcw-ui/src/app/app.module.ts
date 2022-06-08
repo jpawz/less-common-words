@@ -18,7 +18,6 @@ import { NoteListComponent } from './components/note-list/note-list.component';
 import { TextComponent } from './components/text/text.component';
 import { HighlightPipe } from './pipes/highlight.pipe';
 import { RankPipe } from './pipes/rank-pipe';
-import { TrimSentencePipe } from './pipes/trim-sentence-pipe';
 import { WordRankService } from './services/wordrank-service';
 
 
@@ -28,7 +27,6 @@ import { WordRankService } from './services/wordrank-service';
     NoteListComponent,
     TextComponent,
     RankPipe,
-    TrimSentencePipe,
     HighlightPipe
   ],
   imports: [

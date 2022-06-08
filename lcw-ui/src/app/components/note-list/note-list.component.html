@@ -45,7 +45,7 @@
         <ng-container matColumnDef="example">
             <mat-header-cell *matHeaderCellDef>Example</mat-header-cell>
             <mat-cell *matCellDef="let note">
-                <div [innerHTML]="note.sentence | trim:note.word | highlight:note.word"></div>
+                <div [innerHTML]="note.sentence | highlight:note.word"></div>
             </mat-cell>
         </ng-container>
 

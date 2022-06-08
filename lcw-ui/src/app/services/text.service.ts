@@ -43,7 +43,8 @@ export class TextService {
     )
       .subscribe(data => {
         data.forEach(wordRank => {
-          notes.push(new NoteBuilder().word(wordRank.word).id(wordRank.id).rank(wordRank.rank).build());
+          notes.push(new NoteBuilder().word(wordRank.word)
+            .sentence(this.getExampleSentence(wordRank.word, sentences)).id(wordRank.id).rank(wordRank.rank).build());
           uniqueWords.delete(wordRank.word);
         });
 
