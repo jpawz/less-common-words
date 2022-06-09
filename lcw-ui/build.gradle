@@ -1,0 +1,12 @@
+plugins {
+  id 'java'
+  id 'com.github.node-gradle.node' version '3.3.0'
+}
+
+task buildWebapp(type: NpxTask) {
+  command = 'ng'
+  args = ['build']
+  inputs.dir(project.fileTree('src').exclude('**/*.spec.ts'))
+  inputs.dir('node_modules')
+  inputs.files('angular.json', '.browserslistrc', 'tsconfig.json', 'tsconfig.app.json')
+}
