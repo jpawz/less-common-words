@@ -75,7 +75,8 @@ export class TextService {
   }
 
   getExampleSentence(word: string, sentences: Array<string>): string {
-    const exampleSentence = sentences.find(sentence => sentence.toLowerCase().includes(word.toLowerCase()));
+    const regex = new RegExp('\\b' + word.toLowerCase() + '\\b', 'g');
+    const exampleSentence = sentences.find(sentence => sentence.toLowerCase().search(regex) > -1);
     return exampleSentence;
   }
 

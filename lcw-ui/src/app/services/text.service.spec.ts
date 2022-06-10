@@ -97,4 +97,14 @@ describe('TextService', () => {
 
     expect(exampleSentence).toEqual('The second sentence.');
   });
+
+  it('#getExampleSentence should return only sentence containing the whole word', () => {
+    const sentences = ['The first sentence.', 'The word ten.'];
+    const word = 'ten';
+
+    const exampleSentence = service.getExampleSentence(word, sentences);
+
+    expect(exampleSentence).toEqual('The word ten.');
+  });
+
 });
