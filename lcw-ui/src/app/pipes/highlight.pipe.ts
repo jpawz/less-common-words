@@ -7,7 +7,10 @@ export class HighlightPipe implements PipeTransform {
 
   transform(sentence: string, word: string): string {
     const regex = new RegExp('\\b' + word + '\\b', 'g');
-    return sentence.replace(regex, '<strong>' + word + '</strong>');
+    const index = sentence.toLowerCase().search(regex);
+    return sentence.slice(0, index)
+      + '<strong>' + sentence.slice(index, index + word.length) + '</strong>'
+      + sentence.slice(index + word.length);
   }
 
 }
