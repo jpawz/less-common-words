@@ -6,7 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class HighlightPipe implements PipeTransform {
 
   transform(sentence: string, word: string): string {
-    return sentence.replace(word, '<strong>' + word + '</strong>');
+    const regex = new RegExp('\\b' + word + '\\b', 'g');
+    return sentence.replace(regex, '<strong>' + word + '</strong>');
   }
 
 }
