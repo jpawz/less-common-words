@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, finalize, Observable, of } from 'rxjs';
-import * as tokenizer from 'sbd';
 import { Note } from '../entities/note';
 import { NoteBuilder } from '../entities/note-builder';
 import { WordRankService } from './wordrank-service';
@@ -70,17 +69,8 @@ export class TextService {
   }
 
   splitTextIntoSentences(text: string): Array<string> {
-    const options = {
-      /* eslint-disable @typescript-eslint/naming-convention */
-      newline_boundaries: true,
-      html_boundaries: false,
-      sanitize: false,
-      allowed_tags: false,
-      preserve_whitespace: false,
-      abbreviations: null
-      /* eslint-enable @typescript-eslint/naming-convention */
-    };
-    const sentences = tokenizer.sentences(text, options);
+    const minimumSentenceLength = 10;
+    const sentences = text.split(/((?<=[^A-Z].[.?!]) +(?=[A-Z]))|[\n]/g).filter(sentence => sentence?.length > minimumSentenceLength);
     return sentences;
   }
 
