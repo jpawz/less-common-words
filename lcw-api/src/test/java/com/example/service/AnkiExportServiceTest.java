@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
+import com.example.anki.BasicDeckCreator;
 import com.example.domain.Card;
 
 @TestInstance(Lifecycle.PER_CLASS)
@@ -27,7 +28,7 @@ class AnkiExportServiceTest {
 	void setUp() throws IOException {
 		Files.deleteIfExists(Paths.get("collection.anki2"));
 	}
-	
+
 	@AfterAll
 	void tearDown() throws IOException {
 		Files.deleteIfExists(Paths.get("collection.anki2"));
@@ -40,13 +41,13 @@ class AnkiExportServiceTest {
 		AnkiExportService service = new AnkiExportService();
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-		service.exportToApkg(output, cards);
+		service.exportToApkg(output, cards, new BasicDeckCreator());
 		ZipInputStream zipInputStream = new ZipInputStream(new ByteArrayInputStream(output.toByteArray()));
-		
+
 		ZipEntry entry = zipInputStream.getNextEntry();
 		assertThat(entry.getName()).isEqualTo("collection.anki2");
-		
-		entry= zipInputStream.getNextEntry();
+
+		entry = zipInputStream.getNextEntry();
 		assertThat(entry.getName()).isEqualTo("media");
 	}
 
