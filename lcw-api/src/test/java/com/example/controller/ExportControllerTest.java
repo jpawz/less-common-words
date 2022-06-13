@@ -47,7 +47,7 @@ class ExportControllerTest {
 	void givenCards_whenPostExportAnki_thenReturnZip() throws Exception {
 		List<Card> cards = Arrays.asList(new Card("word", "translation", "word in sentence"));
 
-		ResponseEntity<String> responseEntity = restTemplate.postForEntity("/export/anki", cards, String.class);
+		ResponseEntity<String> responseEntity = restTemplate.postForEntity("/export/anki?type=basic", cards, String.class);
 
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(responseEntity.getBody()).isNotEmpty();
