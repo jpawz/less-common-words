@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -34,5 +35,19 @@ class ClozeDeckCreatorTest {
 
 	assertThat(deck.get(0).question())
 		.contains(Map.entry("sentence", clozeSentence));
+    }
+
+    @Test
+    void whenNoTranslation_thenSkipLastTwoColons() {
+	ClozeDeckCreator creator = new ClozeDeckCreator();
+	String sentence = "Sentence for cloze test.";
+	String word = "cloze";
+	String translation = "";
+	List<Card> cards = Arrays.asList(new Card(word, translation, sentence));
+
+	Deck deck = creator.makeDeck(cards);
+
+	assertThat(deck.get(0).question())
+		.contains(Map.entry("sentence", "Sentence for {{c1::cloze}} test."));
     }
 }

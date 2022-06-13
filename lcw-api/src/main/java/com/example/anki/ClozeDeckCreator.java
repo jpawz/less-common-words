@@ -9,7 +9,9 @@ import java.util.regex.Pattern;
 import com.example.domain.Card;
 
 /**
- * Create {@link Deck} of <a href="https://docs.ankiweb.net/editing.html#cloze-deletion">cloze-deletion</a> cards.
+ * Create {@link Deck} of <a href=
+ * "https://docs.ankiweb.net/editing.html#cloze-deletion">cloze-deletion</a>
+ * cards.
  *
  */
 public class ClozeDeckCreator implements DeckCreator {
@@ -40,10 +42,13 @@ public class ClozeDeckCreator implements DeckCreator {
 	StringBuilder cloze = new StringBuilder();
 	cloze.append(sentence.substring(0, matcher.start()))
 		.append("{{c1::")
-		.append(sentence.substring(matcher.start(), matcher.end()))
-		.append("::")
-		.append(translation)
-		.append("}}")
+		.append(sentence.substring(matcher.start(), matcher.end()));
+
+	if (!translation.isEmpty())
+	    cloze.append("::")
+		    .append(translation);
+
+	cloze.append("}}")
 		.append(sentence.substring(matcher.end()));
 	return cloze.toString();
     }
