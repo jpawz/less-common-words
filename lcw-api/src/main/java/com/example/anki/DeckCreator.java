@@ -4,8 +4,17 @@ import java.util.List;
 
 import com.example.domain.Card;
 
+/**
+ * Interface for classes that creates a {@link Deck} from a list of cards.
+ *
+ */
 public interface DeckCreator {
 
-	Deck makeDeck(List<Card> cards);
+    /**
+     * Make {@link Deck} from list of {@link Card}.
+     * @param cards
+     * @return
+     */
+    Deck makeDeck(List<Card> cards);
 
 }

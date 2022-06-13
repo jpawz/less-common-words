@@ -8,6 +8,10 @@ import java.util.regex.Pattern;
 
 import com.example.domain.Card;
 
+/**
+ * Create {@link Deck} of <a href="https://docs.ankiweb.net/editing.html#cloze-deletion">cloze-deletion</a> cards.
+ *
+ */
 public class ClozeDeckCreator implements DeckCreator {
     @Override
     public Deck makeDeck(List<Card> cards) {
