@@ -23,24 +23,24 @@ import com.example.service.CsvExportService;
 @RequestMapping("/export")
 public class ExportController {
 
-	@Autowired
-	private CsvExportService csvService;
+    @Autowired
+    private CsvExportService csvService;
 
-	@Autowired
-	private AnkiExportService ankiService;
+    @Autowired
+    private AnkiExportService ankiService;
 
-	@PostMapping(value = "/csv", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void exportCSV(HttpServletResponse servletResponse, @RequestBody List<Card> cards) throws IOException {
-		servletResponse.setContentType("text/csv");
-		servletResponse.addHeader("Content-Disposition", "attachment; filename=\"cards.csv\"");
-		csvService.writeToCsv(servletResponse.getWriter(), cards);
-	}
+    @PostMapping(value = "/csv", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void exportCSV(HttpServletResponse servletResponse, @RequestBody List<Card> cards) throws IOException {
+	servletResponse.setContentType("text/csv");
+	servletResponse.addHeader("Content-Disposition", "attachment; filename=\"cards.csv\"");
+	csvService.writeToCsv(servletResponse.getWriter(), cards);
+    }
 
-	@PostMapping(value = "/anki", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void exportAnki(HttpServletResponse servletResponse, @RequestBody List<Card> cards) throws Exception {
-		servletResponse.setContentType("application/octet-stream");
-		servletResponse.addHeader("Content-Disposition", "attachment; filename=\"cards.apkg\"");
-		ankiService.exportToApkg(servletResponse.getOutputStream(), cards, new BasicDeckCreator());
-	}
+    @PostMapping(value = "/anki", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void exportAnki(HttpServletResponse servletResponse, @RequestBody List<Card> cards) throws Exception {
+	servletResponse.setContentType("application/octet-stream");
+	servletResponse.addHeader("Content-Disposition", "attachment; filename=\"cards.apkg\"");
+	ankiService.exportToApkg(servletResponse.getOutputStream(), new BasicDeckCreator().makeDeck(cards));
+    }
 
 }

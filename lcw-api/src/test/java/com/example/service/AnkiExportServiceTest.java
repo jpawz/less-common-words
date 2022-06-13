@@ -24,31 +24,31 @@ import com.example.domain.Card;
 @TestInstance(Lifecycle.PER_CLASS)
 class AnkiExportServiceTest {
 
-	@BeforeEach
-	void setUp() throws IOException {
-		Files.deleteIfExists(Paths.get("collection.anki2"));
-	}
+    @BeforeEach
+    void setUp() throws IOException {
+	Files.deleteIfExists(Paths.get("collection.anki2"));
+    }
 
-	@AfterAll
-	void tearDown() throws IOException {
-		Files.deleteIfExists(Paths.get("collection.anki2"));
-	}
+    @AfterAll
+    void tearDown() throws IOException {
+	Files.deleteIfExists(Paths.get("collection.anki2"));
+    }
 
-	@Test
-	void outputZipFileShouldContainDbFileAndMediaFile() throws Exception {
-		List<Card> cards = Arrays.asList(new Card("first", "pierwsze", "the first sentence"),
-				new Card("second", "drugie", "the second sentence"));
-		AnkiExportService service = new AnkiExportService();
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
+    @Test
+    void outputZipFileShouldContainDbFileAndMediaFile() throws Exception {
+	List<Card> cards = Arrays.asList(new Card("first", "pierwsze", "the first sentence"),
+		new Card("second", "drugie", "the second sentence"));
+	AnkiExportService service = new AnkiExportService();
+	ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-		service.exportToApkg(output, cards, new BasicDeckCreator());
-		ZipInputStream zipInputStream = new ZipInputStream(new ByteArrayInputStream(output.toByteArray()));
+	service.exportToApkg(output, new BasicDeckCreator().makeDeck(cards));
+	ZipInputStream zipInputStream = new ZipInputStream(new ByteArrayInputStream(output.toByteArray()));
 
-		ZipEntry entry = zipInputStream.getNextEntry();
-		assertThat(entry.getName()).isEqualTo("collection.anki2");
+	ZipEntry entry = zipInputStream.getNextEntry();
+	assertThat(entry.getName()).isEqualTo("collection.anki2");
 
-		entry = zipInputStream.getNextEntry();
-		assertThat(entry.getName()).isEqualTo("media");
-	}
+	entry = zipInputStream.getNextEntry();
+	assertThat(entry.getName()).isEqualTo("media");
+    }
 
 }
