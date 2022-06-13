@@ -89,11 +89,11 @@ export class NoteListComponent implements OnInit {
         const a = document.createElement('a');
         const objectUrl = URL.createObjectURL(response);
         a.href = objectUrl;
-        switch (format) {
+        switch (format.substring(0, 3)) {
           case 'csv':
             a.download = 'cards.csv';
             break;
-          case 'anki':
+          case 'ank':
             a.download = 'cards.apkg';
             break;
         }
