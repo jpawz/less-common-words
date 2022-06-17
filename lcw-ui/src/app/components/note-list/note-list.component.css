@@ -26,7 +26,6 @@ mat-row.example-sentences {
   min-height: initial;
 }
 
-
 .mat-row,
 .mat-header-row {
   min-width: 800px;
@@ -36,7 +35,7 @@ textarea {
   width: 100%;
 }
 
-.example-element-detail {
+.example-sentences-details {
   overflow: hidden;
   display: flex;
 }

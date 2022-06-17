@@ -8,7 +8,6 @@
         class="exportButton">Export
         selected to Anki (cloze)</button>
     <mat-table class="notes-table mat-elevation-z8" [dataSource]="dataSource" matSort multiTemplateDataRows>
-
         <ng-container matColumnDef="select">
             <mat-header-cell *matHeaderCellDef>
                 <mat-checkbox (change)="$event ? masterToggle() : null"
@@ -55,7 +54,8 @@
 
         <ng-container matColumnDef="expandedExamples">
             <mat-cell *matCellDef="let note" [attr.colspan]="displayedColumns.length">
-                <div class="example-element-detail" [@detailExpand]="note === expandedNote ? 'expanded' : 'collapsed'">
+                <div class="example-sentences-details"
+                    [@detailExpand]="note === expandedNote ? 'expanded' : 'collapsed'">
                     {{note.sentence}}</div>
             </mat-cell>
         </ng-container>

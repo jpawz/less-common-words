@@ -7,7 +7,6 @@ import { MatSort, MatSortable } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { TextService } from 'src/app/services/text.service';
-import { WordRankService } from 'src/app/services/wordrank-service';
 import { Note } from '../../entities/note';
 import { ExportService } from '../../services/export.service';
 import { TranslationService } from '../../services/translation.service';
@@ -27,8 +26,6 @@ import { TranslationService } from '../../services/translation.service';
 })
 export class NoteListComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
   dataIsLoading: boolean;
 
   dataSource = new MatTableDataSource<Note>([]);
@@ -36,17 +33,21 @@ export class NoteListComponent implements OnInit {
   selection = new SelectionModel<Note>(true, []);
   subscription: Subscription;
   expandedNote: Note | null;
+  private paginator: MatPaginator;
   private sort: MatSort;
 
   constructor(private translationService: TranslationService,
-    private exportService: ExportService, private textService: TextService, private wordRankService: WordRankService) {
+    private exportService: ExportService, private textService: TextService) {
   }
 
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
-    this.sort?.sort(({ id: 'rank', start: 'desc' }) as MatSortable);
     this.dataSource.sort = this.sort;
-    this.sort?.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.sort?.sort(({ id: 'rank', start: 'desc' }) as MatSortable); // brakes the animations
+  }
+
+  @ViewChild(MatPaginator) set amtPaginator(pg: MatPaginator) {
+    this.paginator = pg;
     this.dataSource.paginator = this.paginator;
   }
 
@@ -60,7 +61,6 @@ export class NoteListComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscription = this.textService.dataIsLoading.subscribe(progress => this.dataIsLoading = progress);
-    this.dataSource.sort = this.sort;
   }
 
   isNothingSelected(): boolean {
