@@ -21,6 +21,12 @@
   overflow-x: auto;
 }
 
+mat-row.example-sentences {
+  flex-basis: 0;
+  min-height: initial;
+}
+
+
 .mat-row,
 .mat-header-row {
   min-width: 800px;
@@ -28,4 +34,13 @@
 
 textarea {
   width: 100%;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-sentences-row mat-cell {
+  border-bottom-width: 0;
 }

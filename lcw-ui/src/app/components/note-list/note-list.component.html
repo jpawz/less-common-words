@@ -1,11 +1,13 @@
 <div *ngIf="dataSource.data.length > 0">
     <button mat-button [disabled]="isNothingSelected()" (click)="exportSelected('csv')" class="exportButton">Export
         selected to CSV</button>
-    <button mat-button [disabled]="isNothingSelected()" (click)="exportSelected('anki?type=basic')" class="exportButton">Export
+    <button mat-button [disabled]="isNothingSelected()" (click)="exportSelected('anki?type=basic')"
+        class="exportButton">Export
         selected to Anki (basic)</button>
-    <button mat-button [disabled]="isNothingSelected()" (click)="exportSelected('anki?type=cloze')" class="exportButton">Export
+    <button mat-button [disabled]="isNothingSelected()" (click)="exportSelected('anki?type=cloze')"
+        class="exportButton">Export
         selected to Anki (cloze)</button>
-    <mat-table class="notes-table mat-elevation-z8" [dataSource]="dataSource" matSort>
+    <mat-table class="notes-table mat-elevation-z8" [dataSource]="dataSource" matSort multiTemplateDataRows>
 
         <ng-container matColumnDef="select">
             <mat-header-cell *matHeaderCellDef>
@@ -46,14 +48,24 @@
 
         <ng-container matColumnDef="example">
             <mat-header-cell *matHeaderCellDef>Example</mat-header-cell>
-            <mat-cell *matCellDef="let note">
+            <mat-cell *matCellDef="let note" (click)="expandedNote = expandedNote === note ? null : note">
                 <div [innerHTML]="note.sentence | highlight:note.word"></div>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="expandedExamples">
+            <mat-cell *matCellDef="let note" [attr.colspan]="displayedColumns.length">
+                <div class="example-element-detail" [@detailExpand]="note === expandedNote ? 'expanded' : 'collapsed'">
+                    {{note.sentence}}</div>
             </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        <mat-row *matRowDef="let note; columns: displayedColumns;" class="example-sentences-row"
+            [class.example-expanded-row]="expandedNote === note"></mat-row>
+
+        <mat-row *matRowDef="let row; columns: ['expandedExamples']" class="example-sentences"></mat-row>
 
     </mat-table>
     <mat-paginator [length]="dataSource.data.length" [pageSize]="10" [pageSizeOptions]="[10, 20, 50]"
