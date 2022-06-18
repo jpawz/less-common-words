@@ -54,8 +54,7 @@
 
         <ng-container matColumnDef="expandedExamples">
             <mat-cell *matCellDef="let note" [attr.colspan]="displayedColumns.length">
-                <div class="example-sentences-details"
-                    [@detailExpand]="note === expandedNote ? 'expanded' : 'collapsed'">
+                <div class="example-sentences-details" [ngClass]="note === expandedNote ? 'expanded' : 'collapsed'">
                     {{note.sentence}}</div>
             </mat-cell>
         </ng-container>
