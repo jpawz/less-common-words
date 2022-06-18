@@ -48,14 +48,19 @@
         <ng-container matColumnDef="example">
             <mat-header-cell *matHeaderCellDef>Example</mat-header-cell>
             <mat-cell *matCellDef="let note" (click)="expandedNote = expandedNote === note ? null : note">
-                <div [innerHTML]="note.sentence | highlight:note.word"></div>
+                <div [innerHTML]="note.sentences[0] | highlight:note.word"></div>
             </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="expandedExamples">
             <mat-cell *matCellDef="let note" [attr.colspan]="displayedColumns.length">
                 <div class="example-sentences-details" [ngClass]="note === expandedNote ? 'expanded' : 'collapsed'">
-                    {{note.sentence}}</div>
+                    <mat-radio-group>
+                        <mat-radio-button *ngFor="let sentence of note.sentences; let i = index" [value]="sentence" (click)="selectedExample(note, i)">
+                            <div [innerHTML]="sentence | highlight:note.word"></div>
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
             </mat-cell>
         </ng-container>
 

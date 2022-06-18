@@ -20,7 +20,7 @@ describe('ExportService', () => {
   });
 
   it('#exportCSV should response with csv', (done) => {
-    const notesToSubmit: Note[] = [{ id: 0, rank: 0, sentence: '', translation: 'the translation', word: 'word' }];
+    const notesToSubmit: Note[] = [{ id: 0, rank: 0, sentences: [''], translation: 'the translation', word: 'word' }];
     const expectedCsv = new Blob(['word,the translation,,'], { type: 'text/csv' });
 
     service.export(notesToSubmit, 'csv').subscribe(async data => {
@@ -35,7 +35,7 @@ describe('ExportService', () => {
   });
 
   it('#exportCSV should use POST to retrieve csv data', () => {
-    const notesToSubmit: Note[] = [{ id: 0, rank: 0, sentence: '', translation: 'the translation', word: 'word' }];
+    const notesToSubmit: Note[] = [{ id: 0, rank: 0, sentences: [''], translation: 'the translation', word: 'word' }];
     service.export(notesToSubmit, 'csv').subscribe();
 
     const testRequest = httpTestingController.expectOne(baseUrl + '/export/csv');
@@ -44,7 +44,7 @@ describe('ExportService', () => {
   });
 
   it('#exportCSV POST request should contain correct body', () => {
-    const notesToSubmit: Note[] = [{ id: 0, rank: 0, sentence: '', translation: 'the translation', word: 'word' }];
+    const notesToSubmit: Note[] = [{ id: 0, rank: 0, sentences: [''], translation: 'the translation', word: 'word' }];
     service.export(notesToSubmit, 'csv').subscribe();
 
     const testRequest = httpTestingController.expectOne(baseUrl + '/export/csv');

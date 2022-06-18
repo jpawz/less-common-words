@@ -27,7 +27,7 @@ export class ExportService {
    */
   export(notes: Note[], format: string): Observable<Blob> {
     const data = new Array<object>();
-    notes.forEach(note => data.push({ word: note.word, translation: note.translation, sentence: note.sentence }));
+    notes.forEach(note => data.push({ word: note.word, translation: note.translation, sentence: note.sentences[0] }));
 
     const httpOptions: object = {
       responseType: 'blob',

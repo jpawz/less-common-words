@@ -43,12 +43,12 @@ export class TextService {
       .subscribe(data => {
         data.forEach(wordRank => {
           notes.push(new NoteBuilder().word(wordRank.word)
-            .sentence(this.getExampleSentence(wordRank.word, sentences)).id(wordRank.id).rank(wordRank.rank).build());
+            .sentence(this.getExampleSentences(wordRank.word, sentences)).id(wordRank.id).rank(wordRank.rank).build());
           uniqueWords.delete(wordRank.word);
         });
 
         uniqueWords.forEach(word => {
-          const sentence = this.getExampleSentence(word, sentences);
+          const sentence = this.getExampleSentences(word, sentences);
           notes.push(new NoteBuilder().word(word).sentence(sentence).rank(TextService.newWordRank).build());
         });
       });
@@ -74,9 +74,9 @@ export class TextService {
     return sentences;
   }
 
-  getExampleSentence(word: string, sentences: Array<string>): string {
+  getExampleSentences(word: string, sentences: Array<string>): Array<string> {
     const regex = new RegExp('\\b' + word.toLowerCase() + '\\b', 'g');
-    const exampleSentence = sentences.find(sentence => sentence.toLowerCase().search(regex) > -1);
+    const exampleSentence = sentences.filter(sentence => sentence.toLowerCase().search(regex) > -1);
     return exampleSentence;
   }
 
