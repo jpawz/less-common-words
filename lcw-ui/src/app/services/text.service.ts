@@ -42,14 +42,16 @@ export class TextService {
     )
       .subscribe(data => {
         data.forEach(wordRank => {
+          const sentencesForWord = this.getExampleSentences(wordRank.word, sentences);
           notes.push(new NoteBuilder().word(wordRank.word)
-            .sentence(this.getExampleSentences(wordRank.word, sentences)).id(wordRank.id).rank(wordRank.rank).build());
+            .sentences(sentencesForWord).sentence(sentencesForWord[0]).id(wordRank.id).rank(wordRank.rank).build());
           uniqueWords.delete(wordRank.word);
         });
 
         uniqueWords.forEach(word => {
-          const sentence = this.getExampleSentences(word, sentences);
-          notes.push(new NoteBuilder().word(word).sentence(sentence).rank(TextService.newWordRank).build());
+          const sentencesForWord = this.getExampleSentences(word, sentences);
+          notes.push(new NoteBuilder().word(word).sentences(sentencesForWord)
+            .sentence(sentencesForWord[0]).rank(TextService.newWordRank).build());
         });
       });
 

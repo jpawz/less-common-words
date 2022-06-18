@@ -48,7 +48,7 @@
         <ng-container matColumnDef="example">
             <mat-header-cell *matHeaderCellDef>Example</mat-header-cell>
             <mat-cell *matCellDef="let note" (click)="expandedNote = expandedNote === note ? null : note">
-                <div [innerHTML]="note.sentences[0] | highlight:note.word"></div>
+                <div [innerHTML]="note.sentence | highlight:note.word"></div>
             </mat-cell>
         </ng-container>
 

@@ -9,6 +9,7 @@ export class NoteBuilder {
             word: '',
             rank: 0,
             translation: '',
+            sentence: '',
             sentences: ['']
         };
     }
@@ -33,11 +34,15 @@ export class NoteBuilder {
         return this;
     }
 
-    sentence(sentence: Array<string>): NoteBuilder {
-        this.note.sentences = sentence;
+    sentence(sentence: string): NoteBuilder {
+        this.note.sentence = sentence;
         return this;
     }
 
+    sentences(sentences: Array<string>): NoteBuilder {
+        this.note.sentences = sentences;
+        return this;
+    }
 
     build(): Note {
         return this.note;

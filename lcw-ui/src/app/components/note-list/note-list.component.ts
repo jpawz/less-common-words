@@ -105,9 +105,7 @@ export class NoteListComponent implements OnInit {
   }
 
   selectedExample(note: Note, i: number) {
-    const tmp = note.sentences[0];
-    note.sentences[0] = note.sentences[i];
-    note.sentences[i] = tmp;
+    note.sentence = note.sentences[i];
   }
 
 }
