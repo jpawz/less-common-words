@@ -53,7 +53,7 @@ export class NoteListComponent implements OnInit {
     setTimeout(() => {
       this.dataSource.sort = this.sort;
       this.sort?.sort(({ id: 'rank', start: 'desc' }) as MatSortable);
-    });
+    }, 1000);
   }
 
   isNothingSelected(): boolean {
