@@ -38,3 +38,11 @@ textarea {
 ::ng-deep.mat-radio-label {
   white-space: normal !important;
 }
+
+.mat-expansion-panel-header {
+  height: fit-content;
+}
+
+.mat-expansion-panel {
+  box-shadow: none;
+}
