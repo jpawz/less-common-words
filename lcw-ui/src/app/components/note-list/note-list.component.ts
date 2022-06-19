@@ -33,8 +33,6 @@ export class NoteListComponent implements OnInit {
 
   @ViewChild(MatSort) set matSort(ms: MatSort) {
     this.sort = ms;
-    this.dataSource.sort = this.sort;
-    this.sort?.sort(({ id: 'rank', start: 'desc' }) as MatSortable); // brakes the animations
   }
 
   @ViewChild(MatPaginator) set amtPaginator(pg: MatPaginator) {
@@ -52,6 +50,10 @@ export class NoteListComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscription = this.textService.dataIsLoading.subscribe(progress => this.dataIsLoading = progress);
+    setTimeout(() => {
+      this.dataSource.sort = this.sort;
+      this.sort?.sort(({ id: 'rank', start: 'desc' }) as MatSortable);
+    });
   }
 
   isNothingSelected(): boolean {

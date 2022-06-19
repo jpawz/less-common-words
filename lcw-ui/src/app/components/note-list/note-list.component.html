@@ -7,7 +7,7 @@
     <button mat-button [disabled]="isNothingSelected()" (click)="exportSelected('anki?type=cloze')"
         class="exportButton">Export
         selected to Anki (cloze)</button>
-    <mat-table class="notes-table mat-elevation-z8" [dataSource]="dataSource" matSort multiTemplateDataRows>
+    <mat-table class="notes-table mat-elevation-z8" [dataSource]="dataSource" matSort>
         <ng-container matColumnDef="select">
             <mat-header-cell *matHeaderCellDef>
                 <mat-checkbox (change)="$event ? masterToggle() : null"
@@ -48,22 +48,19 @@
         <ng-container matColumnDef="example">
             <mat-header-cell *matHeaderCellDef>Example</mat-header-cell>
             <mat-cell *matCellDef="let note">
-                <mat-expansion-panel hideToggle *ngIf="note.sentences.length > 1">
+                <mat-expansion-panel hideToggle>
                     <mat-expansion-panel-header>
                         <mat-panel-title>
                             <div [innerHTML]="note.sentence | highlight:note.word"></div>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
-                    <mat-radio-group>
+                    <mat-radio-group *ngIf="note.sentences.length > 1">
                         <mat-radio-button *ngFor="let sentence of note.sentences; let i = index" [value]="sentence"
                             (click)="selectedExample(note, i)">
                             <div [innerHTML]="sentence | highlight:note.word"></div>
                         </mat-radio-button>
                     </mat-radio-group>
                 </mat-expansion-panel>
-
-                <div [innerHTML]="note.sentence | highlight:note.word" *ngIf="note.sentences.length === 1"></div>
-
             </mat-cell>
         </ng-container>
 
