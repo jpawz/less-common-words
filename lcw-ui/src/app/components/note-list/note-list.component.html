@@ -47,20 +47,23 @@
 
         <ng-container matColumnDef="example">
             <mat-header-cell *matHeaderCellDef>Example</mat-header-cell>
-            <mat-cell *matCellDef="let note" (click)="expandedNote = expandedNote === note ? null : note">
-                <div [innerHTML]="note.sentence | highlight:note.word"></div>
-            </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="expandedExamples">
-            <mat-cell *matCellDef="let note" [attr.colspan]="displayedColumns.length">
-                <div class="example-sentences-details" [ngClass]="note === expandedNote ? 'expanded' : 'collapsed'">
+            <mat-cell *matCellDef="let note">
+                <mat-expansion-panel hideToggle *ngIf="note.sentences.length > 1">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <div [innerHTML]="note.sentence | highlight:note.word"></div>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
                     <mat-radio-group>
-                        <mat-radio-button *ngFor="let sentence of note.sentences; let i = index" [value]="sentence" (click)="selectedExample(note, i)">
+                        <mat-radio-button *ngFor="let sentence of note.sentences; let i = index" [value]="sentence"
+                            (click)="selectedExample(note, i)">
                             <div [innerHTML]="sentence | highlight:note.word"></div>
                         </mat-radio-button>
                     </mat-radio-group>
-                </div>
+                </mat-expansion-panel>
+
+                <div [innerHTML]="note.sentence | highlight:note.word" *ngIf="note.sentences.length === 1"></div>
+
             </mat-cell>
         </ng-container>
 
@@ -68,8 +71,6 @@
 
         <mat-row *matRowDef="let note; columns: displayedColumns;" class="example-sentences-row"
             [class.example-expanded-row]="expandedNote === note"></mat-row>
-
-        <mat-row *matRowDef="let row; columns: ['expandedExamples']" class="example-sentences"></mat-row>
 
     </mat-table>
     <mat-paginator [length]="dataSource.data.length" [pageSize]="10" [pageSizeOptions]="[10, 20, 50]"
