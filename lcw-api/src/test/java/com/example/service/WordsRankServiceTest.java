@@ -16,7 +16,7 @@ import com.example.domain.WordRank;
 import com.example.repository.WordRankRepository;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class WordsRankServiceImplTest {
+class WordsRankServiceTest {
 
 	private WordsRankService service;
 
@@ -26,7 +26,7 @@ class WordsRankServiceImplTest {
 	@BeforeAll
 	public void setUp() {
 		MockitoAnnotations.openMocks(this);
-		this.service = new WordsRankServiceImpl(repository);
+		this.service = new WordsRankService(repository);
 	}
 
 	@Test
