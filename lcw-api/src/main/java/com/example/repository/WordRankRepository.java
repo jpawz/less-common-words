@@ -15,4 +15,5 @@ public interface WordRankRepository extends CrudRepository<WordRank, Long> {
 
 	List<WordRank> findByWordIn(Set<String> words);
 
+	List<WordRank> findByWordInAndRankGreaterThan(Set<String> words, int rank);
 }
