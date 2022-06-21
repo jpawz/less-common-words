@@ -27,9 +27,10 @@ class WordRankRepositoryTest {
 	String rank27 = "new";
 	String rank41 = "search";
 	String rank42 = "free";
+	int rankLimit = 40;
 	Set<String> words = new HashSet<>(Arrays.asList(rank27, rank41, rank42));
 
-	List<WordRank> wordRanks = repository.findByWordInAndRankGreaterThan(words, 40);
+	List<WordRank> wordRanks = repository.findByWordInAndRankGreaterThan(words, rankLimit);
 
 	assertThat(wordRanks).containsExactlyInAnyOrder(repository.findByWord(rank41), repository.findByWord(rank42));
     }
