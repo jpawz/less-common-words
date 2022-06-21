@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.WordRank;
-import com.example.service.WordsRankService;
+import com.example.repository.WordRankRepository;
 
 @CrossOrigin
 @RestController
@@ -22,24 +22,24 @@ import com.example.service.WordsRankService;
 public class WordRankController {
 
     @Autowired
-    private WordsRankService service;
+    private WordRankRepository repository;
 
     @GetMapping
     public WordRank getWordRank(@RequestParam String word) {
-	return service.getWordRankForWord(word);
+	return repository.findByWord(word);
     }
 
     @PostMapping
     public WordRank saveWordRank(@RequestParam String word, @RequestParam int rank) {
-	return service.saveWordsRank(new WordRank(word, rank));
+	return repository.save(new WordRank(word, rank));
     }
 
     @PostMapping("words")
     public List<WordRank> getWordRanks(@RequestBody Set<String> words, @RequestParam Optional<Integer> limit) {
 	if (limit.isEmpty())
-	    return service.getWordsRankForWords(words);
+	    return repository.findByWordIn(words);
 	else
-	    return service.getWordsRankForWordsWhereRankIsGreaterThan(words, limit.get());
+	    return repository.findByWordInAndRankGreaterThan(words, limit.get());
     }
 
 }
