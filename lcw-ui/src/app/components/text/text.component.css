@@ -17,3 +17,8 @@ mat-form-field {
     flex: 0 0 80%;
     min-width: 100px;
 }
+
+.filter {
+    width: fit-content;
+    resize: none;
+}
