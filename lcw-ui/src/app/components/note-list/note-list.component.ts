@@ -40,6 +40,10 @@ export class NoteListComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
+  @Input()
+  public set filter(filter: number){
+    this.filter = filter;
+  }
 
   @Input()
   public set text(text: string) {
