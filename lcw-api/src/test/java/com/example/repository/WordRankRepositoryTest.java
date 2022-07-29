@@ -7,20 +7,48 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
 
-import com.example.data.DataLoader;
 import com.example.domain.WordRank;
 
-@DataJpaTest
-@Import(DataLoader.class)
 class WordRankRepositoryTest {
 
-    @Autowired
     private WordRankRepository repository;
+
+    @BeforeEach
+    void setUp() {
+	this.repository = new WordRankRepository();
+    }
+
+    @Test
+    void shouldSaveWordRanks() {
+	WordRank wordRank1 = new WordRank("word", 1);
+	WordRank wordRank2 = new WordRank("another", 5);
+
+	repository.save(wordRank1);
+	repository.save(wordRank2);
+
+	assertThat(repository.count()).isEqualTo(2);
+    }
+
+    @Test
+    void shouldSaveAllWordRanks() {
+	List<WordRank> wordRanks = Arrays.asList(new WordRank("some", 1), new WordRank("word", 2));
+
+	repository.saveAll(wordRanks);
+
+	assertThat(repository.count()).isEqualTo(2);
+    }
+
+    @Test
+    void shouldFindWordRankByWord() {
+	WordRank wordRank1 = new WordRank("word", 1);
+
+	repository.save(wordRank1);
+
+	assertThat(repository.findByWord("word")).isEqualTo(wordRank1);
+    }
 
     @Test
     void shoudProvideFilteredData() {
