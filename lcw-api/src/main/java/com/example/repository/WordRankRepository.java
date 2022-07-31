@@ -43,7 +43,8 @@ public class WordRankRepository {
     }
 
     public WordRank save(WordRank wordRank) {
-	return database.put(wordRank.getWord(), wordRank);
+	database.put(wordRank.getWord(), wordRank);
+	return database.get(wordRank.getWord());
     }
 
     public void saveAll(List<WordRank> wordRanks) {
