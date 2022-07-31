@@ -43,11 +43,12 @@ class WordRankRepositoryTest {
 
     @Test
     void shouldFindWordRankByWord() {
-	WordRank wordRank1 = new WordRank("word", 1);
+	WordRank wordRankToSave = new WordRank("word", 1);
+	repository.save(wordRankToSave);
 
-	repository.save(wordRank1);
+	WordRank fetchedWordRank = repository.findByWord("word");
 
-	assertThat(repository.findByWord("word")).isEqualTo(wordRank1);
+	assertThat(fetchedWordRank).isEqualTo(wordRankToSave);
     }
 
     @Test
