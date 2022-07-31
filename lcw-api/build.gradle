@@ -23,7 +23,6 @@ bootJar.dependsOn(":copyPublicResources")
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.apache.commons:commons-csv:1.9.0'
 	implementation 'commons-codec:commons-codec:1.15'
 	implementation 'org.apache.tomcat:tomcat-jdbc'
