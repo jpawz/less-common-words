@@ -30,7 +30,16 @@ public class WordRankRepository {
     }
 
     public List<WordRank> findByWordInAndRankGreaterThan(Set<String> words, int rank) {
-	return null;
+	List<WordRank> wordRanks = new ArrayList<>();
+
+	words.forEach(word -> {
+	    WordRank wordRank = database.get(word);
+	    if (wordRank != null && wordRank.getRank() > rank) {
+		wordRanks.add(database.get(word));
+	    }
+	});
+
+	return wordRanks;
     }
 
     public WordRank save(WordRank wordRank) {

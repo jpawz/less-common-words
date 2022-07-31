@@ -58,6 +58,7 @@ class WordRankRepositoryTest {
 	String rank42 = "free";
 	int rankLimit = 40;
 	Set<String> words = new HashSet<>(Arrays.asList(rank27, rank41, rank42));
+	repository.saveAll(Arrays.asList(new WordRank(rank27, 27), new WordRank(rank41, 41), new WordRank(rank42, 42)));
 
 	List<WordRank> wordRanks = repository.findByWordInAndRankGreaterThan(words, rankLimit);
 
