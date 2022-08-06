@@ -93,7 +93,7 @@ describe('TextService', () => {
     const sentences = ['The first sentence.', 'The second sentence.'];
     const word = 'second';
 
-    const exampleSentence = service.getExampleSentences(word, sentences);
+    const exampleSentence = service.getExampleSentences(word, sentences)[0];
 
     expect(exampleSentence).toEqual('The second sentence.');
   });
@@ -102,7 +102,7 @@ describe('TextService', () => {
     const sentences = ['The first sentence.', 'The word ten.'];
     const word = 'ten';
 
-    const exampleSentence = service.getExampleSentences(word, sentences);
+    const exampleSentence = service.getExampleSentences(word, sentences)[0];
 
     expect(exampleSentence).toEqual('The word ten.');
   });
