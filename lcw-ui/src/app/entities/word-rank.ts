@@ -1,10 +1,8 @@
 export class WordRank {
-    id: number;
     word: string;
     rank: number;
 
-    constructor(id: number, word: string, rank: number) {
-        this.id = id;
+    constructor(word: string, rank: number) {
         this.word = word;
         this.rank = rank;
     }
