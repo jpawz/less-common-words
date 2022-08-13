@@ -24,7 +24,7 @@ describe('WordRankService', () => {
     });
 
     it('#getWordRank should return expected data', (done) => {
-        const expectedData: WordRank = { id: 1, rank: 1, word: 'the' };
+        const expectedData: WordRank = { rank: 1, word: 'the' };
 
         service.getWordRank('the').subscribe(data => {
             expect(data).toEqual(expectedData);
@@ -49,8 +49,8 @@ describe('WordRankService', () => {
     it('#getWordRanks should return list of data', (done) => {
         const requestData = new Set(['the', 'and']);
         const expectedData: WordRank[] =
-            [{ id: 1, rank: 1, word: 'the' },
-            { id: 3, rank: 1, word: 'and' }];
+            [{ rank: 1, word: 'the' },
+            { rank: 1, word: 'and' }];
 
         service.getWordRanks(requestData).subscribe(data => {
             expect(data).toEqual(expectedData);
@@ -72,7 +72,7 @@ describe('WordRankService', () => {
 
     it('#getWordRanks should return data for only known words', (done) => {
         const requestData = new Set(['the', 'itsNotAWord']);
-        const expectedData: WordRank[] = [{ id: 1, rank: 1, word: 'the' }];
+        const expectedData: WordRank[] = [{ rank: 1, word: 'the' }];
 
         service.getWordRanks(requestData).subscribe(data => {
             expect(data).toEqual(expectedData);
