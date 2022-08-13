@@ -11,13 +11,11 @@ export class TextComponent implements OnInit {
   @Output() textEvent = new EventEmitter<string>();
 
   text: string;
-  nMostPopular: number;
 
   constructor(private wordRankService: WordRankService) { }
 
   onSubmit() {
     this.textEvent.emit(this.text);
-    this.wordRankService.filter = this.nMostPopular;
   }
 
   ngOnInit(): void {

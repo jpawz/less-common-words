@@ -7,7 +7,3 @@
         <button [disabled]="!text" mat-raised-button (click)="onSubmit()" class="button-submit">Submit</button>
     </div>
 </mat-form-field>
-<mat-form-field class="filter">
-    <mat-label>Skip n most popular words</mat-label>
-    <input type="number" [(ngModel)]="nMostPopular" matInput class="filter">
-</mat-form-field>

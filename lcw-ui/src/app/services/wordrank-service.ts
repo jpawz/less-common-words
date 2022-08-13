@@ -9,7 +9,6 @@ import { WordRank } from '../entities/word-rank';
 })
 export class WordRankService {
 
-  public filter: number;
   baseUrl = environment.baseUrl;
   private wordRankUrl: string;
 
@@ -28,7 +27,6 @@ export class WordRankService {
         'Content-Type': 'application/json'
       })
     };
-    const param = this.filter === undefined ? '' : '?limit=' + this.filter;
-    return this.http.post<Array<WordRank>>(this.wordRankUrl + '/words' + param, body, httpOptions);
+    return this.http.post<Array<WordRank>>(this.wordRankUrl + '/words', body, httpOptions);
   }
 }
