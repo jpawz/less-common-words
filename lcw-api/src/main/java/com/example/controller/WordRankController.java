@@ -18,7 +18,7 @@ import com.example.repository.WordRankRepository;
 
 @CrossOrigin
 @RestController
-@RequestMapping("api")
+@RequestMapping("ranks")
 public class WordRankController {
 
     @Autowired

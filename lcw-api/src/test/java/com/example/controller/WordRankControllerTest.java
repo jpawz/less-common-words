@@ -32,7 +32,7 @@ class WordRankControllerTest {
 
     @BeforeEach
     public void setup() {
-	url = String.format("http://localhost:%d/api", port);
+	url = String.format("http://localhost:%d/ranks", port);
     }
 
     @Test

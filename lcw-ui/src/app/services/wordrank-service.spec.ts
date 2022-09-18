@@ -31,7 +31,7 @@ describe('WordRankService', () => {
             done();
         });
 
-        const testRequest = httpTestingController.expectOne(baseUrl + '/api?word=the');
+        const testRequest = httpTestingController.expectOne(baseUrl + '/ranks?word=the');
 
         testRequest.flush(expectedData);
     });
@@ -39,7 +39,7 @@ describe('WordRankService', () => {
     it('#getWordRank should use GET to retrieve single data', () => {
         service.getWordRank('the').subscribe();
 
-        const testRequest = httpTestingController.expectOne(baseUrl + '/api?word=the');
+        const testRequest = httpTestingController.expectOne(baseUrl + '/ranks?word=the');
 
 
         expect(testRequest.request.method).toEqual('GET');
@@ -57,7 +57,7 @@ describe('WordRankService', () => {
             done();
         });
 
-        const testRequest = httpTestingController.expectOne(baseUrl + '/api/words');
+        const testRequest = httpTestingController.expectOne(baseUrl + '/ranks/words');
 
         testRequest.flush(expectedData);
     });
@@ -65,7 +65,7 @@ describe('WordRankService', () => {
     it('#getWordRanks should use POST to retrieve multiple data', () => {
         service.getWordRanks(new Set(['word'])).subscribe();
 
-        const testRequest = httpTestingController.expectOne(baseUrl + '/api/words');
+        const testRequest = httpTestingController.expectOne(baseUrl + '/ranks/words');
 
         expect(testRequest.request.method).toEqual('POST');
     });
@@ -79,7 +79,7 @@ describe('WordRankService', () => {
             done();
         });
 
-        const testRequest = httpTestingController.expectOne(baseUrl + '/api/words');
+        const testRequest = httpTestingController.expectOne(baseUrl + '/ranks/words');
 
         testRequest.flush(expectedData);
     });

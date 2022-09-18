@@ -22,7 +22,7 @@ import com.example.service.CsvExportService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/export")
+@RequestMapping("export")
 public class ExportController {
 
     @Autowired
@@ -31,14 +31,14 @@ public class ExportController {
     @Autowired
     private AnkiExportService ankiService;
 
-    @PostMapping(value = "/csv", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "csv", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void exportCSV(HttpServletResponse servletResponse, @RequestBody List<Card> cards) throws IOException {
 	servletResponse.setContentType("text/csv");
 	servletResponse.addHeader("Content-Disposition", "attachment; filename=\"cards.csv\"");
 	csvService.writeToCsv(servletResponse.getWriter(), cards);
     }
 
-    @PostMapping(value = "/anki", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "anki", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void exportAnki(@RequestParam String type, HttpServletResponse servletResponse,
 	    @RequestBody List<Card> cards) throws Exception {
 	servletResponse.setContentType("application/octet-stream");

@@ -13,7 +13,7 @@ export class WordRankService {
   private wordRankUrl: string;
 
   constructor(private http: HttpClient) {
-    this.wordRankUrl = this.baseUrl + '/api';
+    this.wordRankUrl = this.baseUrl + '/ranks';
   }
 
   public getWordRank(word: string): Observable<WordRank> {
