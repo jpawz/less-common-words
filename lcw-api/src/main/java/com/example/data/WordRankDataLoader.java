@@ -16,12 +16,12 @@ import com.example.domain.WordRank;
 import com.example.repository.WordRankRepository;
 
 @Component
-public class DataLoader implements ApplicationRunner {
+public class WordRankDataLoader implements ApplicationRunner {
 
 	private WordRankRepository repository;
 
 	@Autowired
-	public DataLoader(WordRankRepository repository) {
+	public WordRankDataLoader(WordRankRepository repository) {
 		this.repository = repository;
 	}
 
