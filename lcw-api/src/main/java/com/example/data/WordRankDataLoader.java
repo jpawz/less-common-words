@@ -1,6 +1,7 @@
 package com.example.data;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,29 +19,35 @@ import com.example.repository.WordRankRepository;
 @Component
 public class WordRankDataLoader implements ApplicationRunner {
 
-	private WordRankRepository repository;
+    private WordRankRepository repository;
 
-	@Autowired
-	public WordRankDataLoader(WordRankRepository repository) {
-		this.repository = repository;
-	}
+    @Autowired
+    public WordRankDataLoader(WordRankRepository repository) {
+	this.repository = repository;
+    }
 
-	@Override
-	public void run(ApplicationArguments args) throws Exception {
+    @Override
+    public void run(ApplicationArguments args) {
 
-		Resource resource = new ClassPathResource("google-10000-english-usa.txt");
+	repository.getDbNames().forEach(dbName -> {
+	    try {
+		Resource resource = new ClassPathResource(dbName);
 		InputStreamReader inputStreamReader = new InputStreamReader(resource.getInputStream());
 		BufferedReader reader = new BufferedReader(inputStreamReader);
 
 		List<WordRank> wordRanks = new ArrayList<>();
 		int rank = 1;
 		while (reader.ready()) {
-			String line = reader.readLine();
-			wordRanks.add(new WordRank(line, rank));
-			rank++;
+		    String line = reader.readLine();
+		    wordRanks.add(new WordRank(line, rank));
+		    rank++;
 		}
 
-		repository.saveAll(wordRanks);
-	}
+		repository.saveAll(dbName, wordRanks);
+	    } catch (IOException exception) {
+		throw new RuntimeException(exception);
+	    }
+	});
+    }
 
 }

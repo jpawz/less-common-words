@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,28 +19,29 @@ import com.example.repository.WordRankRepository;
 
 @CrossOrigin
 @RestController
-@RequestMapping("ranks")
+@RequestMapping("ranks/{dbName}/")
 public class WordRankController {
 
     @Autowired
     private WordRankRepository repository;
 
     @GetMapping
-    public WordRank getWordRank(@RequestParam String word) {
-	return repository.findByWord(word);
+    public WordRank getWordRank(@PathVariable String dbName, @RequestParam String word) {
+	return repository.findByWord(dbName, word);
     }
 
     @PostMapping
-    public WordRank saveWordRank(@RequestParam String word, @RequestParam int rank) {
-	return repository.save(new WordRank(word, rank));
+    public WordRank saveWordRank(@PathVariable String dbName, @RequestParam String word, @RequestParam int rank) {
+	return repository.save(dbName, new WordRank(word, rank));
     }
 
     @PostMapping("words")
-    public List<WordRank> getWordRanks(@RequestBody Set<String> words, @RequestParam Optional<Integer> limit) {
+    public List<WordRank> getWordRanks(@RequestBody Set<String> words, @PathVariable String dbName,
+	    @RequestParam Optional<Integer> limit) {
 	if (limit.isEmpty())
-	    return repository.findByWordIn(words);
+	    return repository.findByWordIn(dbName, words);
 	else
-	    return repository.findByWordInAndRankGreaterThan(words, limit.get());
+	    return repository.findByWordInAndRankGreaterThan(dbName, words, limit.get());
     }
 
 }

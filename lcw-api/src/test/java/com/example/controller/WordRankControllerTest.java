@@ -32,14 +32,14 @@ class WordRankControllerTest {
 
     @BeforeEach
     public void setup() {
-	url = String.format("http://localhost:%d/ranks", port);
+	url = String.format("http://localhost:%d/ranks/google-10000-english-usa", port);
     }
 
     @Test
     void whenGetRequestForExistingWord_thenReturnRank() {
 	String existingWord = "and";
 
-	WordRank wordRank = this.restTemplate.getForObject(url + "?word=" + existingWord, WordRank.class);
+	WordRank wordRank = this.restTemplate.getForObject(url + "/?word=" + existingWord, WordRank.class);
 
 	assertThat(wordRank.getRank()).isEqualTo(3);
     }
@@ -49,7 +49,7 @@ class WordRankControllerTest {
 	String newWord = "undercarriage";
 	int newRank = 99999;
 
-	WordRank wordRank = this.restTemplate.postForObject(url + "?word=" + newWord + "&rank=" + newRank,
+	WordRank wordRank = this.restTemplate.postForObject(url + "/?word=" + newWord + "&rank=" + newRank,
 		new WordRank(newWord, newRank), WordRank.class);
 
 	assertThat(wordRank.getRank()).isEqualTo(newRank);

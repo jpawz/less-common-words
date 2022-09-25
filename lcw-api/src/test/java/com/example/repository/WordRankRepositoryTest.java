@@ -25,28 +25,29 @@ class WordRankRepositoryTest {
     void shouldSaveWordRanks() {
 	WordRank wordRank1 = new WordRank("word", 1);
 	WordRank wordRank2 = new WordRank("another", 5);
+	long initialCount = repository.count(repository.getDbNames().get(0));
 
-	repository.save(wordRank1);
-	repository.save(wordRank2);
+	repository.save(repository.getDbNames().get(0), wordRank1);
+	repository.save(repository.getDbNames().get(0), wordRank2);
 
-	assertThat(repository.count()).isEqualTo(2);
+	assertThat(repository.count(repository.getDbNames().get(0))).isEqualTo(initialCount + 2);
     }
 
     @Test
     void shouldSaveAllWordRanks() {
 	List<WordRank> wordRanks = Arrays.asList(new WordRank("some", 1), new WordRank("word", 2));
 
-	repository.saveAll(wordRanks);
+	repository.saveAll(repository.getDbNames().get(0), wordRanks);
 
-	assertThat(repository.count()).isEqualTo(2);
+	assertThat(repository.count(repository.getDbNames().get(0))).isEqualTo(2);
     }
 
     @Test
     void shouldFindWordRankByWord() {
 	WordRank wordRankToSave = new WordRank("word", 1);
-	repository.save(wordRankToSave);
+	repository.save(repository.getDbNames().get(0), wordRankToSave);
 
-	WordRank fetchedWordRank = repository.findByWord("word");
+	WordRank fetchedWordRank = repository.findByWord(repository.getDbNames().get(0), "word");
 
 	assertThat(fetchedWordRank).isEqualTo(wordRankToSave);
     }
@@ -58,11 +59,14 @@ class WordRankRepositoryTest {
 	String rank42 = "free";
 	int rankLimit = 40;
 	Set<String> words = new HashSet<>(Arrays.asList(rank27, rank41, rank42));
-	repository.saveAll(Arrays.asList(new WordRank(rank27, 27), new WordRank(rank41, 41), new WordRank(rank42, 42)));
+	repository.saveAll(repository.getDbNames().get(0),
+		Arrays.asList(new WordRank(rank27, 27), new WordRank(rank41, 41), new WordRank(rank42, 42)));
 
-	List<WordRank> wordRanks = repository.findByWordInAndRankGreaterThan(words, rankLimit);
+	List<WordRank> wordRanks = repository.findByWordInAndRankGreaterThan(repository.getDbNames().get(0), words,
+		rankLimit);
 
-	assertThat(wordRanks).containsExactlyInAnyOrder(repository.findByWord(rank41), repository.findByWord(rank42));
+	assertThat(wordRanks).containsExactlyInAnyOrder(repository.findByWord(repository.getDbNames().get(0), rank41),
+		repository.findByWord(repository.getDbNames().get(0), rank42));
     }
 
 }
