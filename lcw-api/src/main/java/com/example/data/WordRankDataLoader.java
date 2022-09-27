@@ -9,8 +9,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 
 import com.example.domain.WordRank;
@@ -27,11 +27,13 @@ public class WordRankDataLoader implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) {
+    public void run(ApplicationArguments args) throws IOException {
 
-	repository.getDbNames().forEach(dbName -> {
+	PathMatchingResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
+	Resource[] resources = resourcePatternResolver.getResources("data/*");
+
+	for (Resource resource : resources) {
 	    try {
-		Resource resource = new ClassPathResource(dbName);
 		InputStreamReader inputStreamReader = new InputStreamReader(resource.getInputStream());
 		BufferedReader reader = new BufferedReader(inputStreamReader);
 
@@ -43,11 +45,11 @@ public class WordRankDataLoader implements ApplicationRunner {
 		    rank++;
 		}
 
-		repository.saveAll(dbName, wordRanks);
+		repository.saveAll(resource.getFilename(), wordRanks);
 	    } catch (IOException exception) {
 		throw new RuntimeException(exception);
 	    }
-	});
+	}
     }
 
 }

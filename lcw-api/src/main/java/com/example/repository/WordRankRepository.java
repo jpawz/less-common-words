@@ -14,14 +14,6 @@ import com.example.domain.WordRank;
 public class WordRankRepository {
 
     private Map<String, Map<String, WordRank>> database = new HashMap<>();
-    private List<String> dbNames = new ArrayList<>();
-
-    public WordRankRepository() {
-	dbNames.add("google-10000-english-usa");
-	dbNames.add("de-top-10000");
-	database.put(dbNames.get(0), new HashMap<>());
-	database.put(dbNames.get(1), new HashMap<>());
-    }
 
     public WordRank findByWord(String dbName, String word) {
 	return database.get(dbName).get(word);
@@ -51,11 +43,13 @@ public class WordRankRepository {
     }
 
     public WordRank save(String dbName, WordRank wordRank) {
+	database.putIfAbsent(dbName, new HashMap<>());
 	database.get(dbName).put(wordRank.getWord(), wordRank);
 	return database.get(dbName).get(wordRank.getWord());
     }
 
     public void saveAll(String dbName, List<WordRank> wordRanks) {
+	database.putIfAbsent(dbName, new HashMap<>());
 	wordRanks.forEach(w -> database.get(dbName).put(w.getWord(), w));
 
     }
@@ -64,7 +58,7 @@ public class WordRankRepository {
 	return database.get(dbName).size();
     }
 
-    public List<String> getDbNames() {
-	return dbNames;
+    public Set<String> getDbNames() {
+	return database.keySet();
     }
 }
