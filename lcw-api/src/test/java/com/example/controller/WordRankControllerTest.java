@@ -32,14 +32,15 @@ class WordRankControllerTest {
 
     @BeforeEach
     public void setup() {
-	url = String.format("http://localhost:%d/ranks/google-10000-english-usa", port);
+	url = String.format("http://localhost:%d/ranks", port);
     }
 
     @Test
     void whenGetRequestForExistingWord_thenReturnRank() {
 	String existingWord = "and";
 
-	WordRank wordRank = this.restTemplate.getForObject(url + "/?word=" + existingWord, WordRank.class);
+	WordRank wordRank = this.restTemplate.getForObject(url + "/google-10000-english-usa/?word=" + existingWord,
+		WordRank.class);
 
 	assertThat(wordRank.getRank()).isEqualTo(3);
     }
@@ -49,7 +50,8 @@ class WordRankControllerTest {
 	String newWord = "undercarriage";
 	int newRank = 99999;
 
-	WordRank wordRank = this.restTemplate.postForObject(url + "/?word=" + newWord + "&rank=" + newRank,
+	WordRank wordRank = this.restTemplate.postForObject(
+		url + "/google-10000-english-usa/?word=" + newWord + "&rank=" + newRank,
 		new WordRank(newWord, newRank), WordRank.class);
 
 	assertThat(wordRank.getRank()).isEqualTo(newRank);
@@ -63,10 +65,19 @@ class WordRankControllerTest {
 	String rank42 = "free";
 	Set<String> words = new HashSet<>(Arrays.asList(rank27, rank41, rank42));
 
-	ResponseEntity<WordRank[]> response = restTemplate.postForEntity(url + "/words?limit=" + limit, words,
+	ResponseEntity<WordRank[]> response = restTemplate.postForEntity(
+		url + "/google-10000-english-usa/words?limit=" + limit, words,
 		WordRank[].class);
 
 	assertThat(response.getBody()).containsExactlyInAnyOrder(new WordRank(rank41, 41), new WordRank(rank42, 42));
+    }
+
+    @Test
+    void whenGetRequestForDatasetNames_thenReturnDatasetNames() {
+
+	String[] datesetNames = restTemplate.getForObject(url, String[].class);
+
+	assertThat(datesetNames).contains("google-10000-english-usa");
     }
 
 }

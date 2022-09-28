@@ -19,23 +19,28 @@ import com.example.repository.WordRankRepository;
 
 @CrossOrigin
 @RestController
-@RequestMapping("ranks/{dataset}/")
+@RequestMapping("ranks")
 public class WordRankController {
 
     @Autowired
     private WordRankRepository repository;
 
-    @GetMapping
-    public WordRank getWordRank(@PathVariable String dataset, @RequestParam String word) {
+    @GetMapping("/{dataset}")
+    public WordRank getWordRank(@PathVariable(required = true) String dataset, @RequestParam String word) {
 	return repository.findByWord(dataset, word);
     }
 
-    @PostMapping
+    @GetMapping()
+    public Set<String> getDatasetNames() {
+	return repository.getDatasetNames();
+    }
+
+    @PostMapping("/{dataset}")
     public WordRank saveWordRank(@PathVariable String dataset, @RequestParam String word, @RequestParam int rank) {
 	return repository.save(dataset, new WordRank(word, rank));
     }
 
-    @PostMapping("words")
+    @PostMapping("/{dataset}/words")
     public List<WordRank> getWordRanks(@RequestBody Set<String> words, @PathVariable String dataset,
 	    @RequestParam Optional<Integer> limit) {
 	if (limit.isEmpty())
