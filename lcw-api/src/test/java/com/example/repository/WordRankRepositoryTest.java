@@ -15,7 +15,7 @@ import com.example.domain.WordRank;
 class WordRankRepositoryTest {
 
     private WordRankRepository repository;
-    private String dbName = "the_database";
+    private String dataset = "the_database";
 
     @BeforeEach
     void setUp() {
@@ -27,27 +27,27 @@ class WordRankRepositoryTest {
 	WordRank wordRank1 = new WordRank("word", 1);
 	WordRank wordRank2 = new WordRank("another", 5);
 
-	repository.save(dbName, wordRank1);
-	repository.save(dbName, wordRank2);
+	repository.save(dataset, wordRank1);
+	repository.save(dataset, wordRank2);
 
-	assertThat(repository.count(dbName)).isEqualTo(2);
+	assertThat(repository.count(dataset)).isEqualTo(2);
     }
 
     @Test
     void shouldSaveAllWordRanks() {
 	List<WordRank> wordRanks = Arrays.asList(new WordRank("some", 1), new WordRank("word", 2));
 
-	repository.saveAll(dbName, wordRanks);
+	repository.saveAll(dataset, wordRanks);
 
-	assertThat(repository.count(dbName)).isEqualTo(2);
+	assertThat(repository.count(dataset)).isEqualTo(2);
     }
 
     @Test
     void shouldFindWordRankByWord() {
 	WordRank wordRankToSave = new WordRank("word", 1);
-	repository.save(dbName, wordRankToSave);
+	repository.save(dataset, wordRankToSave);
 
-	WordRank fetchedWordRank = repository.findByWord(dbName, "word");
+	WordRank fetchedWordRank = repository.findByWord(dataset, "word");
 
 	assertThat(fetchedWordRank).isEqualTo(wordRankToSave);
     }
@@ -59,14 +59,14 @@ class WordRankRepositoryTest {
 	String rank42 = "free";
 	int rankLimit = 40;
 	Set<String> words = new HashSet<>(Arrays.asList(rank27, rank41, rank42));
-	repository.saveAll(dbName,
+	repository.saveAll(dataset,
 		Arrays.asList(new WordRank(rank27, 27), new WordRank(rank41, 41), new WordRank(rank42, 42)));
 
-	List<WordRank> wordRanks = repository.findByWordInAndRankGreaterThan(dbName, words,
+	List<WordRank> wordRanks = repository.findByWordInAndRankGreaterThan(dataset, words,
 		rankLimit);
 
-	assertThat(wordRanks).containsExactlyInAnyOrder(repository.findByWord(dbName, rank41),
-		repository.findByWord(dbName, rank42));
+	assertThat(wordRanks).containsExactlyInAnyOrder(repository.findByWord(dataset, rank41),
+		repository.findByWord(dataset, rank42));
     }
 
 }

@@ -15,9 +15,9 @@ class WordRankDataLoaderTest {
 	WordRankRepository repository = new WordRankRepository();
 	WordRankDataLoader dataLoader = new WordRankDataLoader(repository);
 
-	int numberOfDbsBefore = repository.getDbNames().size();
+	int numberOfDbsBefore = repository.getDatasetNames().size();
 	dataLoader.run(null);
-	int numberOfDbsAfter = repository.getDbNames().size();
+	int numberOfDbsAfter = repository.getDatasetNames().size();
 
 	assertThat(numberOfDbsAfter).isGreaterThan(numberOfDbsBefore);
     }

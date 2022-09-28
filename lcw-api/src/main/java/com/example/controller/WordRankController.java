@@ -19,29 +19,29 @@ import com.example.repository.WordRankRepository;
 
 @CrossOrigin
 @RestController
-@RequestMapping("ranks/{dbName}/")
+@RequestMapping("ranks/{dataset}/")
 public class WordRankController {
 
     @Autowired
     private WordRankRepository repository;
 
     @GetMapping
-    public WordRank getWordRank(@PathVariable String dbName, @RequestParam String word) {
-	return repository.findByWord(dbName, word);
+    public WordRank getWordRank(@PathVariable String dataset, @RequestParam String word) {
+	return repository.findByWord(dataset, word);
     }
 
     @PostMapping
-    public WordRank saveWordRank(@PathVariable String dbName, @RequestParam String word, @RequestParam int rank) {
-	return repository.save(dbName, new WordRank(word, rank));
+    public WordRank saveWordRank(@PathVariable String dataset, @RequestParam String word, @RequestParam int rank) {
+	return repository.save(dataset, new WordRank(word, rank));
     }
 
     @PostMapping("words")
-    public List<WordRank> getWordRanks(@RequestBody Set<String> words, @PathVariable String dbName,
+    public List<WordRank> getWordRanks(@RequestBody Set<String> words, @PathVariable String dataset,
 	    @RequestParam Optional<Integer> limit) {
 	if (limit.isEmpty())
-	    return repository.findByWordIn(dbName, words);
+	    return repository.findByWordIn(dataset, words);
 	else
-	    return repository.findByWordInAndRankGreaterThan(dbName, words, limit.get());
+	    return repository.findByWordInAndRankGreaterThan(dataset, words, limit.get());
     }
 
 }
