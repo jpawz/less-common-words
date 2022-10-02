@@ -11,14 +11,19 @@ export class TextComponent implements OnInit {
   @Output() textEvent = new EventEmitter<string>();
 
   text: string;
+  wordRankDataset: Array<string>;
 
-  constructor(private wordRankService: WordRankService) { }
+  constructor(private wordRankService: WordRankService) {
+    this.wordRankDataset = new Array<string>();
+  }
 
   onSubmit() {
     this.textEvent.emit(this.text);
   }
 
   ngOnInit(): void {
+    this.wordRankDataset.push('de-top-10000');
+    this.wordRankDataset.push('google-10000-english-usa');
   }
 
 }
