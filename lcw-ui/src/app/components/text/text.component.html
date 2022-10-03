@@ -7,6 +7,6 @@
         <button [disabled]="!text" mat-raised-button (click)="onSubmit()" class="button-submit">Submit</button>
     </div>
 </mat-form-field>
-<select matNativeControl required [(ngModel)]="selectedDataset">
+<select matNativeControl required [(ngModel)]="selectedDataset" class="select-dataset">
     <option *ngFor="let dataset of wordRankDataset">{{dataset}}</option>
 </select>

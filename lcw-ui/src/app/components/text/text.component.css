@@ -22,3 +22,7 @@ mat-form-field {
     width: fit-content;
     resize: none;
 }
+
+.select-dataset {
+    width: auto;
+}
