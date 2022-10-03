@@ -29,6 +29,10 @@ export class WordRankService {
     return this.http.post<Array<WordRank>>(this.baseUrl + '/ranks/' + this.dataset + '/words', body, httpOptions);
   }
 
+  public getDatasets(): Observable<Array<string>> {
+    return this.http.get<Array<string>>(this.baseUrl + '/ranks');
+  }
+
   public setDataset(dataset: string) {
     this.dataset = dataset;
   }
