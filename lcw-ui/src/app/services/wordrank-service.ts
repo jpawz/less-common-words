@@ -10,14 +10,13 @@ import { WordRank } from '../entities/word-rank';
 export class WordRankService {
 
   baseUrl = environment.baseUrl;
-  private wordRankUrl: string;
+  private dataset: string;
 
   constructor(private http: HttpClient) {
-    this.wordRankUrl = this.baseUrl + '/ranks';
   }
 
   public getWordRank(word: string): Observable<WordRank> {
-    return this.http.get<WordRank>(this.wordRankUrl + '?word=' + word);
+    return this.http.get<WordRank>(this.baseUrl + '/ranks/' + this.dataset + '?word=' + word);
   }
 
   public getWordRanks(words: Set<string>): Observable<Array<WordRank>> {
@@ -27,6 +26,10 @@ export class WordRankService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post<Array<WordRank>>(this.wordRankUrl + '/words', body, httpOptions);
+    return this.http.post<Array<WordRank>>(this.baseUrl + '/ranks/' + this.dataset + '/words', body, httpOptions);
+  }
+
+  public setDataset(dataset: string) {
+    this.dataset = dataset;
   }
 }
